@@ -18,6 +18,6 @@ local-build:
   stage: build
   script:
     - npm run build
-    - scp -r dist/* root@172.25.1.26:/opt/dev-web-dist/tss
+    - scp -r dist/* root@172.25.11.10:/opt/dev-web-dist/tss
   only:
     - master

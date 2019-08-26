@@ -36,76 +36,42 @@ export const route = [
         children: []
       },
       {
-        path: '/base',
+        path: '/supervise/setting',
         component: () => import('./components/common/parent-route.vue'),
-        meta: {moduleId: 'base', title: '经营资料', icon: 'codes', perm: 'code-data-manager'},
+        meta: {moduleId: 'supervise', title: '监管配置', icon: 'codes', perm: 'code-data-manager'},
         children: [
           {
-            path: '/base/goods',
-            component: () => import('./components/base/operating-goods/goods.vue'),
-            meta: {moduleId: 'base', title: '经营货品', perm: 'code-batch-number-query'}
+            path: '/supervise/setting/whitelist',
+            component: () => import('./components/test.vue'),
+            meta: {moduleId: 'supervise', title: '监管单位白名单', perm: 'code-batch-number-query'}
           },
           {
-            path: '/base/batch/number',
-            component: () => import('./components/base/batch/index.vue'),
-            meta: {moduleId: 'base', title: '批号管理', perm: 'code-batch-number-query'}
+            path: '/supervise/setting/whitelist/range',
+            component: () => import('./components/test.vue'),
+            meta: {moduleId: 'supervise', title: '监管系统范围白名单', perm: 'code-batch-number-query'}
+          },
+          {
+            path: '/supervise/setting/goods',
+            component: () => import('./components/test.vue'),
+            meta: {moduleId: 'supervise', title: '经营货品配置', perm: 'code-batch-number-query'}
           }
         ]
       },
       {
-        path: '/electron/code',
+        path: '/data/monitoring',
         component: () => import('./components/common/parent-route.vue'),
-        meta: {moduleId: 'electron', title: '电子监管码', icon: 'codes', perm: 'code-data-manager'},
+        meta: {moduleId: 'monitoring', title: '追溯源数据监控', icon: 'codes', perm: 'code-data-manager'},
         children: [
           {
-            path: '/electron/code/construction',
-            component: () => import('./components/electronCode/construction/goods.vue'),
-            meta: {moduleId: 'electron', title: '编码结构', perm: 'code-batch-number-query'}
+            path: '/system/goods/import/:id',
+            component: () => import('./components/upload/import/import.vue'),
+            meta: {moduleId: 'monitoring', title: '源文件上传记录', perm: 'code-source-upload-log-query', type: 0}
           },
           {
-            path: '/electron/code/analysis',
-            component: () => import('./components/test.vue'),
-            meta: {moduleId: 'electron', title: '层级关系解析', perm: 'code-batch-number-query'}
-          }
-        ]
-      },
-      {
-        path: '/gs1',
-        component: () => import('./components/upload/code-rule/index.vue'),
-        meta: {moduleId: 'gs1', title: 'GS1', perm: 'gs1-rule-query', isUpload: true},
-        children: [
-          {
-            path: '/gs1/construction',
-            component: () => import('./components/test.vue'),
-            meta: {moduleId: 'gs1', title: '编码结构', perm: 'code-batch-number-query'}
-          }
-        ]
-      },
-      {
-        path: '/data/push',
-        component: () => import('./components/upload/code-rule/index.vue'),
-        meta: {moduleId: 'data', title: '追溯链数据传送', perm: 'gs1-rule-query', isUpload: true},
-        children: [
-          {
-            path: '/data/push/business',
-            component: () => import('./components/test.vue'),
-            meta: {moduleId: 'data', title: '业务追溯数据传送', perm: 'code-batch-number-query'}
+            path: '/retrospect/exception/import/:id',
+            component: () => import('./components/upload/exception-code/import.vue'),
+            meta: {moduleId: 'monitoring', title: '异常码标记', perm: 'exception-codes-file-query'}
           },
-          {
-            path: '/data/push/logistics',
-            component: () => import('./components/test.vue'),
-            meta: {moduleId: 'data', title: '物流追溯数据传送', perm: 'code-batch-number-query'}
-          },
-          {
-            path: '/data/push/cool',
-            component: () => import('./components/test.vue'),
-            meta: {moduleId: 'data', title: '冷链追溯数据传送', perm: 'code-batch-number-query'}
-          },
-          {
-            path: '/data/push/terminal',
-            component: () => import('./components/test.vue'),
-            meta: {moduleId: 'data', title: '终端追溯数据传送', perm: 'code-batch-number-query'}
-          }
         ]
       },
       {
@@ -118,60 +84,55 @@ export const route = [
             component: () => import('./components/search/code/index.vue'),
             meta: {moduleId: 'search', title: '追溯码查询', perm: 'single-code-trace-query', subMenuId: 'code'}
           },
-          // {
-          //   path: '/search/batch',
-          //   component: () => import('./components/search/batch/index.vue'),
-          //   meta: {moduleId: 'search', title: '批号追溯', perm: 'batch-number-trace'}
-          // },
           {
-            path: '/search/batch',
-            component: () => import('./components/search/batch-new/index.vue'),
-            meta: {moduleId: 'search', title: '批号追溯', perm: 'batch-number-trace-query', subMenuId: 'batch'},
-            children: [
-              {
-                path: '',
-                component: () => import('./components/search/batch-new/list/index.vue'),
-                meta: {moduleId: 'search'}
-              },
-              {
-                path: '/search/batch/:id',
-                component: () => import('./components/search/batch-new/single/index.vue'),
-                meta: {moduleId: 'search'}
-              }
-            ]
-          },
-          {
-            path: '/search/company',
-            component: () => import('./components/search/batch-new-company/index.vue'),
-            meta: {moduleId: 'search', title: '企业批号查询', perm: 'code-biz-trace', subMenuId: 'company'},
-            children: [
-              {
-                path: '',
-                component: () => import('./components/search/batch-new-company/list/index.vue'),
-                meta: {moduleId: 'search'}
-              },
-              {
-                path: '/search/company/:id',
-                component: () => import('./components/search/batch-new-company/single/index.vue'),
-                meta: {moduleId: 'search'}
-              }
-            ]
-          },
-          {
-            path: '/search/business',
-            component: () => import('./components/search/business/index.vue'),
-            meta: {moduleId: 'search', title: '业务追溯', perm: 'code-biz-trace'}
+            path: '/search/goods',
+            component: () => import('./components/test.vue'),
+            meta: {moduleId: 'matter', title: '实物追溯查询', perm: 'code-batch-number-query'}
           },
           {
             path: '/search/use',
             component: () => import('./components/search/use-record/index.vue'),
             meta: {moduleId: 'search', title: '使用/销售记录', perm: 'code-injection-trace'}
           }
-          // {
-          //   path: '/search/exception',
-          //   component: () => import('./components/search/exception/index.vue'),
-          //   meta: {moduleId: 'search', title: '异常事件追溯', perm: 'show'}
-          // }
+        ]
+      },
+      {
+        path: '/line/monitoring',
+        component: () => import('./components/common/parent-route.vue'),
+        meta: {moduleId: 'line', title: '追溯链数据监管', icon: 'codes', perm: 'code-data-manager'},
+        children: [
+          {
+            path: '/search/business',
+            component: () => import('./components/search/business/index.vue'),
+            meta: {moduleId: 'line', title: '业务追溯', perm: 'code-biz-trace'}
+          },
+          {
+            path: '/line/monitoring/logistics',
+            component: () => import('./components/test.vue'),
+            meta: {moduleId: 'line', title: '物流追溯数据监管', perm: 'code-batch-number-query'}
+          },
+          {
+            path: '/line/monitoring/terminal',
+            component: () => import('./components/test.vue'),
+            meta: {moduleId: 'matter', title: '终端追溯监管', perm: 'code-batch-number-query'}
+          },
+        ]
+      },
+      {
+        path: '/sys/monitoring',
+        component: () => import('./components/common/parent-route.vue'),
+        meta: {moduleId: 'sys', title: '系统监控', icon: 'codes', perm: 'code-data-manager'},
+        children: [
+          {
+            path: '/sys/monitoring/goods',
+            component: () => import('./components/test.vue'),
+            meta: {moduleId: 'sys', title: '实物追溯查询作业监控', perm: 'code-batch-number-query'}
+          },
+          {
+            path: '/sys/monitoring/flow',
+            component: () => import('./components/test.vue'),
+            meta: {moduleId: 'sys', title: '流转追溯查询作业监控', perm: 'code-batch-number-query'}
+          },
         ]
       },
       {
@@ -203,26 +164,6 @@ export const route = [
             path: '/system/log',
             component: () => import('./components/system/log/index.vue'),
             meta: {moduleId: 'system', title: '系统日志', perm: 'code-system-log-query'}
-          },
-          {
-            path: '/system/search/log',
-            component: () => import('./components/system/search/index.vue'),
-            meta: {moduleId: 'system', title: '单支追溯查询日志', perm: 'code-access-log-watch'}
-          },
-          {
-            path: '/system/upload/log/:id',
-            component: () => import('./components/upload/log/index.vue'),
-            meta: {moduleId: 'system', title: '上传记录', perm: 'code-upload-log-query', subMenuId: 'order', isUpload: true}
-          },
-          {
-            path: '/system/goods/import/:id',
-            component: () => import('./components/upload/import/import.vue'),
-            meta: {moduleId: 'system', title: '源文件上传记录', perm: 'code-source-upload-log-query', type: 0}
-          },
-          {
-            path: '/system/all/goods/import/:id',
-            component: () => import('./components/upload/import/import.vue'),
-            meta: {moduleId: 'system', title: '全局源文件上传记录', perm: 'code-source-upload-log-query-11', type: 2}
           }
         ]
       }
