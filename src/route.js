@@ -42,7 +42,7 @@ export const route = [
         children: [
           {
             path: '/supervise/setting/whitelist',
-            component: () => import('./components/test.vue'),
+            component: () => import('./components/supervise/whitelist/list.vue'),
             meta: {moduleId: 'supervise', title: '监管单位白名单', perm: 'code-batch-number-query'}
           },
           {

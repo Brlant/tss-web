@@ -73,7 +73,7 @@ export default {
       let params = {
         keyWord: query
       };
-      DhsBaseInfo.query(params).then(res => {
+      return DhsBaseInfo.query(params).then(res => {
         this.allOrgList = res.data.list;
       });
     },
@@ -81,7 +81,7 @@ export default {
       let params = {
         keyWord: query
       };
-      DhsBaseInfo.query(params).then(res => {
+      return DhsBaseInfo.query(params).then(res => {
         this.downOrgList = res.data.list;
       });
     },

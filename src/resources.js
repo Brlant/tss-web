@@ -99,7 +99,17 @@ Vue.prototype.$http = http;
 
 
 // 电子监管码
-export const electronCode = resource('electron/code', http, {});
+export const whiteList = {
+  add(obj) {
+    return http.post('/code-white-list/org', obj);
+  },
+  delete(obj) {
+    return http.delete('/code-white-list/org', obj);
+  },
+  query(obj) {
+    return http.post('/code-white-list/org/pager', obj);
+  }
+};
 
 
 // 经营货品

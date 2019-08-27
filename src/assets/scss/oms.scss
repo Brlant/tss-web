@@ -879,3 +879,37 @@
   margin-top: -10px;
   margin-bottom: 5px;
 }
+
+.transfer-list-two .el-transfer-panel {
+  width: 320px;
+  height: 360px;
+  .el-transfer-panel__list.is-filterable {
+    height: 240px;
+  }
+  .el-transfer-panel__filter .el-input__inner {
+    height: 30px;
+  }
+}
+
+.transfer-list .el-transfer-panel {
+  width: 320px;
+  height: 510px;
+  .el-transfer-panel__list.is-filterable {
+    height: 400px;
+  }
+  .el-transfer-panel__filter .el-input__inner {
+    height: 30px;
+  }
+
+}
+
+.transfer-list.is-large .el-transfer-panel {
+  width: 360px;
+  .el-transfer-panel__item {
+    height: auto;
+    line-height: normal;
+  }
+  .el-transfer-panel__item.el-checkbox .el-checkbox__label {
+    line-height: 1.8;
+  }
+}
