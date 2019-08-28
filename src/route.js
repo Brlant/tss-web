@@ -60,12 +60,12 @@ export const route = [
           {
             path: '/system/goods/import/:id',
             component: () => import('./components/upload/import/import.vue'),
-            meta: {moduleId: 'monitoring', title: '源文件上传记录', perm: 'code-source-upload-log-query', type: 0}
+            meta: {moduleId: 'monitoring', title: '追溯码源文件上传监控', perm: 'code-source-upload-log-query', type: 0}
           },
           {
             path: '/retrospect/exception/import/:id',
             component: () => import('./components/upload/exception-code/import.vue'),
-            meta: {moduleId: 'monitoring', title: '异常码标记', perm: 'exception-codes-file-query'}
+            meta: {moduleId: 'monitoring', title: '异常追溯码标记上传监控', perm: 'exception-codes-file-query'}
           },
         ]
       },
@@ -77,17 +77,29 @@ export const route = [
           {
             path: '/search/code/:id',
             component: () => import('./components/search/code/index.vue'),
-            meta: {moduleId: 'search', title: '追溯码查询', perm: 'single-code-trace-query', subMenuId: 'code'}
+            meta: {moduleId: 'search', title: '最小销售单位追溯码查询', perm: 'single-code-trace-query', subMenuId: 'code'}
           },
           {
             path: '/search/goods',
             component: () => import('./components/test.vue'),
-            meta: {moduleId: 'matter', title: '实物追溯查询', perm: 'code-batch-number-query'}
+            meta: {moduleId: 'search', title: '实物追溯查询', perm: 'code-batch-number-query'}
           },
           {
-            path: '/search/use',
-            component: () => import('./components/search/use-record/index.vue'),
-            meta: {moduleId: 'search', title: '使用/销售记录', perm: 'code-injection-trace'}
+            path: '/search/batch',
+            component: () => import('./components/search/batch-new/index.vue'),
+            meta: {moduleId: 'search', title: '流转分布追溯查询', perm: 'batch-number-trace-query', subMenuId: 'batch'},
+            children: [
+              {
+                path: '',
+                component: () => import('./components/search/batch-new/list/index.vue'),
+                meta: {moduleId: 'search'}
+              },
+              {
+                path: '/search/batch/:id',
+                component: () => import('./components/search/batch-new/single/index.vue'),
+                meta: {moduleId: 'search'}
+              }
+            ]
           }
         ]
       },
@@ -108,25 +120,8 @@ export const route = [
           },
           {
             path: '/line/monitoring/terminal',
-            component: () => import('./components/test.vue'),
-            meta: {moduleId: 'matter', title: '终端追溯监管', perm: 'code-batch-number-query'}
-          },
-        ]
-      },
-      {
-        path: '/sys/monitoring',
-        component: () => import('./components/common/parent-route.vue'),
-        meta: {moduleId: 'sys', title: '系统监控', icon: 'codes', perm: 'code-data-manager'},
-        children: [
-          {
-            path: '/sys/monitoring/goods',
-            component: () => import('./components/test.vue'),
-            meta: {moduleId: 'sys', title: '实物追溯查询作业监控', perm: 'code-batch-number-query'}
-          },
-          {
-            path: '/sys/monitoring/flow',
-            component: () => import('./components/test.vue'),
-            meta: {moduleId: 'sys', title: '流转追溯查询作业监控', perm: 'code-batch-number-query'}
+            component: () => import('./components/search/use-record/index.vue'),
+            meta: {moduleId: 'line', title: '终端追溯监管', perm: 'code-batch-number-query'}
           },
         ]
       },
