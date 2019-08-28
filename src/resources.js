@@ -111,7 +111,12 @@ export const lesseeWhiteList = {
     });
   },
   query(obj) {
-    return http.post('/code-white-list/tenant/pager', obj);
+    return http.post('/code-white-list/tenant/pager', obj, {
+      params: {
+        pageNo: obj.pageNo,
+        pageSize: obj.pageSize
+      }
+    });
   }
 };
 
@@ -126,7 +131,13 @@ export const whiteList = {
     });
   },
   query(obj) {
-    return http.post('/code-white-list/org/pager', obj);
+
+    return http.post('/code-white-list/org/pager', obj, {
+      params: {
+        pageNo: obj.pageNo,
+        pageSize: obj.pageSize
+      }
+    });
   }
 };
 
