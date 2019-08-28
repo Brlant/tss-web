@@ -165,8 +165,14 @@
           if (!valid || this.doing) {
             return false;
           }
+          let list = this.form.orgIdList.map(m => {
+            return {
+              subjectOrgId: this.form.orgId,
+              objectOrgId: m
+            }
+          });
           this.doing = true;
-          whiteList.save(this.form.orgId, this.form.orgIdList).then(() => {
+          whiteList.save(list).then(() => {
             this.doing = false;
             this.$notify.success({
               duration: 2000,

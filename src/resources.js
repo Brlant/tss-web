@@ -98,9 +98,9 @@ http.interceptors.response.use(response => {
 Vue.prototype.$http = http;
 
 
-// 电子监管码
+// 单位白名单
 export const whiteList = {
-  add(obj) {
+  save(obj) {
     return http.post('/code-white-list/org', obj);
   },
   delete(obj) {
