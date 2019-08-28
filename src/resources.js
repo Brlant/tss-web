@@ -104,7 +104,9 @@ export const whiteList = {
     return http.post('/code-white-list/org', obj);
   },
   delete(obj) {
-    return http.delete('/code-white-list/org', obj);
+    return http.delete('/code-white-list/org', {
+      data: obj
+    });
   },
   query(obj) {
     return http.post('/code-white-list/org/pager', obj);

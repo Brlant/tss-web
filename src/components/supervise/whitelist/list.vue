@@ -125,7 +125,7 @@
             <el-col :span="8">
               <oms-form-row label="监管单位" :span="6">
                 <el-select filterable placeholder="请输入名称搜监管单位" remote :remote-method="queryUpAllFactory"
-                           :clearable="true" v-model="searchCondition.orgId"
+                           :clearable="true" v-model="searchCondition.objectOrgId"
                            popperClass="good-selects">
                   <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in allOrgList">
                     <div style="overflow: hidden">
@@ -143,7 +143,7 @@
             <el-col :span="8">
               <oms-form-row label="被监管单位" :span="6">
                 <el-select filterable placeholder="请输入名称搜被监管单位"  remote :remote-method="queryDownAllFactory"
-                           :clearable="true" v-model="searchCondition.subordinateId"
+                           :clearable="true" v-model="searchCondition.subjectOrgId"
                            popperClass="good-selects">
                   <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in downOrgList">
                     <div style="overflow: hidden">
@@ -189,10 +189,10 @@
           <div class="order-list-item order-list-item-bg" v-for="item in dataRows"
                :class="[{'active':currentItem.id === item.id}]">
             <el-row>
-              <el-col :span="9">{{item.orgName}}</el-col>
-              <el-col :span="9">{{item.subordinateName}}</el-col>
+              <el-col :span="9">{{item.objectOrgName}}</el-col>
+              <el-col :span="9">{{item.subjectOrgName}}</el-col>
               <el-col :span="6" class="opera-btn-bidder">
-                <des-btn  icon="remove" @click="remove(item)">删除</des-btn>
+                <des-btn  icon="delete" @click="remove(item)">删除</des-btn>
               </el-col>
             </el-row>
           </div>
@@ -237,8 +237,8 @@
         },
         currentItem: {},
         searchCondition: {
-          subordinateId: '',
-          orgId: ''
+          subjectOrgId: '',
+          objectOrgId: ''
         },
       };
     },
@@ -279,7 +279,7 @@
         this.showRight = true;
       },
       remove: function (item) {
-        this.$confirm('是否删除被监管单位 "' + item.subordinateName + '"?', '', {
+        this.$confirm('是否删除被监管单位 "' + item.subjectOrgName + '"?', '', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
@@ -305,8 +305,8 @@
       },
       resetSearchForm: function () {// 重置表单
         let temp = {
-          subordinateId: '',
-          orgId: ''
+          subjectOrgId: '',
+          objectOrgId: ''
         };
         Object.assign(this.searchCondition, temp);
         this.getPageList(1);
