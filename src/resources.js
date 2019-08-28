@@ -98,6 +98,23 @@ http.interceptors.response.use(response => {
 Vue.prototype.$http = http;
 
 
+
+
+// 租户白名单
+export const lesseeWhiteList = {
+  save(obj) {
+    return http.post('/code-white-list/tenant', obj);
+  },
+  delete(obj) {
+    return http.delete('/code-white-list/tenant', {
+      data: obj
+    });
+  },
+  query(obj) {
+    return http.post('/code-white-list/tenant/pager', obj);
+  }
+};
+
 // 单位白名单
 export const whiteList = {
   save(obj) {

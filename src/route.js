@@ -47,7 +47,7 @@ export const route = [
           },
           {
             path: '/supervise/setting/whitelist/range',
-            component: () => import('./components/test.vue'),
+            component: () => import('./components/supervise/lessee-whitelist/list.vue'),
             meta: {moduleId: 'supervise', title: '监管租户范围白名单', perm: 'code-batch-number-query'}
           }
         ]
