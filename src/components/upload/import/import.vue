@@ -70,13 +70,13 @@
 
       <div class="order-list">
         <el-row class="order-list-header">
-          <el-col :span="5">货品</el-col>
-          <el-col :span="5">生产厂商</el-col>
-          <el-col :span="3">商品编号</el-col>
+          <el-col :span="6">货品</el-col>
+          <el-col :span="6">生产厂商</el-col>
+          <el-col :span="4">商品编号</el-col>
           <el-col :span="3">批号</el-col>
           <el-col :span="3">操作时间</el-col>
           <el-col :span="2">解析结果</el-col>
-          <el-col :span="3">操作</el-col>
+<!--          <el-col :span="3">操作</el-col>-->
         </el-row>
         <el-row v-if="loadingData">
           <el-col :span="24">
@@ -95,7 +95,7 @@
                class="order-list-item order-list-item-bg"
                v-for="item in orderList">
             <el-row>
-              <el-col :span="5">
+              <el-col :span="6">
                 <div>
                   {{item.goodsName }}
                 </div>
@@ -103,10 +103,10 @@
                   {{item.specification }}
                 </div>
               </el-col>
-              <el-col :span="5">
+              <el-col :span="6">
                 {{item.factoryName }}
               </el-col>
-              <el-col :span="3">
+              <el-col :span="4">
                 {{item.goodsTrackNo }}
               </el-col>
               <el-col :span="3">
@@ -120,11 +120,11 @@
                 <el-tag type="success" v-show="item.uploadStatus === '1'">正常</el-tag>
                 <el-tag type="danger" v-show="item.uploadStatus > '1'">异常</el-tag>
               </el-col>
-              <el-col :span="3">
-                <des-btn :custom="false" @click="showDomainDialog(item)" icon="share"
-                         perm="codes-file-bind-share-domain">数据共享域名
-                </des-btn>
-              </el-col>
+<!--              <el-col :span="3">-->
+<!--                <des-btn :custom="false" @click="showDomainDialog(item)" icon="share"-->
+<!--                         perm="codes-file-bind-share-domain">数据共享域名-->
+<!--                </des-btn>-->
+<!--              </el-col>-->
             </el-row>
           </div>
         </div>

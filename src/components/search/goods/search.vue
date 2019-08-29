@@ -4,7 +4,7 @@
       <div class="opera-icon">
         <span class="title">历史查询任务记录筛选</span>
         <span class="pull-right" style="margin-left: 10px">
-          <perm label="batch-number-trace-add">
+          <perm label="physical-goods-trace-add">
                 <el-button @click="addBatchNumber" type="primary">
                   <i class="el-icon-t-search"/>
                   新增查询任务

@@ -55,7 +55,7 @@ export const route = [
       {
         path: '/data/monitoring',
         component: () => import('./components/common/parent-route.vue'),
-        meta: {moduleId: 'monitoring', title: '追溯源数据监控', icon: 'codes', perm: 'code-data-manager'},
+        meta: {moduleId: 'monitoring', title: '追溯源数据监控', icon: 'codes', perm: 'data-monitoring-manager'},
         children: [
           {
             path: '/system/goods/import/:id',
@@ -81,8 +81,8 @@ export const route = [
           },
           {
             path: '/search/goods',
-            component: () => import('./components/search/batch-new/index.vue'),
-            meta: {moduleId: 'search', title: '实物追溯查询', perm: 'code-batch-number-query', subMenuId: 'goods'},
+            component: () => import('./components/search/goods/index.vue'),
+            meta: {moduleId: 'search', title: '实物追溯查询', perm: 'physical-goods-trace-query', subMenuId: 'goods'},
             children: [
               {
                 path: '',
@@ -118,22 +118,22 @@ export const route = [
       {
         path: '/line/monitoring',
         component: () => import('./components/common/parent-route.vue'),
-        meta: {moduleId: 'line', title: '追溯链数据监管', icon: 'codes', perm: 'code-data-manager'},
+        meta: {moduleId: 'line', title: '追溯链数据监管', icon: 'codes', perm: 'data-line-monitoring-manager'},
         children: [
           {
             path: '/search/business',
             component: () => import('./components/search/business/index.vue'),
-            meta: {moduleId: 'line', title: '业务追溯', perm: 'code-biz-trace'}
+            meta: {moduleId: 'line', title: '业务追溯数据监管', perm: 'code-biz-trace'}
           },
           {
             path: '/line/monitoring/logistics',
             component: () => import('./components/test.vue'),
-            meta: {moduleId: 'line', title: '物流追溯数据监管', perm: 'code-batch-number-query'}
+            meta: {moduleId: 'line', title: '物流追溯数据监管', perm: 'logistics-trace-query'}
           },
           {
             path: '/line/monitoring/terminal',
             component: () => import('./components/search/use-record/index.vue'),
-            meta: {moduleId: 'line', title: '终端追溯监管', perm: 'code-batch-number-query'}
+            meta: {moduleId: 'line', title: '终端追溯监管', perm: 'terminal-trace-query'}
           },
         ]
       },
