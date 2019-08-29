@@ -23,7 +23,8 @@
         </el-col>
       </el-row>
       <div class="order-list-body flex-list-dom" v-else="">
-        <div :class="[{'active':currentItemId===item.id}]" @click="showItemDetail(item)" class="order-list-item order-list-item-bg"
+        <div :class="[{'active':currentItemId===item.id}]" @click="showItemDetail(item)"
+             class="order-list-item order-list-item-bg"
              v-for="item in dataList">
           <el-row>
             <el-col :span="7">{{item.goodsName}}</el-col>
@@ -72,7 +73,7 @@
     },
     watch: {
       filters: {
-        handler: function (val) {
+        handler: function () {
           this.queryList(1);
         },
         deep: true
@@ -97,8 +98,9 @@
         this.currentItemId = item.id;
         this.$router.push(this.$route.path + '/' + item.id);
       },
-      refresh(form) {
+      refresh() {
         this.resetRightBox();
+        this.queryList(this.pager.currentPage);
         // this.$router.push(this.$route.path + '/' + form.id);
       },
       addBatchNumber() {
