@@ -149,13 +149,13 @@
           this.pager.count = 0;
         }
         this.pager.currentPage = pageNo;
-        let param = {};
+        let params = {};
         this.loadingData = true;
-        param = Object.assign({}, this.filters, {
+        params = Object.assign({}, this.filters, {
           pageNo: pageNo,
           pageSize: this.pager.pageSize
         });
-        bizTraces.query(param).then(res => {
+        this.$http.get('/code-regulatory/code-biz/pager', params).then(res => {
           this.orderList = res.data.list;
           this.pager.count = res.data.count;
           this.loadingData = false;

@@ -282,7 +282,7 @@
           type: 1
         });
         let API = {
-          0: '/code-source/pager',
+          0: '/code-regulatory/code-source/pager',
           1: '/code-source',
           2: '/code-source/pager'
         };

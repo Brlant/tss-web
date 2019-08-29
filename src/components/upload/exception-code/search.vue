@@ -1,15 +1,15 @@
 <template>
   <div :class="{up:!showSearch}" class="opera-btn-group">
-    <div class="opera-icon">
-      <div class="pull-right">
-        <perm class="mr-10" label="exception-codes-goods-upload">
-          <el-button @click="batchNumberAdd" type="primary"><i class="el-icon-upload2"/>上报批号</el-button>
-        </perm>
-        <perm label="exception-codes-file-upload">
-          <el-button @click="add" native-type="submit" type="primary"><i class="el-icon-upload2"/>上传文件</el-button>
-        </perm>
-      </div>
-    </div>
+<!--    <div class="opera-icon">-->
+<!--      <div class="pull-right">-->
+<!--        <perm class="mr-10" label="exception-codes-goods-upload">-->
+<!--          <el-button @click="batchNumberAdd" type="primary"><i class="el-icon-upload2"/>上报批号</el-button>-->
+<!--        </perm>-->
+<!--        <perm label="exception-codes-file-upload">-->
+<!--          <el-button @click="add" native-type="submit" type="primary"><i class="el-icon-upload2"/>上传文件</el-button>-->
+<!--        </perm>-->
+<!--      </div>-->
+<!--    </div>-->
     <el-form class="advanced-query-form" onsubmit="return false">
       <el-row>
         <!--<el-col :span="8">-->

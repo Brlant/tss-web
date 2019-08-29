@@ -100,7 +100,7 @@
         this.filters = Object.assign({}, this.filters, search);
       },
       queryList(pageNo) {
-        const http = params => this.$http.get('/code-injection', {params});
+        const http = params => this.$http.get('/code-regulatory/code-injection/pager', {params});
         this.queryUtil(http, pageNo, () => {
         }, () => {
           this.pager.count = this.pager.currentPage * this.pager.pageSize + (this.dataList.length === this.pager.pageSize ? 1 : 0);
