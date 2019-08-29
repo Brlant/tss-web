@@ -97,8 +97,24 @@ http.interceptors.response.use(response => {
 
 Vue.prototype.$http = http;
 
-
-
+// 实物追溯
+export const physicalGoodsSearch = {
+  save(obj) {
+    return http.post('/code-physical-trace/task/latest', obj);
+  },
+  query(params) {
+    return http.get('/code-physical-trace/task/pager', {params});
+  },
+  queryBaseInfo(id) {
+    return http.get(`/code-physical-trace/task/${id}`);
+  },
+  queryAreaTree(bizTypeId) {
+    return http.get(`/code-physical-trace/task/${bizTypeId}/tree`);
+  },
+  queryAreaDetail(areaId, params) {
+    return http.get(`/code-physical-trace/task/${areaId}/detail`, params);
+  }
+};
 
 // 租户白名单
 export const lesseeWhiteList = {

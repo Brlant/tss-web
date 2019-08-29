@@ -81,8 +81,20 @@ export const route = [
           },
           {
             path: '/search/goods',
-            component: () => import('./components/test.vue'),
-            meta: {moduleId: 'search', title: '实物追溯查询', perm: 'code-batch-number-query'}
+            component: () => import('./components/search/batch-new/index.vue'),
+            meta: {moduleId: 'search', title: '实物追溯查询', perm: 'code-batch-number-query', subMenuId: 'goods'},
+            children: [
+              {
+                path: '',
+                component: () => import('./components/search/goods/list/index.vue'),
+                meta: {moduleId: 'search'}
+              },
+              {
+                path: '/search/goods/:id',
+                component: () => import('./components/search/goods/single/index.vue'),
+                meta: {moduleId: 'search'}
+              }
+            ]
           },
           {
             path: '/search/batch',

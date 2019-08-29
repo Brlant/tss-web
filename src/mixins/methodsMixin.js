@@ -54,6 +54,11 @@ export default {
         let params = {
           keyWord: query,
         };
+        if (!goodsId) {
+          this.goodsBatchNumberList = [];
+          this.$notify.info({message: '请选择货品'});
+          return;
+        }
         this.$http.post('/dhs-batch-number/pager', {goodsId}, {
           params
         }).then(res => {
