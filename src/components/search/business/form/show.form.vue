@@ -39,11 +39,11 @@
   <dialog-template :pageSets="pageSets" @selectTab="selectTab">
     <template slot="title">业务信息</template>
     <template slot="btn">
-      <perm label="code-biz-log-push">
-        <div class="mb-15">
-          <el-button type="primary" @click="pushData" :loading="pushing">推送数据</el-button>
-        </div>
-      </perm>
+<!--      <perm label="code-biz-log-push">-->
+<!--        <div class="mb-15">-->
+<!--          <el-button type="primary" @click="pushData" :loading="pushing">推送数据</el-button>-->
+<!--        </div>-->
+<!--      </perm>-->
       <el-button plain @click="close">关闭</el-button>
     </template>
     <template slot="content">
@@ -110,23 +110,23 @@
           </form-show-part>
         </div>
         <form-show-part :pageSetsItem="getPageSizeItem(2)" :currentTab="currentTab">
-          <perm label="code-biz-trace-insert-code" slot="title-right">
-            <span class="add-btn" @click="showAddCodeForm = true">
-              <i class="el-icon-circle-plus-outline">添加追溯码信息</i>
-            </span>
-          </perm>
+<!--          <perm label="code-biz-trace-insert-code" slot="title-right">-->
+<!--            <span class="add-btn" @click="showAddCodeForm = true">-->
+<!--              <i class="el-icon-circle-plus-outline">添加追溯码信息</i>-->
+<!--            </span>-->
+<!--          </perm>-->
           <div slot="content">
-            <form v-show="showAddCodeForm">
-              <el-form :model="form" ref="numberValidateForm" label-width="100px" inline>
-                <el-form-item label="追溯码" prop="code" :rules="[{ required: true, message: '追溯码不能为空'}]">
-                  <el-input v-model.trim="form.code" autocomplete="off" style="width: 300px"></el-input>
-                </el-form-item>
-                <el-form-item>
-                  <el-button type="primary" :disabled="doing" @click="submitForm('numberValidateForm')">保存</el-button>
-                  <el-button @click="showAddCodeForm = false">取消</el-button>
-                </el-form-item>
-              </el-form>
-            </form>
+<!--            <form v-show="showAddCodeForm">-->
+<!--              <el-form :model="form" ref="numberValidateForm" label-width="100px" inline>-->
+<!--                <el-form-item label="追溯码" prop="code" :rules="[{ required: true, message: '追溯码不能为空'}]">-->
+<!--                  <el-input v-model.trim="form.code" autocomplete="off" style="width: 300px"></el-input>-->
+<!--                </el-form-item>-->
+<!--                <el-form-item>-->
+<!--                  <el-button type="primary" :disabled="doing" @click="submitForm('numberValidateForm')">保存</el-button>-->
+<!--                  <el-button @click="showAddCodeForm = false">取消</el-button>-->
+<!--                </el-form-item>-->
+<!--              </el-form>-->
+<!--            </form>-->
             <relevance-code :currentOrder="currentOrder" :index="index" ref="relevanceCodePart" showFormSearch
                             :httpRequest="bizTraces.queryTraceCodes" operate></relevance-code>
           </div>
