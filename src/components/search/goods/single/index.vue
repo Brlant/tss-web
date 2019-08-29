@@ -163,7 +163,7 @@
           <!--<oms-col :is-show="true" label="数量" :value="basicInfoAndBizType.count+ ' '  + basicInfoAndBizType.goodsUnit"-->
           <!--:rowSpan="5"/>-->
           <oms-col :is-show="true" label="创建时间" :value="basicInfoAndBizType.startTime" :rowSpan="5">
-            {{basicInfoAndBizType.createTime | date}}
+            {{basicInfoAndBizType.createTime | time}}
           </oms-col>
           <oms-col :is-show="true" label="查询创建人" :value="basicInfoAndBizType.creatorName" :rowSpan="5"/>
           <oms-col label="查询完成时间" :value="basicInfoAndBizType.completeTime | time" :rowSpan="5"/>
@@ -174,7 +174,7 @@
         </el-row>
       </div>
       <div class="bg-white" v-loading="basicInfoAndBizType.status==='0'">
-        <h2><span>业务信息</span></h2>
+        <h2><span>去向分布</span></h2>
         <div v-if="!basicInfoAndBizType.bizDataList" class="empty-info">
           {{basicInfoAndBizType.status==='0' ? '正在查询' : '暂无信息'}}
         </div>
@@ -210,9 +210,8 @@
               </div>
               <div class="order-list">
                 <el-row class="order-list-header">
-                  <el-col :span="12">去向单位</el-col>
-                  <el-col :span="5">数量（{{basicInfoAndBizType.goodsUnit}}）</el-col>
-                  <el-col :span="7">业务时间</el-col>
+                  <el-col :span="16">去向单位</el-col>
+                  <el-col :span="8">数量（{{basicInfoAndBizType.goodsUnit}}）</el-col>
                 </el-row>
                 <el-row v-if="loading3">
                   <el-col :span="24">
@@ -225,9 +224,8 @@
                   </el-col>
                 </el-row>
                 <el-row class="biz-itm" v-for="item in bizList" :key="item.id">
-                  <el-col :span="12">{{item.directionOrgName}}</el-col>
-                  <el-col :span="5">{{item.count}}</el-col>
-                  <el-col :span="7">{{item.time | time}}</el-col>
+                  <el-col :span="16">{{item.directionOrgName}}</el-col>
+                  <el-col :span="8">{{item.count}}</el-col>
                 </el-row>
                 <div class="text-center mt-10" v-show="bizList.length">
                   <el-pagination @size-change="sizeChange" @current-change="currentChange"
