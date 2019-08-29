@@ -153,7 +153,7 @@
       getRoleSelect: function () {
         let param = Object.assign({}, {
           deleteFlag: false,
-          objectId: 'codes-system'
+          objectId: 'tss-system'
         }, this.filters);
         Access.query(param).then(res => {
           this.roleSelect = res.data.list;
@@ -174,7 +174,7 @@
           });
           if (!this.form.id) {
             formData.orgId = this.orgId;
-            formData.objectId = 'codes-system';
+            formData.objectId = 'tss-system';
             OrgUser.save(formData).then(() => {
               this.doing = false;
               this.$notify.success({
@@ -192,7 +192,7 @@
               this.doing = false;
             });
           } else {
-            formData.objectId = 'codes-system';
+            formData.objectId = 'tss-system';
             OrgUser.update(formData.id, formData).then(() => {
               this.doing = false;
               this.$notify.success({

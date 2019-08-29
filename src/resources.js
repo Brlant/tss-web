@@ -449,7 +449,7 @@ export const OrgUser = resource('/dhs/user/org', http, {
 // 角色管理对象
 export const Access = resource('/oms/access', http, {
   getRoleMenus: () => {
-    return http.get('/oms/access/menus/tree', {params: {objectId: 'codes-system'}});
+    return http.get('/oms/access/menus/tree', {params: {objectId: 'tss-system'}});
   },
   getOrgRoleList: (orgId, params) => {
     return http.get('/oms/access/org/' + orgId + '/role', {params});
@@ -773,7 +773,7 @@ export const Auth = {
     }
   },
   permission: () => {
-    return http.get('/code-account/role-permission', {params: {objectId: 'codes-system'}});
+    return http.get('/code-account/role-permission', {params: {objectId: 'tss-system'}});
   }
 };
 

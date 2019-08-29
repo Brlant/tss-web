@@ -225,7 +225,7 @@
           text: '拼命导出中'
         });
         let params = {
-          objectId: 'codes-system', type: 0
+          objectId: 'tss-system', type: 0
         };
         this.$http.get('/access/statement/permission/export', {params}).then(res => {
           utils.download(res.data.path);
@@ -285,7 +285,7 @@
         let param = Object.assign({}, {
           keyword: this.typeTxt,
           deleteFlag: false,
-          objectId: 'codes-system'
+          objectId: 'tss-system'
         }, this.filters);
         Access.query(param).then(res => {
           if (param.keyWord !== this.filters.keyWord) return;
