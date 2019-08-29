@@ -112,7 +112,7 @@
     <div class="container">
       <div class="opera-btn-group" :class="{up:!showSearch}">
         <div class="opera-icon">
-          <des-btn class="pull-right" icon="plus" @click="add">添加</des-btn>
+            <des-btn perm="supervise-setting-org-whitelist-add" class="pull-right" icon="plus" @click="add">添加</des-btn>
           <span class="pull-left switching-icon" @click="showSearch = !showSearch">
             <i class="el-icon-arrow-up"></i>
             <span v-show="showSearch">收起筛选</span>
@@ -192,7 +192,7 @@
               <el-col :span="9">{{item.objectOrgName}}</el-col>
               <el-col :span="9">{{item.subjectOrgName}}</el-col>
               <el-col :span="6" class="opera-btn-bidder">
-                <des-btn  icon="delete" @click="remove(item)">删除</des-btn>
+                  <des-btn  perm="supervise-setting-org-whitelist-delete" icon="delete" @click="remove(item)">删除</des-btn>
               </el-col>
             </el-row>
           </div>

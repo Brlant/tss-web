@@ -1,4 +1,47 @@
-export default [{
+export default [
+  {
+    id: 'supervise-setting-manager',
+    label: '监管配置',
+    children: [
+      {
+        id: 'supervise-setting-org-whitelist-manager',
+        label: '监管单位白名单',
+        children: [
+          {
+            id: 'supervise-setting-org-whitelist-query',
+            label: '查看监管单位白名单',
+          },
+          {
+            id: 'supervise-setting-org-whitelist-add',
+            label: '新增监管单位白名单',
+          },
+          {
+            id: 'supervise-setting-org-whitelist-delete',
+            label: '删除监管单位白名单',
+          }
+        ]
+      },
+      {
+        id: 'supervise-setting-lessee-whitelist-manager',
+        label: '监管监管租户范围白名单',
+        children: [
+          {
+            id: 'supervise-setting-lessee-whitelist-query',
+            label: '查看监管租户范围白名单',
+          },
+          {
+            id: 'supervise-setting-lessee-whitelist-add',
+            label: '新增监管租户范围白名单',
+          },
+          {
+            id: 'supervise-setting-lessee-whitelist-delete',
+            label: '删除监管租户范围白名单',
+          }
+        ]
+      }
+    ]
+  },
+  {
   'id': 'code-data-manager',
   'parentId': null,
   'label': '追溯码数据',

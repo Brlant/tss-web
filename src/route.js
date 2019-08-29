@@ -38,17 +38,17 @@ export const route = [
       {
         path: '/supervise/setting',
         component: () => import('./components/common/parent-route.vue'),
-        meta: {moduleId: 'supervise', title: '监管配置', icon: 'codes', perm: 'code-data-manager'},
+        meta: {moduleId: 'supervise', title: '监管配置', icon: 'codes', perm: 'supervise-setting-manager'},
         children: [
           {
             path: '/supervise/setting/whitelist',
             component: () => import('./components/supervise/whitelist/list.vue'),
-            meta: {moduleId: 'supervise', title: '监管单位白名单', perm: 'code-batch-number-query'}
+            meta: {moduleId: 'supervise', title: '监管单位白名单', perm: 'supervise-setting-org-whitelist-query'}
           },
           {
             path: '/supervise/setting/whitelist/range',
             component: () => import('./components/supervise/lessee-whitelist/list.vue'),
-            meta: {moduleId: 'supervise', title: '监管租户范围白名单', perm: 'code-batch-number-query'}
+            meta: {moduleId: 'supervise', title: '监管租户范围白名单', perm: 'supervise-setting-lessee-whitelist-query'}
           }
         ]
       },
