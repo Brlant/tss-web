@@ -97,6 +97,17 @@ http.interceptors.response.use(response => {
 
 Vue.prototype.$http = http;
 
+
+// 物流追溯监管
+export const logisticsSearch = {
+  query(params) {
+    return http.get('/code-regulatory/code-logistics/pager', {params});
+  },
+  queryDetail(id) {
+    return http.post('/code-logistics/detail', {codeLogisticsId:id})
+  }
+};
+
 // 实物追溯
 export const physicalGoodsSearch = {
   save(obj) {

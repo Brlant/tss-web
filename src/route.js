@@ -127,7 +127,7 @@ export const route = [
           },
           {
             path: '/line/monitoring/logistics',
-            component: () => import('./components/test.vue'),
+            component: () => import('./components/search/logistics/index.vue'),
             meta: {moduleId: 'line', title: '物流追溯数据监管', perm: 'logistics-trace-query'}
           },
           {

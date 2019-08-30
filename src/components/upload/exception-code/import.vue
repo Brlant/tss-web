@@ -147,7 +147,7 @@
           pageNo: pageNo,
           pageSize: this.pager.pageSize
         });
-        http.get('/code-regulatory/code-source/pager', {params: param}).then(res => {
+        http.get('/code-regulatory/code-exception/pager', {params: param}).then(res => {
           this.orderList = res.data.list;
           this.pager.count = res.data.count;
           this.loadingData = false;
