@@ -45,7 +45,8 @@ export default {
         params = {
           orgId: user.userCompanyAddress,
           deleteFlag: false,
-          keyWord: query
+          keyWord: query,
+          auditStatus: '1'
         };
       }
       this.$http.get('/dhs-operation-goods', {params}).then(res => {

@@ -112,7 +112,8 @@
         let params = {
           orgId: this.form.factoryId,
           deleteFlag: false,
-          keyWord: query
+          keyWord: query,
+          auditStatus: '1'
         };
         this.$http.get('/dhs-operation-goods', {params}).then(res => {
           this.manageGoods = res.data.list;
