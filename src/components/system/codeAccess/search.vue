@@ -95,7 +95,8 @@
         this.$emit('search', this.searchCondition);
       },
       orgChange(val) {
-
+        this.searchCondition.goodsId = '';
+        this.manageGoods = [];
       },
       addOrgAccount () {
         this.$emit('addOrgAccount');

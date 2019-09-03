@@ -9,7 +9,7 @@
     <el-form ref="accountform" :model="form" label-width="100px" :rules="rules"
              @submit.prevent="onSubmit('accountform')" onsubmit="return false">
       <el-form-item label="授权单位" prop="subjectOrgId">
-        <org-select :list="allOrgList" :remoteMethod="queryUpAllFactory"
+        <org-select :list="allOrgList" :remoteMethod="queryUpAllFactory" @change="objectOrgIdChange"
                     placeholder="请输入名称搜索授权单位" v-model="form.subjectOrgId"></org-select>
       </el-form-item>
       <el-form-item label="被授权单位" prop="objectOrgId">
@@ -101,6 +101,10 @@
       }
     },
     methods: {
+      objectOrgIdChange() {
+        this.form.goodsIdList = [];
+        this.manageGoods = [];
+      },
       queryManageGoodsNew(query) { // 查询平台货品
         this.manageGoods = [];
         if (!this.form.subjectOrgId) {
