@@ -79,18 +79,22 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label-width="0" prop="orgIdList"
+          <el-form-item prop="orgIdList" label="被监管单位"
                         :rules="[{required: true, type: 'array', message: '请选择被监管单位', trigger: 'change'}]">
-            <el-transfer ref="elTransfer" v-model="form.orgIdList"
-                         :props="{key: 'id',label: 'name'}"
-                         filter-placeholder="请输入名称搜索被监管单位"
-                         :data="downOrgList"
-                         filterable
-                         :filter-method="filterMethod"
-                         :titles="['未选被监管单位', '已选被监管单位']"
-                         class="transfer-list"
-                         :render-content="renderFuncPOV">
-            </el-transfer>
+            <el-select filterable placeholder="请输入名称搜索被监管单位" multiple reserve-keyword remote :remote-method="queryDownAllFactory"
+                       :clearable="true" v-model="form.orgIdList"
+                       popperClass="good-selects">
+              <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in downOrgList">
+                <div style="overflow: hidden">
+                  <span class="pull-left" style="clear: right">{{org.name}}</span>
+                </div>
+                <div style="overflow: hidden">
+                    <span class="select-other-info pull-left">
+                      <span>系统代码:</span>{{org.manufacturerCode}}
+                    </span>
+                </div>
+              </el-option>
+            </el-select>
           </el-form-item>
           <div style="margin-left: 100px">
             <el-button type="primary" @click="onSubmit('form')" native-type="submit" :disabled="doing">保存</el-button>
@@ -139,27 +143,12 @@
           orgIdList: []
         };
         this.loading = true;
-        this.$refs.elTransfer && this.$refs.elTransfer.clearQuery('left');
-        this.$refs.elTransfer && this.$refs.elTransfer.clearQuery('right');
-
         this.$nextTick(() => {
           this.$refs['form'] && this.$refs['form'].clearValidate();
         });
       }
     },
     methods: {
-      renderFuncPOV(h, option) {
-        return (
-          <span title={option.name}>{option.name}</span>
-        );
-      },
-      filterMethod(query, item) {
-        if (!query) return true;
-        return item.name && item.name.indexOf(query) > -1 ||
-          item.nameAcronymy && item.nameAcronymy.indexOf(query) > -1 ||
-          item.namePhonetic && item.namePhonetic.indexOf(query) > -1 ||
-          item.creditCode && item.creditCode.indexOf(query) > -1;
-      },
       onSubmit: function (formName) {
         this.$refs[formName].validate((valid) => {
           if (!valid || this.doing) {
