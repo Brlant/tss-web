@@ -249,12 +249,41 @@
         </div>
         <el-form v-show="showSearch" class="advanced-query-form" onsubmit="return false">
           <el-row>
-            <el-col :span="10">
-              <oms-form-row label="货品名称/编号" :span="6">
-                <oms-input type="text" v-model="searchCondition.keyWord" placeholder="请输入货品名称或者货品编号"></oms-input>
+            <el-col :span="8">
+              <oms-form-row :span="5" label="经营单位">
+                <org-select :list="allOrgList" :remoteMethod="queryUpAllFactory" @change="orgChange"
+                            placeholder="请输入名称搜索经营单位" v-model="searchCondition.orgId"></org-select>
               </oms-form-row>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="8">
+              <oms-form-row :span="5" label="货品">
+                <el-select placeholder="请输入名称搜索货品" v-model="searchCondition.id" filterable clearable
+                           popper-class="custom-select" remote :remote-method="queryManageGoodsNew">
+                  <el-option :label="item.name" :value="item.id" :key="item.id" v-for="item in manageGoods">
+                    <div>
+                      <span class="pull-left">{{ item.name }}({{ item.factoryName }})</span>
+                      <span class="pull-right select-other-info" v-show="item.typeId">
+                      <dict :dict-group="'typeId'" :dict-key="item.typeId"></dict>
+                    </span>
+                    </div>
+                    <div class="clearfix">
+                      <span class="select-other-info" v-if="item.code">货品编号:{{ item.code }}</span>
+                      <span class="ml-10 select-other-info">规格:{{ item.specifications }}</span>
+                    </div>
+                  </el-option>
+                </el-select>
+              </oms-form-row>
+            </el-col>
+            <el-col :span="8">
+              <oms-form-row label="状态" :span="6">
+                <el-radio-group v-model="searchCondition.auditStatus" size="small">
+                  <el-radio-button :label="item.auditStatus" v-for="item in orgType">{{item.title}}</el-radio-button>
+                </el-radio-group>
+              </oms-form-row>
+            </el-col>
+          </el-row>
+          <el-row class="mt-10">
+            <el-col :span="8">
               <oms-form-row label="" :span="3">
                 <el-button type="primary" native-type="submit" @click="searchInOrder">查询</el-button>
                 <el-button type="reset" @click="resetSearchForm">重置</el-button>
@@ -263,14 +292,15 @@
           </el-row>
         </el-form>
       </div>
-      <div class="order-list">
+      <div class="order-list" style="margin-top: 20px">
         <el-row class="order-list-header">
-          <el-col :span="2">货品分类</el-col>
-          <el-col :span="6">货品编号/名称</el-col>
+          <el-col :span="3">货品分类</el-col>
+          <el-col :span="5">货品编号/名称</el-col>
           <el-col :span="5">经营单位</el-col>
-          <el-col :span="5">货品规格</el-col>
+          <el-col :span="4">货品规格</el-col>
           <el-col :span="2">整件规格</el-col>
-          <el-col :span="4">操作</el-col>
+          <el-col :span="2">状态</el-col>
+          <el-col :span="3">操作</el-col>
         </el-row>
         <el-row v-if="loadingData">
           <el-col :span="24">
@@ -288,12 +318,12 @@
           <div class="order-list-item no-pointer" v-for="item in showTypeList" @click="showInfo(item)"
                :class="['status-no',{'active':activeId===item.id}]">
             <el-row>
-              <el-col :span="2">
+              <el-col :span="3">
                 <div>
                   <dict :dict-group="'typeId'" :dict-key="item.typeId"></dict>
                 </div>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="5">
                 <div class="f-grey">
                   {{item.code}}
                 </div>
@@ -306,7 +336,7 @@
                   {{ item.orgName }}
                 </div>
               </el-col>
-              <el-col :span="5">
+              <el-col :span="4">
                 <div>
                   {{item.specifications}}
                 </div>
@@ -318,16 +348,15 @@
                   <dict :dict-group="'measurementUnit'" :dict-key="item.measurementUnit"></dict>
                 </div>
               </el-col>
-              <el-col :span="4" class="opera-btn">
-                <div>
-                  <perm label="mdm-operating-goods-delete">
-                    <span @click.stop="deleteOperatingGoods(item)">
-                      <a @click.pervent="" class="btn-circle btn-opera">
-                        <i class="el-icon-t-delete"></i>
-                      </a>
-                     刪除
-                    </span>
-                  </perm>
+              <el-col :span="2">
+                {{orgType[item.auditStatus] && orgType[item.auditStatus].title}}
+              </el-col>
+              <el-col :span="3" class="opera-btn">
+                <div v-show="item.auditStatus === '0'">
+                  <des-btn class="is-mini" perm="mdm-operating-goods-delete" icon="t-verifyPass"
+                           @click="auditPass(item)">审核通过</des-btn>
+                  <des-btn class="is-mini" perm="mdm-operating-goods-audit"
+                           icon="t-verifyNotPass" @click="auditNoPass(item)">审核不通过</des-btn>
                 </div>
               </el-col>
             </el-row>
@@ -351,8 +380,10 @@
 <script>
   import {BaseInfo, OperatingGoods} from '@/resources';
   import editForm from './form/form.vue';
+  import methodsMixin from '@/mixins/methodsMixin';
 
   export default {
+    mixins: [methodsMixin],
     components: {
       editForm
     },
@@ -367,8 +398,15 @@
         action: '',
         currentItem: {},
         activeStatus: 0,
+        orgType: {
+          0: {'title': '待审核', 'num': 0, 'auditStatus': '0'},
+          1: {'title': '正常', 'num': 0, 'auditStatus': '1'},
+          2: {'title': '审核不通过', 'num': 0, 'auditStatus': '2'}
+        },
         filters: {
-          keyWord: ''
+          orgId: '',
+          id: '',
+          auditStatus: ''
         },
         pager: {
           currentPage: 1,
@@ -377,7 +415,9 @@
           totalPage: 1
         },
         searchCondition: {
-          keyWord: ''
+          orgId: '',
+          id: '',
+          auditStatus: ''
         },
         activeId: '',
         customerList: []
@@ -405,6 +445,58 @@
       }
     },
     methods: {
+      auditPass(item) {
+        this.$confirm('确认通过经营货品"' + item.name + '"的审核?', '', {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let data = {
+            id: item.id,
+            status: '1'
+          };
+          OperatingGoods.auditGoods(data).then(() => {
+            this.$notify.success({
+              duration: 2000,
+              title: '成功',
+              message: '完成审核'
+            });
+            this.getGoodsList(this.pager.currentPage);
+          }).catch(() => {
+            this.$notify.error({
+              duration: 2000,
+              message: '审核失败'
+            });
+          });
+        }).catch(() => {
+        });
+      },
+      auditNoPass(item) {
+        this.$confirm('确认不通过经营货品"' + item.name + '的审核"?', '', {
+          confirmButtonText: '确认',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let data = {
+            id: item.id,
+            status: '2'
+          };
+          OperatingGoods.auditGoods(data).then(() => {
+            this.$notify.success({
+              duration: 2000,
+              title: '成功',
+              message: '完成审核'
+            });
+            this.getGoodsList(this.pager.currentPage);
+          }).catch(() => {
+            this.$notify.error({
+              duration: 2000,
+              message: '审核失败'
+            });
+          });
+        }).catch(() => {
+        });
+      },
       showInfo: function (item) {
         this.activeId = item.id;
       },
@@ -443,7 +535,20 @@
         });
       },
       orgChange: function () {
-        this.searchCondition.keyWord = '';
+        this.searchCondition.id = '';
+        this.manageGoods = [];
+      },
+      queryManageGoodsNew(query) { // 查询平台货品
+        this.manageGoods = [];
+        if (!this.searchCondition.orgId) {
+          return this.$notify.info({message: '请选择经营单位'});
+        }
+        let params = {
+          orgId: this.searchCondition.orgId,
+          deleteFlag: false,
+          keyWord: query
+        };
+        this.queryManageGoods(params);
       },
       searchInOrder: function () {// 搜索
         Object.assign(this.filters, this.searchCondition);
@@ -451,7 +556,9 @@
       },
       resetSearchForm: function () {// 重置表单
         let temp = {
-          keyWord: ''
+          orgId: '',
+          id: '',
+          auditStatus: ''
         };
         this.customerList = [];
         Object.assign(this.searchCondition, temp);
@@ -480,7 +587,6 @@
           pageSize: this.pager.pageSize,
           deleteFlag: false
         }, this.filters);
-        params.orgId = this.$store.state.user.userCompanyAddress;
         this.loadingData = true;
         OperatingGoods.query(params).then(res => {
           this.showTypeList = res.data.list;

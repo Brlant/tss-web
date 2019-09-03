@@ -158,6 +158,11 @@ export const route = [
             meta: {moduleId: 'system', title: '货品追溯权限分配', perm: 'code-access-query'}
           },
           {
+            path: '/system/manage/goods',
+            component: () => import('./components/base/operating-goods/goods.vue'),
+            meta: {moduleId: 'system', title: '经营货品管理', perm: 'mdm-operating-goods-watch'}
+          },
+          {
             path: '/system/role',
             component: () => import('./components/system/role/index.vue'),
             meta: {moduleId: 'system', title: '角色管理', perm: 'access-role-watch'}

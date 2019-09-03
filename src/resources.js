@@ -185,6 +185,12 @@ export const whiteList = {
 export const OperatingGoods = resource('dhs-operation-goods', http, {
   queryUnboundListByOrgId: (orgId, params) => {
     return http.get('dhs-operation-goods/org/' + orgId + '/unbound', {params});
+  },
+  save(obj) {
+    return http.post('/dhs-operation-goods/factory', obj);
+  },
+  auditGoods(obj) {
+    return http.post('/dhs-operation-goods/audit', obj);
   }
 });
 

@@ -443,6 +443,28 @@ export default [
             label: '删除货品追溯权限'
           },
         ]
+      },{
+        'id': 'mdm-operating-goods-manager',
+        'parentId': null,
+        'label': '经营货品',
+        'sort': 3,
+        'children': [
+          {
+            'id': 'mdm-operating-goods-watch',
+            'parentId': 'mdm-operating-goods-manager',
+            'label': '查看经营货品',
+            'sort': null,
+            'children': null,
+            'leaf': true
+          },{
+            'id': 'mdm-operating-goods-audit',
+            'parentId': 'mdm-operating-goods-manager',
+            'label': '审核经营货品',
+            'sort': null,
+            'children': null,
+            'leaf': true
+          }],
+        'leaf': false
       }],
     'leaf': false
   }];
