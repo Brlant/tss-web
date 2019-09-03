@@ -87,24 +87,10 @@ export default [
           'sort': 1,
           'children': null,
           'leaf': true
-        }, {
-          'id': 'code-trace-procurement-query',
-          'parentId': 'code-trace-query',
-          'label': '查询采购订单日志信息',
-          'sort': 2,
-          'children': null,
-          'leaf': true
-        }, {
+        },  {
           'id': 'code-trace-query-all',
           'parentId': 'code-trace-query',
           'label': '查询所有的追溯码日志信息',
-          'sort': 2,
-          'children': null,
-          'leaf': true
-        }, {
-          'id': 'code-trace-sale-query',
-          'parentId': 'code-trace-query',
-          'label': '查询销售出库日志信息',
           'sort': 2,
           'children': null,
           'leaf': true
@@ -127,41 +113,6 @@ export default [
           'parentId': 'code-trace-query',
           'label': '微信小程序查询单只追溯码',
           'sort': 1,
-          'children': null,
-          'leaf': true
-        }, {
-          'id': 'code-trace-allocating-storage-query',
-          'parentId': 'code-trace-query',
-          'label': '查询调拨入库日志信息',
-          'sort': 2,
-          'children': null,
-          'leaf': true
-        }, {
-          'id': 'code-trace-dish-deficient-query',
-          'parentId': 'code-trace-query',
-          'label': '查询盘亏出库日志信息',
-          'sort': 2,
-          'children': null,
-          'leaf': true
-        }, {
-          'id': 'code-trace-sale-return-query',
-          'parentId': 'code-trace-query',
-          'label': '查询销售退货日志信息',
-          'sort': 2,
-          'children': null,
-          'leaf': true
-        }, {
-          'id': 'code-trace-procurement-return-query',
-          'parentId': 'code-trace-query',
-          'label': '查询采购退货日志信息',
-          'sort': 2,
-          'children': null,
-          'leaf': true
-        }, {
-          'id': 'code-trace-allocating-outbound-query',
-          'parentId': 'code-trace-query',
-          'label': '查询调拨出库日志信息',
-          'sort': 2,
           'children': null,
           'leaf': true
         }, {
