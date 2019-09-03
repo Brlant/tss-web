@@ -28,10 +28,10 @@
              v-for="item in dataList">
           <el-row>
             <el-col :span="5">
-              {{item.objectOrgName}}
+              {{item.subjectOrgName}}
             </el-col>
             <el-col :span="5">
-              {{item.subjectOrgName}}
+              {{item.objectOrgName}}
             </el-col>
             <el-col :span="5">
               <div>{{item.goodsName}}</div>

@@ -11,13 +11,13 @@
           <el-col :span="8">
             <oms-form-row :span="5" label="授权单位">
               <org-select :list="allOrgList" :remoteMethod="queryUpAllFactory" @change="orgChange"
-                          placeholder="请输入名称搜索授权单位" v-model="searchCondition.objectOrgId"></org-select>
+                          placeholder="请输入名称搜索授权单位" v-model="searchCondition.subjectOrgId"></org-select>
             </oms-form-row>
           </el-col>
           <el-col :span="8">
             <oms-form-row :span="5" label="被授权单位">
               <org-select :list="downOrgList" :remoteMethod="queryDownAllFactory"
-                          placeholder="请输入名称搜索被授权单位" v-model="searchCondition.subjectOrgId"></org-select>
+                          placeholder="请输入名称搜索被授权单位" v-model="searchCondition.objectOrgId"></org-select>
             </oms-form-row>
           </el-col>
           <el-col :span="8">
@@ -59,9 +59,9 @@
     data: function () {
       return {
         searchCondition: {
-          objectOrgId: '',
+          subjectOrgId: '',
           goodsId: '',
-          subjectOrgId: ''
+          objectOrgId: ''
         },
         showSearch: false,
         list: [],
@@ -71,11 +71,11 @@
     methods: {
       queryManageGoodsNew(query) { // 查询平台货品
         this.manageGoods = [];
-        if (!this.searchCondition.objectOrgId) {
+        if (!this.searchCondition.subjectOrgId) {
           return this.$notify.info({message: '请选择授权单位'});
         }
         let params = {
-          orgId: this.searchCondition.objectOrgId,
+          orgId: this.searchCondition.subjectOrgId,
           deleteFlag: false,
           keyWord: query
         };
@@ -86,9 +86,9 @@
       },
       reset() {
         this.searchCondition = {
-          objectOrgId: '',
+          subjectOrgId: '',
           goodsId: '',
-          subjectOrgId: ''
+          objectOrgId: ''
         };
         this.times1 = [];
         this.orgUsers = [];
