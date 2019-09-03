@@ -153,6 +153,11 @@ export const route = [
             meta: {moduleId: 'system', title: '推送地址配置', perm: 'code-push-address-query'}
           },
           {
+            path: '/system/trace/config',
+            component: () => import('./components/system/codeAccess/index.vue'),
+            meta: {moduleId: 'system', title: '货品追溯权限分配', perm: 'code-access-query'}
+          },
+          {
             path: '/system/role',
             component: () => import('./components/system/role/index.vue'),
             meta: {moduleId: 'system', title: '角色管理', perm: 'access-role-watch'}

@@ -97,6 +97,18 @@ http.interceptors.response.use(response => {
 
 Vue.prototype.$http = http;
 
+// 追溯权限分配
+export const traceRight = {
+  save(obj) {
+    return http.post('/code-access', obj);
+  },
+  query(params) {
+    return http.post('/code-access/pager', params);
+  },
+  delete(key) {
+    return http.delete(`/code-access/${key}`);
+  }
+};
 
 // 物流追溯监管
 export const logisticsSearch = {

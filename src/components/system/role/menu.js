@@ -426,6 +426,23 @@ export default [
         'leaf': true
       }],
       'leaf': false
-    }],
+    }, {
+        id: 'code-access-manager',
+        label: '货品追溯权限分配',
+        children: [
+          {
+            id: 'code-access-add',
+            label: '新增货品追溯权限'
+          },
+          {
+            id: 'code-access-query',
+            label: '查看货品追溯权限'
+          },
+          {
+            id: 'code-access-delete',
+            label: '删除货品追溯权限'
+          },
+        ]
+      }],
     'leaf': false
   }];

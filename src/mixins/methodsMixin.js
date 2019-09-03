@@ -36,13 +36,18 @@ export default {
       });
     },
     queryManageGoods(query) {
-      let user = this.$store.state.user;
-      if (!user.userCompanyAddress) return;
-      let params = {
-        orgId: user.userCompanyAddress,
-        deleteFlag: false,
-        keyWord: query
-      };
+      let params = {};
+      if(typeof query === 'object') {
+        params = query;
+      }else {
+        let user = this.$store.state.user;
+        if (!user.userCompanyAddress) return;
+        params = {
+          orgId: user.userCompanyAddress,
+          deleteFlag: false,
+          keyWord: query
+        };
+      }
       this.$http.get('/dhs-operation-goods', {params}).then(res => {
         this.manageGoods = res.data.list;
       });
