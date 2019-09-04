@@ -353,7 +353,7 @@
               </el-col>
               <el-col :span="3" class="opera-btn">
                 <div v-show="item.auditStatus === '0'">
-                  <des-btn class="is-mini" perm="mdm-operating-goods-delete" icon="t-verifyPass"
+                  <des-btn class="is-mini" perm="mdm-operating-goods-audit" icon="t-verifyPass"
                            @click="auditPass(item)">审核通过</des-btn>
                   <des-btn class="is-mini" perm="mdm-operating-goods-audit"
                            icon="t-verifyNotPass" @click="auditNoPass(item)">审核不通过</des-btn>

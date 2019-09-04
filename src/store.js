@@ -75,9 +75,9 @@ const mutations = {
     state.domainInfo = data;
     let title = document.getElementById('codesTitle');
     if (data.id) {
-      title.innerHTML = data.name ? data.name : '疫苗追溯平台';
+      title.innerHTML = data.name ? data.name : 'TSS 追溯监控系统';
     } else {
-      title.innerHTML = '疫苗追溯平台';
+      title.innerHTML = 'TSS 追溯监控系统';
     }
   },
   initPrint(state, data) {
