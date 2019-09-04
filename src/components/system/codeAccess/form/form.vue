@@ -113,7 +113,8 @@
         let params = {
           orgId: this.form.subjectOrgId,
           deleteFlag: false,
-          keyWord: query
+          keyWord: query,
+          auditStatus: '1'
         };
         this.queryManageGoods(params);
       },
