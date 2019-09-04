@@ -199,7 +199,7 @@
         let params = {
           domainObjectId: 'api-system'
         };
-        this.$http.get(`/oauth-client-details/org/${this.form.pushOrgId}`, params).then(res => {
+        this.$http.get(`/oauth-client-details/org/${this.form.pushOrgId}`, {params}).then(res => {
           this.keyList = res.data;
           if (this.keyList.length) {
             this.form.appKey = this.keyList[0].clientId;

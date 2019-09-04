@@ -135,7 +135,7 @@ export const physicalGoodsSearch = {
     return http.get(`/code-physical-trace/task/${bizTypeId}/tree`);
   },
   queryAreaDetail(areaId, params) {
-    return http.get(`/code-physical-trace/task/${areaId}/detail`, params);
+    return http.get(`/code-physical-trace/task/${areaId}/detail`, {params});
   }
 };
 

@@ -155,7 +155,7 @@
           pageNo: pageNo,
           pageSize: this.pager.pageSize
         });
-        this.$http.get('/code-regulatory/code-biz/pager', params).then(res => {
+        this.$http.get('/code-regulatory/code-biz/pager', {params}).then(res => {
           this.orderList = res.data.list;
           this.pager.count = res.data.count;
           this.loadingData = false;
