@@ -82,7 +82,7 @@
           <el-form-item prop="orgIdList" label="被监管单位"
                         :rules="[{required: true, type: 'array', message: '请选择被监管单位', trigger: 'change'}]">
             <el-select filterable placeholder="请输入名称搜索被监管单位" multiple reserve-keyword remote :remote-method="queryDownAllFactory"
-                       :clearable="true" v-model="form.orgIdList"
+                       v-model="form.orgIdList"
                        popperClass="good-selects">
               <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in downOrgList">
                 <div style="overflow: hidden">
@@ -156,8 +156,8 @@
           }
           let list = this.form.orgIdList.map(m => {
             return {
-              subjectOrgId: m,
-              objectOrgId: this.form.orgId
+              objectOrgId: m,
+              subjectOrgId: this.form.orgId
             }
           });
           this.doing = true;

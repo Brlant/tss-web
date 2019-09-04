@@ -156,8 +156,8 @@
           }
           let list = this.form.orgIdList.map(m => {
             return {
-              subjectOrgId: m,
-              objectOrgId: this.form.orgId
+              objectOrgId: m,
+              subjectOrgId: this.form.orgId
             }
           });
           this.doing = true;
