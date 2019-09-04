@@ -81,7 +81,7 @@
         </form-show-part>
         <form-show-part :pageSetsItem="getPageSizeItem(1)" :currentTab="currentTab">
           <div slot="content">
-            <el-table :data="currentOrder.detailList" style="width: 100%" class="mt-10 header-list">
+            <el-table :data="dataList" style="width: 100%" class="mt-10 header-list">
               <el-table-column prop="operatorName" label="操作人" min-width="100"/>
               <el-table-column prop="address" label="地址" min-width="150"/>
               <el-table-column prop="time" label="处理时间" min-width="120">
@@ -141,7 +141,7 @@
         if (!this.currentOrder.id) return;
         this.loadingData = true;
         logisticsSearch.queryDetail(this.currentOrder.id).then(res => {
-          this.dataList = res.data.data;
+          this.dataList = res.data;
           this.loadingData = false;
         });
       }
