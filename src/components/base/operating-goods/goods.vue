@@ -277,7 +277,7 @@
             <el-col :span="8">
               <oms-form-row label="状态" :span="6">
                 <el-radio-group v-model="searchCondition.auditStatus" size="small">
-                  <el-radio-button :label="item.auditStatus" v-for="item in orgType">{{item.title}}</el-radio-button>
+                  <el-radio-button :key="item.auditStatus" :label="item.auditStatus" v-for="item in orgType">{{item.title}}</el-radio-button>
                 </el-radio-group>
               </oms-form-row>
             </el-col>

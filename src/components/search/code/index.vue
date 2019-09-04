@@ -416,47 +416,65 @@
             </ul>
           </div>
           <div v-for="(info) in detail.dtoList.filter((f, index) => index === detail.activeId)" class="info-item open">
-            <h2><span>{{filterCodesBizType(info.bizType)}}</span></h2>
+            <h2>
+              <span>{{filterCodesBizType(info.bizType)}}</span>
+              <el-radio-group v-model="showType"  size="mini" v-show="info.logisticsDetailDtos && info.logisticsDetailDtos.length">
+                <el-radio-button label="1">业务信息</el-radio-button>
+                <el-radio-button label="2">物流信息</el-radio-button>
+              </el-radio-group>
+            </h2>
             <div>
               <el-row v-if="info.canWatch">
-                <div v-if="info.bizType === '4-0'">
-                  <oms-row label='异常类型' :span="4">
-                    <dict dict-group="codeExceptionType" :dict-key="info.exceptionType"></dict>
-                  </oms-row>
-                  <oms-row label='上报单位' :span="4" v-show="info.uploadOrg">{{info.uploadOrg}}</oms-row>
-                  <oms-row label='上报人' :span="4" v-show="info.uploadMan">{{info.uploadMan}}</oms-row>
-                  <oms-row label='上报时间' :span="4" v-show="info.handoverTime">{{info.handoverTime | time}}</oms-row>
+                <div v-show="showType === '1'">
+                  <div v-if="info.bizType === '4-0'">
+                    <oms-row label='异常类型' :span="4">
+                      <dict dict-group="codeExceptionType" :dict-key="info.exceptionType"></dict>
+                    </oms-row>
+                    <oms-row label='上报单位' :span="4" v-show="info.uploadOrg">{{info.uploadOrg}}</oms-row>
+                    <oms-row label='上报人' :span="4" v-show="info.uploadMan">{{info.uploadMan}}</oms-row>
+                    <oms-row label='上报时间' :span="4" v-show="info.handoverTime">{{info.handoverTime | time}}</oms-row>
+                  </div>
+                  <div v-else-if="info.bizType === '3-0'">
+                    <oms-row label='零售/使用单位' :span="5" v-show="info.orgName">{{info.orgName}}</oms-row>
+                    <oms-row label='零售/使用时间' :span="5" v-show="info.time">{{info.time | time}}</oms-row>
+                  </div>
+                  <div v-else>
+                    <oms-row label='订单号' :span="4" v-show="info.orderNo">{{info.orderNo}}</oms-row>
+                    <oms-row label='上游单位' :span="4" v-show="info.orgName">{{info.orgName}}</oms-row>
+                    <oms-row label='下游单位' :span="4"
+                             v-show="(info.bizType !== '1-3' || info.bizType !== '2-3') && info.directionOrgName ">
+                      {{info.directionOrgName}}
+                    </oms-row>
+                    <oms-row label='物流方式' :span="4" v-show="info.transportationMeans">
+                      <!--<dict :dict-group="info.bizType.indexOf('1') === '0' ? 'transportationMeans' : 'outTransportMeans'"-->
+                      <!--:dict-key="info.transportationMeans"></dict>-->
+                      {{info.transportationMeans}}
+                    </oms-row>
+                    <oms-row label='运输条件' :span="4" v-show="info.logisticsMode">
+                      <!--<dict dict-group="transportationCondition"-->
+                      <!--:dict-key="info.logisticsMode"></dict>-->
+                      {{info.logisticsMode}}
+                    </oms-row>
+                    <oms-row label='温度是否合格' :span="4" v-show="typeof info.temperatureFlag === 'boolean'">
+                      <span v-show="info.temperatureFlag">合格</span>
+                      <span v-show="!info.temperatureFlag">不合格</span>
+                    </oms-row>
+                    <oms-row label='操作单位' :span="4" v-show="info.systemOrg">{{info.systemOrg}}</oms-row>
+                    <oms-row label='签收时间' :span="4" v-show="info.handoverTime">{{info.handoverTime | time}}</oms-row>
+                    <oms-row label='签收人' :span="4" v-show="info.handoverPerson">{{info.handoverPerson}}</oms-row>
+                    <oms-row label='签收单位' :span="4" v-show="info.handoverOrg">{{info.handoverOrg}}</oms-row>
+                    <oms-row label='操作层级' :span="4">{{info.operateScheme}}级包装</oms-row>
+                  </div>
                 </div>
-                <div v-else-if="info.bizType === '3-0'">
-                  <oms-row label='零售/使用单位' :span="5" v-show="info.orgName">{{info.orgName}}</oms-row>
-                  <oms-row label='零售/使用时间' :span="5" v-show="info.time">{{info.time | time}}</oms-row>
-                </div>
-                <div v-else>
-                  <oms-row label='订单号' :span="4" v-show="info.orderNo">{{info.orderNo}}</oms-row>
-                  <oms-row label='上游单位' :span="4" v-show="info.orgName">{{info.orgName}}</oms-row>
-                  <oms-row label='下游单位' :span="4"
-                           v-show="(info.bizType !== '1-3' || info.bizType !== '2-3') && info.directionOrgName ">
-                    {{info.directionOrgName}}
-                  </oms-row>
-                  <oms-row label='物流方式' :span="4" v-show="info.transportationMeans">
-                    <!--<dict :dict-group="info.bizType.indexOf('1') === '0' ? 'transportationMeans' : 'outTransportMeans'"-->
-                    <!--:dict-key="info.transportationMeans"></dict>-->
-                    {{info.transportationMeans}}
-                  </oms-row>
-                  <oms-row label='运输条件' :span="4" v-show="info.logisticsMode">
-                    <!--<dict dict-group="transportationCondition"-->
-                    <!--:dict-key="info.logisticsMode"></dict>-->
-                    {{info.logisticsMode}}
-                  </oms-row>
-                  <oms-row label='温度是否合格' :span="4" v-show="typeof info.temperatureFlag === 'boolean'">
-                    <span v-show="info.temperatureFlag">合格</span>
-                    <span v-show="!info.temperatureFlag">不合格</span>
-                  </oms-row>
-                  <oms-row label='操作单位' :span="4" v-show="info.systemOrg">{{info.systemOrg}}</oms-row>
-                  <oms-row label='签收时间' :span="4" v-show="info.handoverTime">{{info.handoverTime | time}}</oms-row>
-                  <oms-row label='签收人' :span="4" v-show="info.handoverPerson">{{info.handoverPerson}}</oms-row>
-                  <oms-row label='签收单位' :span="4" v-show="info.handoverOrg">{{info.handoverOrg}}</oms-row>
-                  <oms-row label='操作层级' :span="4">{{info.operateScheme}}级包装</oms-row>
+                <div v-show="showType === '2'">
+                  <el-table :data="info.logisticsDetailDtos" style="width: 100%" class="mt-10 header-list">
+                    <el-table-column prop="operatorName" label="操作人" min-width="100"/>
+                    <el-table-column prop="address" label="地址" min-width="150"/>
+                    <el-table-column prop="time" label="处理时间" min-width="140">
+                      <span slot-scope="scope">{{scope.row.time | time}}</span>
+                    </el-table-column>
+                    <el-table-column prop="remark" label="备注信息" min-width="150"/>
+                  </el-table>
                 </div>
               </el-row>
               <el-row v-else class="no-rights-tooltip">无权查看</el-row>
@@ -538,47 +556,65 @@
             </div>
             <div v-for="(info) in detail.dtoList.filter((f, index) => index === detail.activeId)"
                  class="info-item open">
-              <h2><span>{{filterCodesBizType(info.bizType)}}</span></h2>
+              <h2>
+                <span>{{filterCodesBizType(info.bizType)}}</span>
+                <el-radio-group v-model="showType"  size="mini" v-show="info.logisticsDetailDtos && info.logisticsDetailDtos.length">
+                  <el-radio-button label="1">业务信息</el-radio-button>
+                  <el-radio-button label="2">物流信息</el-radio-button>
+                </el-radio-group>
+              </h2>
               <div>
                 <el-row v-if="info.canWatch">
-                  <div v-if="info.bizType === '4-0'">
-                    <oms-row label='异常类型' :span="4">
-                      <dict dict-group="codeExceptionType" :dict-key="info.exceptionType"></dict>
-                    </oms-row>
-                    <oms-row label='上报单位' :span="4" v-show="info.uploadOrg">{{info.uploadOrg}}</oms-row>
-                    <oms-row label='上报人' :span="4" v-show="info.uploadMan">{{info.uploadMan}}</oms-row>
-                    <oms-row label='上报时间' :span="4" v-show="info.handoverTime">{{info.handoverTime | time}}</oms-row>
+                  <div v-show="showType === '1'">
+                    <div v-if="info.bizType === '4-0'">
+                      <oms-row label='异常类型' :span="4">
+                        <dict dict-group="codeExceptionType" :dict-key="info.exceptionType"></dict>
+                      </oms-row>
+                      <oms-row label='上报单位' :span="4" v-show="info.uploadOrg">{{info.uploadOrg}}</oms-row>
+                      <oms-row label='上报人' :span="4" v-show="info.uploadMan">{{info.uploadMan}}</oms-row>
+                      <oms-row label='上报时间' :span="4" v-show="info.handoverTime">{{info.handoverTime | time}}</oms-row>
+                    </div>
+                    <div v-else-if="info.bizType === '3-0'">
+                      <oms-row label='零售/使用单位' :span="5" v-show="info.orgName">{{info.orgName}}</oms-row>
+                      <oms-row label='零售/使用时间' :span="5" v-show="info.time">{{info.time | time}}</oms-row>
+                    </div>
+                    <div v-else>
+                      <oms-row label='订单号' :span="4" v-show="info.orderNo">{{info.orderNo}}</oms-row>
+                      <oms-row label='上游单位' :span="4" v-show="info.orgName">{{info.orgName}}</oms-row>
+                      <oms-row label='下游单位' :span="4"
+                               v-show="(info.bizType !== '1-3' || info.bizType !== '2-3') && info.directionOrgName">
+                        {{info.directionOrgName}}
+                      </oms-row>
+                      <oms-row label='物流方式' :span="4" v-show="info.transportationMeans">
+                        <!--<dict :dict-group="info.bizType.indexOf('1') === '0' ? 'transportationMeans' : 'outTransportMeans'"-->
+                        <!--:dict-key="info.transportationMeans"></dict>-->
+                        {{info.transportationMeans}}
+                      </oms-row>
+                      <oms-row label='运输条件' :span="4" v-show="info.logisticsMode">
+                        <!--<dict dict-group="transportationCondition"-->
+                        <!--:dict-key="info.logisticsMode"></dict>-->
+                        {{info.logisticsMode}}
+                      </oms-row>
+                      <oms-row label='温度是否合格' :span="4" v-show="typeof info.temperatureFlag === 'boolean'">
+                        <span v-show="info.temperatureFlag">合格</span>
+                        <span v-show="!info.temperatureFlag">不合格</span>
+                      </oms-row>
+                      <oms-row label='操作单位' :span="4" v-show="info.systemOrg">{{info.systemOrg}}</oms-row>
+                      <oms-row label='签收时间' :span="4" v-show="info.handoverTime">{{info.handoverTime | time}}</oms-row>
+                      <oms-row label='签收人' :span="4" v-show="info.handoverPerson">{{info.handoverPerson}}</oms-row>
+                      <oms-row label='签收单位' :span="4" v-show="info.handoverOrg">{{info.handoverOrg}}</oms-row>
+                      <oms-row label='操作层级' :span="4">{{info.operateScheme}}级包装</oms-row>
+                    </div>
                   </div>
-                  <div v-else-if="info.bizType === '3-0'">
-                    <oms-row label='零售/使用单位' :span="5" v-show="info.orgName">{{info.orgName}}</oms-row>
-                    <oms-row label='零售/使用时间' :span="5" v-show="info.time">{{info.time | time}}</oms-row>
-                  </div>
-                  <div v-else>
-                    <oms-row label='订单号' :span="4" v-show="info.orderNo">{{info.orderNo}}</oms-row>
-                    <oms-row label='上游单位' :span="4" v-show="info.orgName">{{info.orgName}}</oms-row>
-                    <oms-row label='下游单位' :span="4"
-                             v-show="(info.bizType !== '1-3' || info.bizType !== '2-3') && info.directionOrgName">
-                      {{info.directionOrgName}}
-                    </oms-row>
-                    <oms-row label='物流方式' :span="4" v-show="info.transportationMeans">
-                      <!--<dict :dict-group="info.bizType.indexOf('1') === '0' ? 'transportationMeans' : 'outTransportMeans'"-->
-                      <!--:dict-key="info.transportationMeans"></dict>-->
-                      {{info.transportationMeans}}
-                    </oms-row>
-                    <oms-row label='运输条件' :span="4" v-show="info.logisticsMode">
-                      <!--<dict dict-group="transportationCondition"-->
-                      <!--:dict-key="info.logisticsMode"></dict>-->
-                      {{info.logisticsMode}}
-                    </oms-row>
-                    <oms-row label='温度是否合格' :span="4" v-show="typeof info.temperatureFlag === 'boolean'">
-                      <span v-show="info.temperatureFlag">合格</span>
-                      <span v-show="!info.temperatureFlag">不合格</span>
-                    </oms-row>
-                    <oms-row label='操作单位' :span="4" v-show="info.systemOrg">{{info.systemOrg}}</oms-row>
-                    <oms-row label='签收时间' :span="4" v-show="info.handoverTime">{{info.handoverTime | time}}</oms-row>
-                    <oms-row label='签收人' :span="4" v-show="info.handoverPerson">{{info.handoverPerson}}</oms-row>
-                    <oms-row label='签收单位' :span="4" v-show="info.handoverOrg">{{info.handoverOrg}}</oms-row>
-                    <oms-row label='操作层级' :span="4">{{info.operateScheme}}级包装</oms-row>
+                  <div v-show="showType === '2'">
+                    <el-table :data="info.logisticsDetailDtos" style="width: 100%" class="mt-10 header-list">
+                      <el-table-column prop="operatorName" label="操作人" min-width="100"/>
+                      <el-table-column prop="address" label="地址" min-width="150"/>
+                      <el-table-column prop="time" label="处理时间" min-width="140">
+                        <span slot-scope="scope">{{scope.row.time | time}}</span>
+                      </el-table-column>
+                      <el-table-column prop="remark" label="备注信息" min-width="150"/>
+                    </el-table>
                   </div>
                 </el-row>
                 <el-row v-else class="no-rights-tooltip">无权查看</el-row>
@@ -606,7 +642,8 @@
         details: [],
         packageType: utils.packageType,
         loading: false,
-        statusType: ['未知', '流转中', '已使用', '异常']
+        statusType: ['未知', '流转中', '已使用', '异常'],
+        showType: '1'
       };
     },
     computed: {
@@ -664,6 +701,7 @@
       },
       changeOpen(item, index) {
         item.activeId = index;
+        this.showType = '1';
       },
       formatTime(time) {
         return this.$moment(time).format('YYYY-MM-DD HH:mm:ss');
