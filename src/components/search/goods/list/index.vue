@@ -28,7 +28,7 @@
              v-for="item in dataList">
           <el-row>
             <el-col :span="7">{{item.goodsName}}</el-col>
-            <el-col :span="4">{{item.batchNumber}}</el-col>
+            <el-col :span="4" class="R">{{item.batchNumber}}</el-col>
             <el-col :span="4">{{item.createTime | time}}</el-col>
             <el-col :span="3">{{item.creatorName}}</el-col>
             <el-col :span="4">
