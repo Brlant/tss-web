@@ -416,6 +416,19 @@ export default [
             'leaf': true
           }],
         'leaf': false
+      },
+      {
+        'id': 'tbs-access-role-manager',
+        'parentId': 'code-system-manager',
+        'label': 'TBS角色管理',
+        'sort': 3,
+        'leaf': false
+      }, {
+        'id': 'tbs-code-permission-manager',
+        'parentId': 'code-system-manager',
+        'label': 'TBS单位账户管理',
+        'sort': 1,
+        'leaf': false
       }],
     'leaf': false
   }];

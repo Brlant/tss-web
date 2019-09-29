@@ -473,6 +473,9 @@ export const User = resource('/dhs/user', http, {
 export const OrgUser = resource('/dhs/user/org', http, {
   queryOrgInfo: (id, params) => {
     return http.get('/dhs/user/org/' + id, {params});
+  },
+  queryTbsOrgInfo: (id, params) => {
+    return http.get('/dhs/user/org/' + id, {params});
   }
 });
 // 角色管理对象
@@ -503,6 +506,12 @@ export const Access = resource('/oms/access', http, {
   },
   queryApiAccess: (params) => {
     return http.get('/oms/access/org', {params});
+  },
+  queryTbsRoles(params) {
+    return http.get('/code-account/access', {params})
+  },
+  addTbsRoles(obj) {
+    return http.post('/code-account/access ', obj)
   }
 });
 

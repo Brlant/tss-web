@@ -173,6 +173,16 @@ export const route = [
             meta: {moduleId: 'system', title: 'TSS账户管理', perm: 'code-account-query'}
           },
           {
+            path: '/system/role/tbs',
+            component: () => import('./components/system/tbs-role/index.vue'),
+            meta: {moduleId: 'system', title: 'TBS角色管理', perm: 'tbs-access-role-manager'}
+          },
+          {
+            path: '/system/permission/tbs',
+            component: () => import('./components/system/tbs-permission/index.vue'),
+            meta: {moduleId: 'system', title: 'TBS单位账户管理', perm: 'tbs-code-permission-manager'}
+          },
+          {
             path: '/system/log',
             component: () => import('./components/system/log/index.vue'),
             meta: {moduleId: 'system', title: '系统日志', perm: 'code-system-log-query'}
