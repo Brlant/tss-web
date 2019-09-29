@@ -70,7 +70,7 @@
 <template>
   <div class="content-part">
     <div class="content-left">
-      <h2 class="right-title">角色管理</h2>
+      <h2 class="right-title">TSS角色管理</h2>
       <div class="btn-submit-save">
         <div>
           <el-button type="primary" style="width: 100px;margin-bottom: 10px" @click="onSubmit('roleform')"

@@ -145,7 +145,7 @@ export const route = [
           {
             path: '/system/permission',
             component: () => import('./components/system/permission/index.vue'),
-            meta: {moduleId: 'system', title: '单位账户管理', perm: 'code-org-role-watch'}
+            meta: {moduleId: 'system', title: 'TSS单位账户管理', perm: 'code-org-role-watch'}
           },
           {
             path: '/system/push/url',
@@ -165,12 +165,12 @@ export const route = [
           {
             path: '/system/role',
             component: () => import('./components/system/role/index.vue'),
-            meta: {moduleId: 'system', title: '角色管理', perm: 'access-role-watch'}
+            meta: {moduleId: 'system', title: 'TSS角色管理', perm: 'access-role-watch'}
           },
           {
             path: '/system/user',
             component: () => import('./components/system/user/index.vue'),
-            meta: {moduleId: 'system', title: '账户管理', perm: 'code-account-query'}
+            meta: {moduleId: 'system', title: 'TSS账户管理', perm: 'code-account-query'}
           },
           {
             path: '/system/log',

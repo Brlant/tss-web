@@ -232,7 +232,7 @@ export default [
     }, {
       'id': 'code-account-manager',
       'parentId': 'code-system-manager',
-      'label': '账户管理',
+      'label': 'TSS账户管理',
       'sort': 4,
       'children': [{
         'id': 'code-account-query',
@@ -302,7 +302,7 @@ export default [
     }, {
       'id': 'access-role-manager',
       'parentId': 'code-system-manager',
-      'label': '角色管理',
+      'label': 'TSS角色管理',
       'sort': 3,
       'children': [{
         'id': 'codes-access-role-start',
@@ -352,7 +352,7 @@ export default [
       {
       'id': 'code-permission-manager',
       'parentId': 'code-system-manager',
-      'label': '单位账户管理',
+      'label': 'TSS单位账户管理',
       'sort': 1,
       'children': [{
         'id': 'code-org-user-edit',
