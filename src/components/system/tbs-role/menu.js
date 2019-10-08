@@ -61,7 +61,7 @@ export default [
           'children': null,
           'leaf': true
         }, {
-          'id': 'code-batch-number-attachment-upload',
+          'id': 'mdm-batchNumber-file-upload',
           'parentId': 'code-batch-number-manager',
           'label': '批号文件上传',
           'sort': 4,
