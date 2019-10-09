@@ -337,7 +337,7 @@
           </el-col>
           <el-col>
             <el-button type="primary" @click="getCodeInfo" plain>查询</el-button>
-            <el-button type="default" nativeType="reset">重置</el-button>
+            <el-button type="default" nativeType="reset" @click="reset">重置</el-button>
             <perm label="code-trace-json-download" class="ml-10">
               <el-button type="success" plain @click="downloadJson" v-show="details.length">下载json数据</el-button>
             </perm>
@@ -418,7 +418,8 @@
           <div v-for="(info) in detail.dtoList.filter((f, index) => index === detail.activeId)" class="info-item open">
             <h2>
               <span>{{filterCodesBizType(info.bizType)}}</span>
-              <el-radio-group v-model="showType"  size="mini" v-show="info.logisticsDetailDtos && info.logisticsDetailDtos.length">
+              <el-radio-group v-model="showType" size="mini"
+                              v-show="info.logisticsDetailDtos && info.logisticsDetailDtos.length">
                 <el-radio-button label="1">业务信息</el-radio-button>
                 <el-radio-button label="2">物流信息</el-radio-button>
               </el-radio-group>
@@ -558,7 +559,8 @@
                  class="info-item open">
               <h2>
                 <span>{{filterCodesBizType(info.bizType)}}</span>
-                <el-radio-group v-model="showType"  size="mini" v-show="info.logisticsDetailDtos && info.logisticsDetailDtos.length">
+                <el-radio-group v-model="showType" size="mini"
+                                v-show="info.logisticsDetailDtos && info.logisticsDetailDtos.length">
                   <el-radio-button label="1">业务信息</el-radio-button>
                   <el-radio-button label="2">物流信息</el-radio-button>
                 </el-radio-group>
@@ -660,6 +662,11 @@
       }
     },
     methods: {
+      reset() {
+        this.currentCodeId = '';
+        this.details = [];
+        this.$router.push('/search/code/id');
+      },
       deleteItem(item) {
         this.$confirm(`是否删除此业务记录`, '', {
           confirmButtonText: '确定',
