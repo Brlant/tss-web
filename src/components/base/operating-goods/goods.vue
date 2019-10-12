@@ -257,9 +257,9 @@
             </el-col>
             <el-col :span="8">
               <oms-form-row :span="5" label="货品">
-                <el-select placeholder="请输入名称搜索货品" v-model="searchCondition.id" filterable clearable
+                <el-select placeholder="请输入名称搜索货品" v-model="searchCondition.goodsId" filterable clearable
                            popper-class="custom-select" remote :remote-method="queryManageGoodsNew">
-                  <el-option :label="item.name" :value="item.id" :key="item.id" v-for="item in manageGoods">
+                  <el-option :label="item.name" :value="item.goodsId" :key="item.goodsId" v-for="item in manageGoods">
                     <div>
                       <span class="pull-left">{{ item.name }}({{ item.factoryName }})</span>
                       <span class="pull-right select-other-info" v-show="item.typeId">
@@ -405,7 +405,7 @@
         },
         filters: {
           orgId: '',
-          id: '',
+          goodsId: '',
           auditStatus: ''
         },
         pager: {
@@ -416,7 +416,7 @@
         },
         searchCondition: {
           orgId: '',
-          id: '',
+          goodsId: '',
           auditStatus: ''
         },
         activeId: '',
@@ -557,7 +557,7 @@
       resetSearchForm: function () {// 重置表单
         let temp = {
           orgId: '',
-          id: '',
+          goodsId: '',
           auditStatus: ''
         };
         this.customerList = [];

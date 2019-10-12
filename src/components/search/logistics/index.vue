@@ -6,7 +6,7 @@
           <el-row>
             <el-col :span="7">
               <oms-form-row :span="8" label="业务单据号">
-                <oms-input placeholder="请输入业务单据号" type="text" v-model="searchCondition.objectNo"></oms-input>
+                <oms-input placeholder="请输入业务单据号" type="text" v-model.trim="searchCondition.orderNo"></oms-input>
               </oms-form-row>
             </el-col>
             <el-col :span="5">
@@ -93,12 +93,12 @@
         orderList: [],
         filters: {
           orgId: '',
-          objectNo: '',
+          orderNo: '',
           bizType: ''
         },
         searchCondition: {
           orgId: '',
-          objectNo: '',
+          orderNo: '',
           bizType: ''
         },
         activeStatus: 0,
@@ -129,7 +129,7 @@
       resetSearchForm: function () {// 重置表单
         let temp = {
           orgId: '',
-          objectNo: '',
+          orderNo: '',
           bizType: ''
         };
         Object.assign(this.searchCondition, temp);
