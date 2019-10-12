@@ -112,7 +112,7 @@
         </div>
 
       </div>
-      <div class="text-center" v-show="pager.count>pager.pageSize && !loadingData">
+      <div class="text-center" v-show="traceCodes.length && !loadingData">
         <el-cu-pagination
           layout="sizes, prev, pager, next"
           :page-sizes="[10, 20, 50, 100]"
@@ -218,7 +218,7 @@
         this.httpRequest(this.currentOrder.id, params).then(res => {
           this.traceCodes = res.data.list;
           if (res.data.list.length) {
-            this.pager.count = this.pager.currentPage * this.pager.pageSize + 1;
+            this.pager.count = this.pager.currentPage * this.pager.pageSize + (res.data.list.length < this.pager.pageSize ? 0: 1);
           }
           this.loadingData = false;
         });
