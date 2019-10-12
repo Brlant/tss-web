@@ -37,9 +37,9 @@ export default {
     },
     queryManageGoods(query) {
       let params = {};
-      if(typeof query === 'object') {
+      if (typeof query === 'object') {
         params = query;
-      }else {
+      } else {
         let user = this.$store.state.user;
         if (!user.userCompanyAddress) return;
         params = {
@@ -125,7 +125,9 @@ export default {
     queryOrgAccountList: function (props) {// 查询单位账户
       return query => {
         let id = getProps(this, props);
-        if (!id) return;
+        if (!id) {
+          return this.$notify.info('请选择单位');
+        }
         let params = {
           keyWord: query,
           pageNo: 1,

@@ -91,7 +91,7 @@
           // uploadStartTime: '',
           // uploadEndTime: '',
           createdBy: '',
-          uploadOrg: ''
+          uploadOrg: this.$store.state.user.userCompanyAddress
         };
         this.times1 = [];
         this.$emit('search', this.searchCondition);
