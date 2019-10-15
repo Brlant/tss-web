@@ -486,7 +486,7 @@
     </template>
     <template v-else>
       <el-collapse class="el-collapse--code" v-model="activeId">
-        <el-collapse-item :key="index" :name="index" :title="`${detail.goodsName}（${detail.factoryName}）`"
+        <el-collapse-item :key="index" :name="index" :title="` 追溯码${index+1} -- ${detail.goodsName}（${detail.factoryName}）`"
                           v-for="(detail, index) in details">
           <div class="bg-white">
             <h2>
