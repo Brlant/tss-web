@@ -1,7 +1,7 @@
-import address from './address';
+import {Address, formatAddress, formatAddressByType} from '@dtop/dtop-web-common';
 
 export default {
-  address: address.value,
+  address: Address.value,
   inOrderType: {
     0: {'title': '所有', state: null, num: 0},
     1: {'title': '待确认', state: '0', num: 0},
@@ -71,40 +71,10 @@ export default {
    * @param region
    * @returns {string}
    */
-  formatAddress: function (province, city, region) {
-    let _address = '';
-    this.address.forEach(p => {
-      if (province === p.value) {
-        _address += p.label;
-        if (!p.children) return;
-        p.children.forEach(c => {
-          if (!c.children) return;
-          if (city === c.value) {
-            _address += ('/' + c.label);
-            if (!c.children) return;
-            c.children.forEach(r => {
-              if (region === r.value) {
-                _address += ('/' + r.label);
-              }
-              return false;
-            });
-          }
-          return false;
-        });
-      }
-    });
-    return _address;
-  },
+  formatAddress,
+  formatAddressByType,
   formatLabelByAddress(type, province, city, region) {
-    let p = this.address.filter(f => f.value === province);
-    if (!p.length) return [''];
-    if (type === 1) return [p[0].label];
-    let c = p[0].children.filter(f => f.value === city);
-    if (!c.length) return [p[0].label];
-    if (type === 2) return [p[0].label, c[0].label];
-    let r = c[0].children.filter(f => f.value === region);
-    if (!r.length) return [p[0].label, c[0].label];
-    if (type === 3) return [p[0].label, c[0].label, r[0].label];
+    return formatAddressByType(province, city, region, 'label');
   },
   /**
    * 实时动态强制更改用户录入
