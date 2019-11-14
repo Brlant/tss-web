@@ -337,7 +337,7 @@
           </el-col>
           <el-col>
             <el-button type="primary" @click="getCodeInfo" plain>查询</el-button>
-            <el-button type="default" nativeType="reset" @click="reset">重置</el-button>
+            <el-button type="default" nativeType="reset">重置</el-button>
             <perm label="code-trace-json-download" class="ml-10">
               <el-button type="success" plain @click="downloadJson" v-show="details.length">下载json数据</el-button>
             </perm>
@@ -399,7 +399,7 @@
                 </div>
                 <div class="tiny-timeline-item-head tiny-timeline-item-head-custom tiny-timeline-item-head-default"
                      :class="{active: index === detail.activeId}" @click.stop="changeOpen(detail, index)">
-                  <i class="iconfont"
+                  <i class="iconfont oms-font"
                      :class="[(info.bizType !== '4-0' ? 'el-icon-t-' : 'el-icon-') +
                  filterCodesIcon(info.bizType), {active: index === detail.activeId}]"></i>
                 </div>
@@ -418,12 +418,11 @@
           <div v-for="(info) in detail.dtoList.filter((f, index) => index === detail.activeId)" class="info-item open">
             <h2>
               <span>{{filterCodesBizType(info.bizType)}}</span>
-              <el-radio-group v-model="showType" size="mini"
-                              v-show="info.logisticsDetailDtos && info.logisticsDetailDtos.length">
-                <el-radio-button label="1">业务信息</el-radio-button>
-                <el-radio-button label="2">物流信息</el-radio-button>
-              </el-radio-group>
             </h2>
+            <el-tabs v-model="showType" size="mini" type="card" v-show="info.logisticsDetailDtos && info.logisticsDetailDtos.length">
+              <el-tab-pane label="业务信息" name="1"></el-tab-pane>
+              <el-tab-pane label="物流信息" name="2"></el-tab-pane>
+            </el-tabs>
             <div>
               <el-row v-if="info.canWatch">
                 <div v-show="showType === '1'">
@@ -467,7 +466,7 @@
                     <oms-row label='操作层级' :span="4">{{info.operateScheme}}级包装</oms-row>
                   </div>
                 </div>
-                <div v-show="showType === '2'">
+                <div v-if="showType === '2'">
                   <el-table :data="info.logisticsDetailDtos" style="width: 100%" class="mt-10 header-list">
                     <el-table-column prop="operatorName" label="操作人" min-width="100"/>
                     <el-table-column prop="address" label="地址" min-width="150"/>
@@ -476,6 +475,7 @@
                     </el-table-column>
                     <el-table-column prop="remark" label="备注信息" min-width="150"/>
                   </el-table>
+                  <waybill-info :current-order="info"/>
                 </div>
               </el-row>
               <el-row v-else class="no-rights-tooltip">无权查看</el-row>
@@ -486,7 +486,7 @@
     </template>
     <template v-else>
       <el-collapse class="el-collapse--code" v-model="activeId">
-        <el-collapse-item :key="index" :name="index" :title="` 追溯码${index+1} -- ${detail.goodsName}（${detail.factoryName}）`"
+        <el-collapse-item :key="index" :name="index" :title="`${detail.goodsName}（${detail.factoryName}）`"
                           v-for="(detail, index) in details">
           <div class="bg-white">
             <h2>
@@ -539,8 +539,8 @@
                   </div>
                   <div class="tiny-timeline-item-head tiny-timeline-item-head-custom tiny-timeline-item-head-default"
                        :class="{active: index === detail.activeId}" @click.stop="changeOpen(detail, index)">
-                    <i class="iconfont"
-                       :class="[(info.bizType !== '4-0' ? 'el-icon-t-' : 'el-icon-') +
+                    <i class="iconfont oms-font"
+                       :class="[(info.bizType !== '4-0' ? 'oms-font el-icon-t-' : 'el-icon-') +
                  filterCodesIcon(info.bizType), {active: index === detail.activeId}]"></i>
                   </div>
                   <div class="tiny-timeline-item-content" @click.stop="changeOpen(detail, index)">
@@ -559,12 +559,11 @@
                  class="info-item open">
               <h2>
                 <span>{{filterCodesBizType(info.bizType)}}</span>
-                <el-radio-group v-model="showType" size="mini"
-                                v-show="info.logisticsDetailDtos && info.logisticsDetailDtos.length">
-                  <el-radio-button label="1">业务信息</el-radio-button>
-                  <el-radio-button label="2">物流信息</el-radio-button>
-                </el-radio-group>
               </h2>
+              <el-tabs v-model="showType" size="mini" type="card" v-show="info.logisticsDetailDtos && info.logisticsDetailDtos.length">
+                <el-tab-pane label="业务信息" name="1"></el-tab-pane>
+                <el-tab-pane label="物流信息" name="2"></el-tab-pane>
+              </el-tabs>
               <div>
                 <el-row v-if="info.canWatch">
                   <div v-show="showType === '1'">
@@ -608,7 +607,7 @@
                       <oms-row label='操作层级' :span="4">{{info.operateScheme}}级包装</oms-row>
                     </div>
                   </div>
-                  <div v-show="showType === '2'">
+                  <div v-if="showType === '2'">
                     <el-table :data="info.logisticsDetailDtos" style="width: 100%" class="mt-10 header-list">
                       <el-table-column prop="operatorName" label="操作人" min-width="100"/>
                       <el-table-column prop="address" label="地址" min-width="150"/>
@@ -617,6 +616,7 @@
                       </el-table-column>
                       <el-table-column prop="remark" label="备注信息" min-width="150"/>
                     </el-table>
+                    <waybill-info :current-order="info"/>
                   </div>
                 </el-row>
                 <el-row v-else class="no-rights-tooltip">无权查看</el-row>
@@ -632,9 +632,10 @@
   import {http} from '@/resources';
   import utils from '@/tools/utils';
   import DataMixin from '@/mixins/dataMixin';
-
+  import waybillInfo from '@/components/common/order/waybillInfo';
   export default {
     mixins: [DataMixin],
+    components: {waybillInfo},
     data: function () {
       return {
         labelSpan: 5,
@@ -662,11 +663,6 @@
       }
     },
     methods: {
-      reset() {
-        this.currentCodeId = '';
-        this.details = [];
-        this.$router.push('/search/code/id');
-      },
       deleteItem(item) {
         this.$confirm(`是否删除此业务记录`, '', {
           confirmButtonText: '确定',

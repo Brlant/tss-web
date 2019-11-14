@@ -15,6 +15,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+.oms-font.iconfont {
+  font-family:"oms-font" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .el-icon-t-supplier:before { content: "\e600"; }
 
 .el-icon-t-delete:before { content: "\e601"; }
