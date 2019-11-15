@@ -294,11 +294,10 @@
       </div>
       <div class="order-list" style="margin-top: 20px">
         <el-row class="order-list-header">
-          <el-col :span="3">货品分类</el-col>
+          <el-col :span="5">货品分类</el-col>
           <el-col :span="5">货品编号/名称</el-col>
           <el-col :span="5">经营单位</el-col>
           <el-col :span="4">货品规格</el-col>
-          <el-col :span="2">整件规格</el-col>
           <el-col :span="2">状态</el-col>
           <el-col :span="3">操作</el-col>
         </el-row>
@@ -318,10 +317,8 @@
           <div class="order-list-item no-pointer" v-for="item in showTypeList" @click="showInfo(item)"
                :class="['status-no',{'active':activeId===item.id}]">
             <el-row>
-              <el-col :span="3">
-                <div>
-                  <dict :dict-group="'typeId'" :dict-key="item.typeId"></dict>
-                </div>
+              <el-col :span="5">
+                {{formatGoodsTypeList(item.typeId)}}
               </el-col>
               <el-col :span="5">
                 <div class="f-grey">
@@ -339,13 +336,6 @@
               <el-col :span="4">
                 <div>
                   {{item.specifications}}
-                </div>
-              </el-col>
-              <el-col :span="2">
-                <div>
-                  <dict :dict-group="'shipmentPackingUnit'" :dict-key="item.wholePackageUnit"></dict>
-                  = {{item.wholePackageAmount}}
-                  <dict :dict-group="'measurementUnit'" :dict-key="item.measurementUnit"></dict>
                 </div>
               </el-col>
               <el-col :span="2">
@@ -445,6 +435,10 @@
       }
     },
     methods: {
+      formatGoodsTypeList(val) {
+        let goodsTypeList = this.$store.state.goodsTypeList;
+        return goodsTypeList[val - 1] && goodsTypeList[val - 1].label || val;
+      },
       auditPass(item) {
         this.$confirm('确认通过经营货品"' + item.name + '"的审核?', '', {
           confirmButtonText: '确认',
