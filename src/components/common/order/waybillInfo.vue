@@ -38,7 +38,7 @@
           </oms-col>
           <oms-col label="车牌号" :rowSpan="6" :isShow="true">{{item.licensePlate}}</oms-col>
           <oms-col label="启运时间" :rowSpan="6" :isShow="true">{{item.shipmentTime | time}}</oms-col>
-          <oms-col label="结束时间" :rowSpan="6" :isShow="true">{{item.completeTime | time}}</oms-col>
+          <oms-col label="送达时间" :rowSpan="6" :isShow="true">{{item.completeTime | time}}</oms-col>
         </el-row>
         <hr class="hr"/>
         <template v-if="item.completeTime">
