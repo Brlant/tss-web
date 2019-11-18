@@ -126,6 +126,7 @@
       }
     }
 
+    cursor: pointer;
     border-bottom: 1px solid #ebebeb;
     padding: 6px 5px;
   }
@@ -159,9 +160,9 @@
           <oms-col class="R" :is-show="true" label="批号" :value="basicInfoAndBizType.batchNumber" :rowSpan="5"/>
           <oms-col :is-show="true" label="生产日期" :value="basicInfoAndBizType.productionDate | date" :rowSpan="5"/>
           <oms-col :is-show="true" label="有效期" :value="basicInfoAndBizType.expiryDate | date" :rowSpan="5"/>
-          <oms-col :is-show="true" label="生产厂商" :value="basicInfoAndBizType.factoryName" :rowSpan="5"/>
           <!--<oms-col :is-show="true" label="数量" :value="basicInfoAndBizType.count+ ' '  + basicInfoAndBizType.goodsUnit"-->
           <!--:rowSpan="5"/>-->
+          <oms-col :is-show="true" label="生产厂商" :value="basicInfoAndBizType.factoryName" :rowSpan="5"/>
           <oms-col :is-show="true" label="业务时间" :value="basicInfoAndBizType.startTime" :rowSpan="5">
             <span v-show="basicInfoAndBizType.startTime">{{basicInfoAndBizType.startTime | date}}~{{basicInfoAndBizType.endTime | date}}</span>
             <span v-show="!basicInfoAndBizType.startTime">无限制</span>
@@ -211,11 +212,18 @@
               </div>
               <div class="order-list">
                 <el-row class="order-list-header">
-                  <el-col :span="6" v-show="!isPov">来源单位</el-col>
-                  <el-col :span="isPov ? 10 :6">{{isPov ? '接种单位' : '去向单位'}}</el-col>
-                  <el-col :span="6" v-show="!isPov">操作单位</el-col>
-                  <el-col :span="4" v-show="!isPov">业务时间</el-col>
-                  <el-col :span="isPov ? 6 :2">数量（{{basicInfoAndBizType.goodsUnit}}）</el-col>
+                  <template v-if="!isPov">
+                    <el-col :span="3">订单号</el-col>
+                    <el-col :span="5">来源单位</el-col>
+                    <el-col :span="5">去向单位</el-col>
+                    <el-col :span="5">操作单位</el-col>
+                    <el-col :span="4">业务时间</el-col>
+                    <el-col :span="2">数量（{{basicInfoAndBizType.goodsUnit}}）</el-col>
+                  </template>
+                  <template v-else>
+                    <el-col :span="16">接种单位</el-col>
+                    <el-col :span="8">数量（{{basicInfoAndBizType.goodsUnit}}）</el-col>
+                  </template>
                 </el-row>
                 <el-row v-if="loading3">
                   <el-col :span="24">
@@ -227,12 +235,19 @@
                     <div class="empty-info">暂无信息</div>
                   </el-col>
                 </el-row>
-                <el-row class="biz-itm" v-for="item in bizList" :key="item.id">
-                  <el-col :span="6" v-show="!isPov">{{item.sourceOrgName}}</el-col>
-                  <el-col :span="isPov ? 10 :6">{{item.directionOrgName}}</el-col>
-                  <el-col :span="6" v-show="!isPov">{{item.operateOrgName}}</el-col>
-                  <el-col :span="4" v-show="!isPov">{{item.time | time}}</el-col>
-                  <el-col :span="isPov ? 6 :2">{{item.count}}</el-col>
+                <el-row class="biz-itm" v-for="item in bizList" :key="item.id" @click.native="showItem(item)">
+                  <template v-if="!isPov">
+                    <el-col :span="3" class="R">{{item.orderNo}}</el-col>
+                    <el-col :span="5">{{item.sourceOrgName}}</el-col>
+                    <el-col :span="5">{{item.directionOrgName}}</el-col>
+                    <el-col :span="5">{{item.operateOrgName}}</el-col>
+                    <el-col :span="4">{{item.time | time}}</el-col>
+                    <el-col :span="2">{{item.count}}</el-col>
+                  </template>
+                  <template v-else>
+                    <el-col :span="16">{{item.directionOrgName}}</el-col>
+                    <el-col :span="8">{{item.count}}</el-col>
+                  </template>
                 </el-row>
                 <div class="text-center mt-10" v-show="bizList.length">
                   <el-pagination @size-change="sizeChange" @current-change="currentChange"
@@ -247,6 +262,10 @@
         </div>
       </div>
     </div>
+    <page-right :css="{'width':'1000px','padding':0}" :show="showDetail" @right-close="resetRightBox"
+                class="order-detail-info" partClass="pr-no-animation">
+      <show-form :filterBizType="filterBizType" :orderId="currentOrderId" @close="resetRightBox"></show-form>
+    </page-right>
   </div>
 </template>
 <script>
@@ -255,11 +274,13 @@
   import DataMixin from '@/mixins/dataMixin';
   import ClassTree from '../../../common/classTree.vue';
   import utils from '@/tools/utils';
+  import showForm from '@/components/search/business/form/show.form.vue';
 
   export default {
     components: {
       ClassTree,
-      SearchPart
+      SearchPart,
+      showForm
     },
     mixins: [CommonMixin, DataMixin],
     data() {
@@ -272,7 +293,9 @@
         bizList: [],
         loading1: false,
         loading2: false,
-        loading3: false
+        loading3: false,
+        currentOrderId: '',
+        showDetail: false
       };
     },
     computed: {
@@ -287,6 +310,14 @@
       this.queryBasicInfoAndBizTypes();
     },
     methods: {
+      resetRightBox() {
+        this.showDetail = false;
+      },
+      showItem(order) {
+        if (!order.codeBizLogId) return;
+        this.currentOrderId = order.codeBizLogId;
+        this.showDetail = true;
+      },
       queryBasicInfoAndBizTypes(isLoading) {
         typeof isLoading !== 'boolean' && (this.basicInfoAndBizType = {});
         let id = this.$route.params.id;
