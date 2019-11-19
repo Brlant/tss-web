@@ -258,8 +258,8 @@
             <el-col :span="8">
               <oms-form-row :span="5" label="货品">
                 <el-select placeholder="请输入名称搜索货品" v-model="searchCondition.goodsId" filterable clearable
-                           popper-class="custom-select" remote :remote-method="queryManageGoodsNew">
-                  <el-option :label="item.name" :value="item.goodsId" :key="item.goodsId" v-for="item in manageGoods">
+                           popper-class="custom-select" remote :remote-method="filterPlatFormGoods">
+                  <el-option :label="item.name" :value="item.id" :key="item.id" v-for="item in platformGoods">
                     <div>
                       <span class="pull-left">{{ item.name }}({{ item.factoryName }})</span>
                       <span class="pull-right select-other-info" v-show="item.typeId">
@@ -530,19 +530,6 @@
       },
       orgChange: function () {
         this.searchCondition.id = '';
-        this.manageGoods = [];
-      },
-      queryManageGoodsNew(query) { // 查询平台货品
-        this.manageGoods = [];
-        if (!this.searchCondition.orgId) {
-          return this.$notify.info({message: '请选择经营单位'});
-        }
-        let params = {
-          orgId: this.searchCondition.orgId,
-          deleteFlag: false,
-          keyWord: query
-        };
-        this.queryManageGoods(params);
       },
       searchInOrder: function () {// 搜索
         Object.assign(this.filters, this.searchCondition);

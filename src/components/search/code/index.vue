@@ -337,7 +337,7 @@
           </el-col>
           <el-col>
             <el-button type="primary" @click="getCodeInfo" plain>查询</el-button>
-            <el-button type="default" nativeType="reset">重置</el-button>
+            <el-button type="default" nativeType="reset" @click="resetCode">重置</el-button>
             <perm label="code-trace-json-download" class="ml-10">
               <el-button type="success" plain @click="downloadJson" v-show="details.length">下载json数据</el-button>
             </perm>
@@ -701,6 +701,11 @@
         }).catch(e => {
           this.loading = false;
         });
+      },
+      resetCode() {
+        this.currentCodeId = '';
+        this.$router.push('/search/code/id');
+        this.details = [];
       },
       changeOpen(item, index) {
         item.activeId = index;
