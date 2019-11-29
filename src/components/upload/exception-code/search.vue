@@ -31,11 +31,7 @@
         <!--</el-col>-->
         <el-col :span="6">
           <oms-form-row :span="8" label="上报人">
-            <el-select :remote-method="queryOrgAccountList('searchCondition.uploadOrg')" clearable
-                       filterable placeholder="请选择上报人" remote v-model="searchCondition.createdBy">
-              <el-option :key="item.id" :label="item.name" :value="item.name"
-                         v-for="item in orgUsers"></el-option>
-            </el-select>
+            <el-input v-model="searchCondition.createdBy" clearable placeholder="请输入上报人"></el-input>
           </oms-form-row>
         </el-col>
         <el-col :span="11">
