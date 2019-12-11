@@ -64,6 +64,7 @@
               <oms-col :is-show="true" label="异常类型" :rowSpan="6" v-if="currentDetail.uploadType !== '0'">
                 <dict dict-group="codeExceptionType" :dict-key="currentDetail.type"></dict>
               </oms-col>
+              <oms-col :is-show="true" label="操作单位" :rowSpan="6" :value="currentDetail.operateOrgName"/>
             </div>
           </form-show-part>
           <div v-loading="loading0" v-if="pageSets[1]">
