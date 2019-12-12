@@ -47,7 +47,12 @@
                 </ul>
               </div>
             </el-col>
-            <el-col :span="4">{{item.orgName}}</el-col>
+            <el-col :span="4">
+              <el-tooltip placement="right" >
+                <span slot="content">最新单位名称：{{ loading ? '查询中...' : orgName}}</span>
+                <span @mouseenter="queryInfo(item)">{{item.orgName}}</span>
+              </el-tooltip>
+            </el-col>
             <el-col :span="5">
               <div>使用/销售：{{item.time | minute}}</div>
               <div>记录：{{item.recordTime | minute}}</div>
@@ -70,6 +75,7 @@
 <script>
   import SearchPart from './search';
   import CommonMixin from '@/mixins/commonMixin';
+  import {DhsBaseInfo} from '@/resources';
 
   export default {
     components: {
@@ -78,7 +84,9 @@
     mixins: [CommonMixin],
     data() {
       return {
-        filters: {}
+        filters: {},
+        loading: false,
+        orgName: ''
       };
     },
     watch: {
@@ -93,6 +101,16 @@
       this.queryList(1);
     },
     methods: {
+      queryInfo(item) {
+        this.loading = true;
+        DhsBaseInfo.queryBaseInfo(item.orgId).then(res => {
+          this.loading = false;
+          this.orgName = res.data.orgDto.name;
+        }).catch(() => {
+          this.orgName = item.orgName;
+          this.loading = false;
+        });
+      },
       formatDate(val) {
         return val ? this.$moment(val).format('YYYY-MM-DD').split('') : '';
       },
