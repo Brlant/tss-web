@@ -12,7 +12,7 @@ module.exports = {
     https: false,
     hotOnly: false, disableHostCheck: true, proxy: {
       '/api': {
-        target: 'https://tss.cnvss.net',
+        target: 'https://sh-tss.cdcerp.cn',
         changOrigin: true
       }
     }
