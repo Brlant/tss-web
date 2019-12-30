@@ -379,7 +379,7 @@
         if (!id) return;
         this.pager.currentPage = pageNo;
         let params = {
-          pageNo: this.pager.pageNo,
+          pageNo: pageNo,
           pageSize: this.pager.pageSize
         };
         this.loading3 = true;
