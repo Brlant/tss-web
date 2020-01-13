@@ -64,7 +64,7 @@
             if (typeof pointIndex !== 'number') return false;
             if (pointIndex === 0) return pathData.points[pointIndex].time + '出发';
             if (pointIndex === pathData.points.length - 1) {
-              return pathData.points[pointIndex].time + '到达目的地（' + pathData.points[0].name + '）';
+              return pathData.points[pointIndex].time + '到达目的地';
             }
             return pathData.points[pointIndex].time + '路过此地';
           },
