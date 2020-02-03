@@ -72,7 +72,7 @@
         <el-row class="order-list-header">
           <el-col :span="6">货品</el-col>
           <el-col :span="6">生产厂商</el-col>
-          <el-col :span="4">商品编号</el-col>
+          <el-col :span="4">商品编号/货品编号</el-col>
           <el-col :span="3">批号</el-col>
           <el-col :span="3">操作时间</el-col>
           <el-col :span="2">解析结果</el-col>
@@ -108,6 +108,11 @@
               </el-col>
               <el-col :span="4">
                 {{item.goodsTrackNo }}
+                <div class="f-grey">
+                  <el-tooltip content="货品编号" placement="right">
+                    <span>{{item.goodsCode}}</span>
+                  </el-tooltip>
+                </div>
               </el-col>
               <el-col :span="3">
                 <div v-for="b in item.batchNumberList">{{b}}</div>
