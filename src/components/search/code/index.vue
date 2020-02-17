@@ -645,7 +645,7 @@
         details: [],
         packageType: utils.packageType,
         loading: false,
-        statusType: ['未知', '流转中', '已使用', '异常'],
+        statusType: ['未知', '流转中', '已使用', '异常', '已报损'],
         showType: '1'
       };
     },

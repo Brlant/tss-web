@@ -271,7 +271,8 @@
           {key: '0', label: '未知'},
           {key: '1', label: '流转中'},
           {key: '2', label: '已使用'},
-          {key: '3', label: '不合格'}
+          {key: '3', label: '不合格'},
+          {key: '4', label: '已报损'}
         ]
       };
     },
