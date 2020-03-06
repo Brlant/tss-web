@@ -176,6 +176,7 @@
           bizStartTime: '',
           bizEndTime: ''
         },
+        times1: '',
         activeStatus: 0,
         currentItem: {},
         pager: {
