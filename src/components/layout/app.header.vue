@@ -42,7 +42,6 @@
     .top-menu {
       position: absolute;
       top: 0;
-      left: 260px;
       z-index: 1;
       right: 0;
 
@@ -159,10 +158,10 @@
       <div class="container">
         <div class="top-logo">
           <router-link to='/' class="a-link"><img class="logo_pic" :src="logoUrl" @click="activeId=''">
-            <span class="logo-span">{{ domainInfo.name ? domainInfo.name : 'TSS 追溯监控系统' }}</span>
+            <span class="logo-span">{{ domainInfo.name ? domainInfo.name.slice(0, 14) : 'TSS 追溯监控系统' }}</span>
           </router-link>
         </div>
-        <nav class="top-menu">
+        <nav class="top-menu" :style="{left: menuLeft + 'px'}">
           <ul>
             <li v-for="item in menu" :class="{'active':activeId === item.meta.moduleId}"
                 @click.stop.prevent="goTo(item.subMenu.length ? item.subMenu[0]:item)">
@@ -276,6 +275,14 @@
       },
       activeId() {
         return this.$route.meta && this.$route.meta.moduleId || '';
+      },
+      menuLeft() {
+        let defaultLeft = 260;
+        let maxLeft = 360;
+        if (!this.domainInfo.name) return defaultLeft;
+        let len = this.domainInfo.name.length;
+        let curWidth = len * 23 + 50;
+        return Math.min(maxLeft, Math.max(defaultLeft, curWidth));
       }
     },
     methods: {
