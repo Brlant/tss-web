@@ -16,8 +16,8 @@
         <el-row>
           <el-col :span="8">
             <oms-form-row :span="5" label="货品">
-              <el-select :remote-method="filterPlatFormGoods" @change="goodsChange"
-                         @click.native.once="filterPlatFormGoods('')" clearable filterable
+              <el-select :remote-method="filterPermPlatFormGoods" @change="goodsChange"
+                         @click.native.once="filterPermPlatFormGoods('')" clearable filterable
                          placeholder="请输入名称搜索货品" popperClass="custom-select"
                          remote v-model="searchCondition.goodsId">
                 <el-option :key="item.id" :label="item.name" :value="item.id" v-for="item in platformGoods">

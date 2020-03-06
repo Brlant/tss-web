@@ -8,11 +8,11 @@
       <el-form class="advanced-query-form" onsubmit="return false">
         <el-row>
           <el-col :span="8">
-            <oms-form-row label="被监管单位" :span="6" isRequire>
-              <el-select filterable placeholder="请输入名称搜监管单位"
+            <oms-form-row label="使用/销售单位" :span="8" isRequire>
+              <el-select filterable placeholder="请输入名称使用/销售单位"
                          :clearable="true" v-model="searchCondition.objectOrgId"
-                         popperClass="good-selects">
-                <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in permDownOrgList">
+                         popperClass="good-selects" remote :remoteMethod="queryPermUpAllFactory">
+                <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in allOrgList">
                   <div style="overflow: hidden">
                     <span class="pull-left" style="clear: right">{{org.name}}</span>
                   </div>
@@ -26,10 +26,11 @@
             </oms-form-row>
           </el-col>
           <el-col :span="8">
-            <oms-form-row :span="6" label="被监管货品" isRequire>
+            <oms-form-row :span="6" label="货品">
               <el-select  @change="goodsChange" clearable
                          placeholder="请输入名称搜索被监管货品"
-                         popperClass="custom-select" remote
+                          filterable
+                         popperClass="custom-select" remote :remoteMethod="filterPermPlatFormGoods"
                          v-model="searchCondition.goodsId">
                 <el-option :key="item.id" :label="item.name" :value="item.id" v-for="item in platformGoods">
                   <div>
@@ -66,19 +67,11 @@
             </oms-form-row>
           </el-col>
           <el-col :span="8">
-            <oms-form-row :span="6" label="使用/销售单位">
-              <org-select :list="allOrgList" :remoteMethod="queryAllFactory"
-                          placeholder="请输入名称搜索使用/销售单位" v-model="searchCondition.orgId"></org-select>
-            </oms-form-row>
-          </el-col>
-          <el-col :span="8">
             <oms-form-row :span="6" label="使用/销售时间">
               <el-date-picker :default-time="['00:00:00', '23:59:59']" class="el-date-picker--mini"
                               placeholder="请选择" type="datetimerange" v-model="times1"/>
             </oms-form-row>
           </el-col>
-        </el-row>
-        <el-row class="mt-10">
           <el-col :span="8">
             <oms-form-row :span="6" label="">
               <el-button @click="search" plain type="primary">查询</el-button>
@@ -112,8 +105,6 @@
       };
     },
     mounted() {
-      this.queryPermDownAllFactory('all-logistics-trace-query');
-      this.filterPermPlatFormGoods('all-terminal-trace-query');
     },
     methods: {
       search() {

@@ -136,7 +136,7 @@
       },
       getOrderList: function (pageNo) {
         if (!this.filters.objectOrgId) {
-          return this.$notify.info('请选择被监管单位');
+          return this.$notify.info('请选择被上传单位');
         }
         this.pager.currentPage = pageNo;
         let param = {};

@@ -114,10 +114,7 @@
       },
       queryList(pageNo) {
         if (!this.filters.objectOrgId) {
-          return this.$notify.info('请选择被监管单位');
-        }
-        if (!this.filters.goodsId) {
-          return this.$notify.info('请选择被监管货品');
+          return this.$notify.info('请选择使用/销售单位');
         }
         const http = params => this.$http.get('/code-regulatory/code-injection/pager', {params});
         this.queryUtil(http, pageNo, (params) => {

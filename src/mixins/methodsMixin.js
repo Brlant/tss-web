@@ -21,8 +21,7 @@ export default {
       callOrgList: [], // 回调单位
       goodsBatchNumberList: [],
       orgUsers: [],
-      platformGoods: [],
-      permDownOrgList: [] //被监管单位
+      platformGoods: []
     };
   },
   methods: {
@@ -89,7 +88,15 @@ export default {
         this.allOrgList = res.data.list;
       });
     },
-
+    queryPermUpAllFactory(query) { // 查询被监管单位
+      let params = {
+        keyWord: query,
+        permission: 'query-all-supervise-unit'
+      };
+      return this.$http.post('/code-white-list/access', {}, {params}).then(res => {
+        this.allOrgList = res.data;
+      });
+    },
     queryDownAllFactory(query) { // 查询DHS下游单位
       let params = {
         keyWord: query
@@ -100,10 +107,11 @@ export default {
     },
     queryPermDownAllFactory(query, perm) { // 查询被监管单位
       let params = {
-        permission: query
+        keyWord: query,
+        permission: 'query-all-supervise-unit'
       };
-      return this.$http.get('/code-white-list/access', {params}).then(res => {
-        this.permDownOrgList = res.data;
+      return this.$http.post('/code-white-list/access', {}, {params}).then(res => {
+        this.downOrgList = res.data;
       });
     },
     queryCallAllFactory(query) { // 查询DHS回调单位
@@ -159,9 +167,10 @@ export default {
     },
     filterPermPlatFormGoods(query) { // 查询被监管货品
       let params = Object.assign({}, {
-        permission: query
+        keyWord: query,
+        permission: 'query-all-supervise-goods'
       });
-      this.$http.get('code-goods-white-list/access', {params}).then(res => {
+      this.$http.post('code-goods-white-list/access', {}, {params}).then(res => {
         this.platformGoods = res.data;
       });
     },

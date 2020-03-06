@@ -12,11 +12,11 @@
         <el-form class="advanced-query-form">
           <el-row>
             <el-col :span="8">
-              <oms-form-row label="被监管单位" :span="8" isRequire>
-                <el-select filterable placeholder="请输入名称搜监管单位"
+              <oms-form-row label="生产厂商" :span="8" isRequire>
+                <el-select filterable placeholder="请输入名称搜生产厂商" remote :remote-method="queryPermDownAllFactory"
                            :clearable="true" v-model="searchCondition.objectOrgId"
                            popperClass="good-selects">
-                  <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in permDownOrgList">
+                  <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in downOrgList">
                     <div style="overflow: hidden">
                       <span class="pull-left" style="clear: right">{{org.name}}</span>
                     </div>
@@ -29,21 +29,13 @@
                 </el-select>
               </oms-form-row>
             </el-col>
-            <el-col :span="10">
-              <oms-form-row :span="3" label="货品">
-                <el-select :clearable="true" :remote-method="queryManageGoods" @change="goodsChange"
-                           @click.native.once="queryManageGoods('')"
-                           filterable placeholder="请输入名称搜索货品"
-                           popperClass="custom-select" remote v-model="searchCondition.goodsId"
-                           v-show="isUploadPage">
-                  <el-option :key="item.id" :label="item.name" :value="item.goodsId" v-for="item in manageGoods">
-                    <manage-goods-option :optionItem="item"/>
-                  </el-option>
-                </el-select>
-                <el-select :clearable="true" :filter-method="filterPlatFormGoods"
-                           @click.native.once="filterPlatFormGoods()" filterable
-                           placeholder="请输入名称搜索货品" popper-class="custom-select"
-                           v-model="searchCondition.goodsId" v-show="!isUploadPage">
+            <el-col :span="8">
+              <oms-form-row :span="6" label="货品" isRequire>
+                <el-select  @change="goodsChange" clearable
+                            filterable remote :remoteMethod="filterPermPlatFormGoods"
+                            placeholder="请输入名称搜索货品"
+                            popperClass="custom-select"
+                            v-model="searchCondition.goodsId">
                   <el-option :key="item.id" :label="item.name" :value="item.id" v-for="item in platformGoods">
                     <div>
                       <span class="pull-left">{{ item.name }}({{ item.factoryName }})</span>
@@ -54,7 +46,7 @@
                     </span>
                     </div>
                     <div class="clearfix">
-                      <span class="pull-left select-other-info" v-if="item.code">货品编号:{{ item.code }}</span>
+                      <span class="pull-left select-other-info" v-if=" item.code">货品编号:{{ item.code }}</span>
                       <span class="pull-right select-other-info">规格:{{ item.specifications }}</span>
                     </div>
                   </el-option>
@@ -73,24 +65,6 @@
             </el-col>
           </el-row>
           <el-row class="mt-10">
-            <el-col :span="8">
-              <oms-form-row label="生产厂商" :span="8">
-                <el-select filterable placeholder="请输入名称搜生产厂商" remote :remote-method="queryUpAllFactory"
-                           :clearable="true" v-model="searchCondition.factoryId"
-                           popperClass="good-selects">
-                  <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in allOrgList">
-                    <div style="overflow: hidden">
-                      <span class="pull-left" style="clear: right">{{org.name}}</span>
-                    </div>
-                    <div style="overflow: hidden">
-                      <span class="select-other-info pull-left">
-                        <span>系统代码:</span>{{org.manufacturerCode}}
-                      </span>
-                    </div>
-                  </el-option>
-                </el-select>
-              </oms-form-row>
-            </el-col>
             <el-col :span="8">
               <oms-form-row :span="5" label="">
                 <el-button @click="searchInOrder" plain type="primary">查询</el-button>
@@ -259,7 +233,6 @@
       }
     },
     mounted() {
-      this.queryPermDownAllFactory('all-code-source-upload-log-query');
       let id = this.$route.params.id;
       id !== 'id' && this.showItem({id});
     },
@@ -315,7 +288,7 @@
       },
       getOrderList: function (pageNo) {
         if (!this.searchCondition.objectOrgId) {
-          return this.$notify.info('请选择被监管单位');
+          return this.$notify.info('请选择生产厂商');
         }
         this.pager.currentPage = pageNo;
         let param = {};

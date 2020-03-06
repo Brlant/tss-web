@@ -39,8 +39,8 @@
                    label-width="100px" style="padding-right: 20px">
             <el-form-item label="货品" prop="goodsId">
               <el-select placeholder="请输入名称搜索货品" v-model="form.goodsId" filterable remote clearable
-                         :remote-method="filterPlatFormGoods" @change="goodsChange"
-                         popperClass="custom-select" @click.native.once="filterPlatFormGoods('')">
+                         :remote-method="filterPermPlatFormGoods" @change="goodsChange"
+                         popperClass="custom-select" @click.native.once="filterPermPlatFormGoods('')">
                 <el-option :key="item.id" :label="item.name" :value="item.id" v-for="item in platformGoods">
                   <div>
                     <span class="pull-left">{{ item.name }}({{ item.factoryName }})</span>
