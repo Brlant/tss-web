@@ -12,7 +12,7 @@
               <el-select filterable placeholder="请输入名称搜监管单位"
                          :clearable="true" v-model="searchCondition.objectOrgId"
                          popperClass="good-selects">
-                <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in downOrgList">
+                <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in permDownOrgList">
                   <div style="overflow: hidden">
                     <span class="pull-left" style="clear: right">{{org.name}}</span>
                   </div>
@@ -143,6 +143,8 @@
       goodsChange(val) {
         this.searchCondition.batchNumberId = '';
         this.goodsBatchNumberList = [];
+        if (!val) return;
+        this.queryGoodsNumber('searchCondition.goodsId')('');
       }
     }
   };

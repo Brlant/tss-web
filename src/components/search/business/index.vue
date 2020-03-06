@@ -9,6 +9,56 @@
                 <el-select filterable placeholder="请输入名称搜监管单位"
                            :clearable="true" v-model="searchCondition.objectOrgId"
                            popperClass="good-selects">
+                  <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in permDownOrgList">
+                    <div style="overflow: hidden">
+                      <span class="pull-left" style="clear: right">{{org.name}}</span>
+                    </div>
+                    <div style="overflow: hidden">
+                      <span class="select-other-info pull-left">
+                        <span>系统代码:</span>{{org.manufacturerCode}}
+                      </span>
+                    </div>
+                  </el-option>
+                </el-select>
+              </oms-form-row>
+            </el-col>
+            <el-col :span="8">
+              <oms-form-row :span="8" label="业务单据号">
+                <oms-input placeholder="请输入业务单据号" type="text" v-model.trim="searchCondition.objectNo"></oms-input>
+              </oms-form-row>
+            </el-col>
+            <el-col :span="8">
+              <oms-form-row :span="8" label="业务类型">
+                <el-select filterable placeholder="请选择业务类型" v-model="searchCondition.bizType">
+                  <el-option :key="item.key" :label="item.label" :value="item.value" v-for="item in bizTypes"/>
+                </el-select>
+              </oms-form-row>
+            </el-col>
+          </el-row>
+          <el-row class="mt-10">
+            <el-col :span="8">
+              <oms-form-row label="来源单位" :span="8">
+                <el-select filterable placeholder="请输入名称搜来源单位" remote :remote-method="queryUpAllFactory"
+                           :clearable="true" v-model="searchCondition.sourceOrgId"
+                           popperClass="good-selects">
+                  <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in allOrgList">
+                    <div style="overflow: hidden">
+                      <span class="pull-left" style="clear: right">{{org.name}}</span>
+                    </div>
+                    <div style="overflow: hidden">
+                      <span class="select-other-info pull-left">
+                        <span>系统代码:</span>{{org.manufacturerCode}}
+                      </span>
+                    </div>
+                  </el-option>
+                </el-select>
+              </oms-form-row>
+            </el-col>
+            <el-col :span="8">
+              <oms-form-row label="去向单位" :span="8">
+                <el-select filterable placeholder="请输入名称搜去向单位" remote :remote-method="queryDownAllFactory"
+                           :clearable="true" v-model="searchCondition.directionOrgId"
+                           popperClass="good-selects">
                   <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in downOrgList">
                     <div style="overflow: hidden">
                       <span class="pull-left" style="clear: right">{{org.name}}</span>
@@ -22,16 +72,10 @@
                 </el-select>
               </oms-form-row>
             </el-col>
-            <el-col :span="7">
-              <oms-form-row :span="8" label="业务单据号">
-                <oms-input placeholder="请输入业务单据号" type="text" v-model.trim="searchCondition.objectNo"></oms-input>
-              </oms-form-row>
-            </el-col>
-            <el-col :span="5">
-              <oms-form-row :span="8" label="业务类型">
-                <el-select filterable placeholder="请选择业务类型" v-model="searchCondition.bizType">
-                  <el-option :key="item.key" :label="item.label" :value="item.value" v-for="item in bizTypes"/>
-                </el-select>
+            <el-col :span="8">
+              <oms-form-row :span="5" label="业务时间">
+                <el-date-picker :default-time="['00:00:00', '23:59:59']" class="el-date-picker--mini" placeholder="请选择"
+                                type="datetimerange" v-model="times1"/>
               </oms-form-row>
             </el-col>
           </el-row>
@@ -113,14 +157,23 @@
           objectOrgId: '',
           orgId: '',
           objectNo: '',
-          bizType: ''
+          bizType: '',
+          sourceOrgId: '',
+          directionOrgId: '',
+          operateStartTime: '',
+          operateEndTime: ''
         },
         searchCondition: {
           objectOrgId: '',
           orgId: '',
           objectNo: '',
-          bizType: ''
+          bizType: '',
+          sourceOrgId: '',
+          directionOrgId: '',
+          operateStartTime: '',
+          operateEndTime: ''
         },
+        times1: '',
         activeStatus: 0,
         currentOrderId: '',
         pager: {
@@ -135,6 +188,8 @@
     },
     methods: {
       searchInOrder: function () {// 搜索
+        this.searchCondition.operateStartTime = this.formatTimeAry(this.times1, 0);
+        this.searchCondition.operateEndTime = this.formatTimeAry(this.times1, 1);
         Object.assign(this.filters, this.searchCondition);
         this.getOrderList(1);
       },
@@ -145,8 +200,13 @@
           objectOrgId: '',
           orgId: '',
           objectNo: '',
-          bizType: ''
+          bizType: '',
+          sourceOrgId: '',
+          directionOrgId: '',
+          operateStartTime: '',
+          operateEndTime: ''
         };
+        this.times1 = '';
         Object.assign(this.searchCondition, temp);
         Object.assign(this.filters, temp);
       },

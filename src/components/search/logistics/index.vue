@@ -9,7 +9,7 @@
                 <el-select filterable placeholder="请输入名称搜监管单位"
                            :clearable="true" v-model="searchCondition.objectOrgId"
                            popperClass="good-selects">
-                  <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in downOrgList">
+                  <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in permDownOrgList">
                     <div style="overflow: hidden">
                       <span class="pull-left" style="clear: right">{{org.name}}</span>
                     </div>
@@ -32,6 +32,50 @@
                 <el-select filterable placeholder="请选择业务类型" v-model="searchCondition.bizType">
                   <el-option :key="item.key" :label="item.label" :value="item.value" v-for="item in bizTypes"/>
                 </el-select>
+              </oms-form-row>
+            </el-col>
+          </el-row>
+          <el-row class="mt-10">
+            <el-col :span="8">
+              <oms-form-row label="来源单位" :span="8">
+                <el-select filterable placeholder="请输入名称搜来源单位" remote :remote-method="queryUpAllFactory"
+                           :clearable="true" v-model="searchCondition.upstreamOrg"
+                           popperClass="good-selects">
+                  <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in allOrgList">
+                    <div style="overflow: hidden">
+                      <span class="pull-left" style="clear: right">{{org.name}}</span>
+                    </div>
+                    <div style="overflow: hidden">
+                      <span class="select-other-info pull-left">
+                        <span>系统代码:</span>{{org.manufacturerCode}}
+                      </span>
+                    </div>
+                  </el-option>
+                </el-select>
+              </oms-form-row>
+            </el-col>
+            <el-col :span="8">
+              <oms-form-row label="去向单位" :span="8">
+                <el-select filterable placeholder="请输入名称搜去向单位" remote :remote-method="queryDownAllFactory"
+                           :clearable="true" v-model="searchCondition.downstreamOrg"
+                           popperClass="good-selects">
+                  <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in downOrgList">
+                    <div style="overflow: hidden">
+                      <span class="pull-left" style="clear: right">{{org.name}}</span>
+                    </div>
+                    <div style="overflow: hidden">
+                      <span class="select-other-info pull-left">
+                        <span>系统代码:</span>{{org.manufacturerCode}}
+                      </span>
+                    </div>
+                  </el-option>
+                </el-select>
+              </oms-form-row>
+            </el-col>
+            <el-col :span="8">
+              <oms-form-row :span="5" label="业务时间">
+                <el-date-picker :default-time="['00:00:00', '23:59:59']" class="el-date-picker--mini" placeholder="请选择"
+                                type="datetimerange" v-model="times1"/>
               </oms-form-row>
             </el-col>
           </el-row>
@@ -116,13 +160,21 @@
           objectOrgId: '',
           orgId: '',
           orderNo: '',
-          bizType: ''
+          bizType: '',
+          upstreamOrg: '',
+          downstreamOrg: '',
+          bizStartTime: '',
+          bizEndTime: ''
         },
         searchCondition: {
           objectOrgId: '',
           orgId: '',
           orderNo: '',
-          bizType: ''
+          bizType: '',
+          upstreamOrg: '',
+          downstreamOrg: '',
+          bizStartTime: '',
+          bizEndTime: ''
         },
         activeStatus: 0,
         currentItem: {},
@@ -139,6 +191,8 @@
     },
     methods: {
       searchInOrder: function () {// 搜索
+        this.searchCondition.bizStartTime = this.formatTimeAry(this.times1, 0);
+        this.searchCondition.bizEndTime = this.formatTimeAry(this.times1, 1);
         Object.assign(this.filters, this.searchCondition);
         this.getOrderList(1);
       },
@@ -149,8 +203,13 @@
           objectOrgId: '',
           orgId: '',
           orderNo: '',
-          bizType: ''
+          bizType: '',
+          upstreamOrg: '',
+          downstreamOrg: '',
+          bizStartTime: '',
+          bizEndTime: ''
         };
+        this.times1 = '';
         Object.assign(this.searchCondition, temp);
         Object.assign(this.filters, temp);
       },

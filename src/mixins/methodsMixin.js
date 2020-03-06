@@ -21,7 +21,8 @@ export default {
       callOrgList: [], // 回调单位
       goodsBatchNumberList: [],
       orgUsers: [],
-      platformGoods: []
+      platformGoods: [],
+      permDownOrgList: [] //被监管单位
     };
   },
   methods: {
@@ -102,7 +103,7 @@ export default {
         permission: query
       };
       return this.$http.get('/code-white-list/access', {params}).then(res => {
-        this.downOrgList = res.data;
+        this.permDownOrgList = res.data;
       });
     },
     queryCallAllFactory(query) { // 查询DHS回调单位

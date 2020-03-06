@@ -109,7 +109,7 @@
         });
         this.getOrderList(1);
       },
-      clearResult() {
+      clearResult(search) {
         this.filters = Object.assign({}, this.filters, search, {
           uploadOrg: null
         });

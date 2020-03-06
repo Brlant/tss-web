@@ -16,7 +16,7 @@
                 <el-select filterable placeholder="请输入名称搜监管单位"
                            :clearable="true" v-model="searchCondition.objectOrgId"
                            popperClass="good-selects">
-                  <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in downOrgList">
+                  <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in permDownOrgList">
                     <div style="overflow: hidden">
                       <span class="pull-left" style="clear: right">{{org.name}}</span>
                     </div>
@@ -73,6 +73,24 @@
             </el-col>
           </el-row>
           <el-row class="mt-10">
+            <el-col :span="8">
+              <oms-form-row label="生产厂商" :span="8">
+                <el-select filterable placeholder="请输入名称搜生产厂商" remote :remote-method="queryUpAllFactory"
+                           :clearable="true" v-model="searchCondition.factoryId"
+                           popperClass="good-selects">
+                  <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in allOrgList">
+                    <div style="overflow: hidden">
+                      <span class="pull-left" style="clear: right">{{org.name}}</span>
+                    </div>
+                    <div style="overflow: hidden">
+                      <span class="select-other-info pull-left">
+                        <span>系统代码:</span>{{org.manufacturerCode}}
+                      </span>
+                    </div>
+                  </el-option>
+                </el-select>
+              </oms-form-row>
+            </el-col>
             <el-col :span="8">
               <oms-form-row :span="5" label="">
                 <el-button @click="searchInOrder" plain type="primary">查询</el-button>
@@ -198,12 +216,14 @@
           objectOrgId: '',
           goodsId: '',
           batchNumber: '',
+          factoryId: '',
           bizType: ''
         },
         searchCondition: {
           objectOrgId: '',
           goodsId: '',
           batchNumber: '',
+          factoryId: '',
           bizType: ''
         },
         expectedTime: [],
@@ -260,7 +280,8 @@
           objectOrgId: '',
           goodsId: '',
           batchNumber: '',
-          bizType: ''
+          bizType: '',
+          factoryId: ''
         };
         this.expectedTime = [];
         this.goodsBatchNumberList = [];
