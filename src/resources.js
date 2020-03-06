@@ -139,6 +139,26 @@ export const physicalGoodsSearch = {
   }
 };
 
+// 货品白名单
+export const goodsWhiteList = {
+  save(obj) {
+    return http.post('/code-goods-white-list', obj);
+  },
+  delete(obj) {
+    return http.delete('/code-goods-white-list', {
+      data: obj
+    });
+  },
+  query(obj) {
+    return http.post('/code-goods-white-list/pager', obj, {
+      params: {
+        pageNo: obj.pageNo,
+        pageSize: obj.pageSize
+      }
+    });
+  }
+};
+
 // 租户白名单
 export const lesseeWhiteList = {
   save(obj) {

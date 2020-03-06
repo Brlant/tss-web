@@ -146,6 +146,18 @@ export default {
       Goods.query(params).then(res => {
         this.platformGoods = res.data.list;
       });
-    }
+    },
+    filterAllPlatFormGoods(query) { // 查询平台货品
+      this.platformGoods = [];
+      let params = Object.assign({}, {
+        keyWord: query,
+        deleteFlag: false,
+        auditedStatus: 1,
+        state: 0
+      });
+      this.$http.get('dhs-goods/query', {params}).then(res => {
+        this.platformGoods = res.data;
+      });
+    },
   }
 };
