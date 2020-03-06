@@ -95,7 +95,6 @@
           endTime: '',
           // uploadStartTime: '',
           // uploadEndTime: '',
-          uploadOrg: this.$store.state.user.userCompanyAddress,
           createdBy: '',
           objectOrgId: '',
           uploadOrg: ''
