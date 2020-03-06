@@ -1,6 +1,6 @@
 <template>
   <div class="order-page">
-    <search-part @search="searchResult"></search-part>
+    <search-part @search="searchResult" @clear="searchClear"></search-part>
 
     <div class="order-list" style="margin-top: 20px">
       <el-row class="order-list-header">
@@ -89,17 +89,6 @@
         orgName: ''
       };
     },
-    watch: {
-      filters: {
-        handler: function () {
-          this.queryList(1);
-        },
-        deep: true
-      }
-    },
-    mounted() {
-      this.queryList(1);
-    },
     methods: {
       queryInfo(item) {
         this.loading = true;
@@ -116,10 +105,26 @@
       },
       searchResult: function (search) {
         this.filters = Object.assign({}, this.filters, search);
+        this.queryList(1);
+      },
+      searchClear(search) {
+        this.filters = Object.assign({}, this.filters, search);
+        this.dataList = [];
+        this.pager.currentPage = 1;
       },
       queryList(pageNo) {
+        if (!this.filters.objectOrgId) {
+          return this.$notify.info('请选择被监管单位');
+        }
+        if (!this.filters.goodsId) {
+          return this.$notify.info('请选择被监管货品');
+        }
         const http = params => this.$http.get('/code-regulatory/code-injection/pager', {params});
-        this.queryUtil(http, pageNo, () => {
+        this.queryUtil(http, pageNo, (params) => {
+          delete params.objectOrgId;
+          delete params.goodsId;
+          params.objectOrgIdList = [this.filters.objectOrgId];
+          params.goodsIdList = [this.filters.goodsId];
         }, () => {
           this.pager.count = this.pager.currentPage * this.pager.pageSize + (this.dataList.length === this.pager.pageSize ? 1 : 0);
         });

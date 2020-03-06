@@ -11,6 +11,24 @@
         </div>
         <el-form class="advanced-query-form">
           <el-row>
+            <el-col :span="8">
+              <oms-form-row label="被监管单位" :span="8" isRequire>
+                <el-select filterable placeholder="请输入名称搜监管单位"
+                           :clearable="true" v-model="searchCondition.objectOrgId"
+                           popperClass="good-selects">
+                  <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in downOrgList">
+                    <div style="overflow: hidden">
+                      <span class="pull-left" style="clear: right">{{org.name}}</span>
+                    </div>
+                    <div style="overflow: hidden">
+                      <span class="select-other-info pull-left">
+                        <span>系统代码:</span>{{org.manufacturerCode}}
+                      </span>
+                    </div>
+                  </el-option>
+                </el-select>
+              </oms-form-row>
+            </el-col>
             <el-col :span="10">
               <oms-form-row :span="3" label="货品">
                 <el-select :clearable="true" :remote-method="queryManageGoods" @change="goodsChange"
@@ -53,16 +71,13 @@
                 </el-select>
               </oms-form-row>
             </el-col>
-            <el-col :span="4">
-              <oms-form-row :span="6" label="">
+          </el-row>
+          <el-row class="mt-10">
+            <el-col :span="8">
+              <oms-form-row :span="5" label="">
                 <el-button @click="searchInOrder" plain type="primary">查询</el-button>
                 <el-button @click="resetSearchForm" native-type="reset">重置</el-button>
               </oms-form-row>
-            </el-col>
-            <el-col :span="4" align="right">
-              <!--<perm label="codes-file-upload">-->
-              <!--<el-button type="primary" @click="add">添加</el-button>-->
-              <!--</perm>-->
             </el-col>
           </el-row>
         </el-form>
@@ -76,7 +91,7 @@
           <el-col :span="3">批号</el-col>
           <el-col :span="3">操作时间</el-col>
           <el-col :span="2">解析结果</el-col>
-<!--          <el-col :span="3">操作</el-col>-->
+          <!--          <el-col :span="3">操作</el-col>-->
         </el-row>
         <el-row v-if="loadingData">
           <el-col :span="24">
@@ -125,11 +140,11 @@
                 <el-tag type="success" v-show="item.uploadStatus === '1'">正常</el-tag>
                 <el-tag type="danger" v-show="item.uploadStatus > '1'">异常</el-tag>
               </el-col>
-<!--              <el-col :span="3">-->
-<!--                <des-btn :custom="false" @click="showDomainDialog(item)" icon="share"-->
-<!--                         perm="codes-file-bind-share-domain">数据共享域名-->
-<!--                </des-btn>-->
-<!--              </el-col>-->
+              <!--              <el-col :span="3">-->
+              <!--                <des-btn :custom="false" @click="showDomainDialog(item)" icon="share"-->
+              <!--                         perm="codes-file-bind-share-domain">数据共享域名-->
+              <!--                </des-btn>-->
+              <!--              </el-col>-->
             </el-row>
           </div>
         </div>
@@ -172,7 +187,7 @@
     mixins: [methodsMixin],
     data: function () {
       return {
-        loadingData: true,
+        loadingData: false,
         showItemRight: false,
         showDetail: false,
         showSearch: true,
@@ -180,11 +195,13 @@
         orderList: [],
         filters: {
           type: 0,
+          objectOrgId: '',
           goodsId: '',
           batchNumber: '',
           bizType: ''
         },
         searchCondition: {
+          objectOrgId: '',
           goodsId: '',
           batchNumber: '',
           bizType: ''
@@ -222,17 +239,11 @@
       }
     },
     mounted() {
-      this.getOrderList(1);
+      this.queryPermDownAllFactory('all-code-source-upload-log-query');
       let id = this.$route.params.id;
       id !== 'id' && this.showItem({id});
     },
     watch: {
-      filters: {
-        handler: function () {
-          this.getOrderList(1);
-        },
-        deep: true
-      },
       type() {
         this.getOrderList(1);
       }
@@ -240,9 +251,13 @@
     methods: {
       searchInOrder: function () {// 搜索
         Object.assign(this.filters, this.searchCondition);
+        this.getOrderList(1);
       },
       resetSearchForm: function () {// 重置表单
+        this.pager.count = 0;
+        this.orderList = [];
         let temp = {
+          objectOrgId: '',
           goodsId: '',
           batchNumber: '',
           bizType: ''
@@ -278,6 +293,9 @@
         this.currentItem = order;
       },
       getOrderList: function (pageNo) {
+        if (!this.searchCondition.objectOrgId) {
+          return this.$notify.info('请选择被监管单位');
+        }
         this.pager.currentPage = pageNo;
         let param = {};
         this.loadingData = true;
@@ -286,6 +304,8 @@
           pageSize: this.pager.pageSize,
           type: 1
         });
+        delete param.objectOrgId;
+        param.objectOrgIdList = [this.searchCondition.objectOrgId];
         let API = {
           0: '/code-regulatory/code-source/pager',
           1: '/code-source',

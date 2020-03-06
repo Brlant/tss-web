@@ -4,20 +4,40 @@
       <div class="opera-btn-group">
         <el-form class="advanced-query-form">
           <el-row>
-            <el-col :span="7">
+            <el-col :span="8">
+              <oms-form-row label="被监管单位" :span="8" isRequire>
+                <el-select filterable placeholder="请输入名称搜监管单位"
+                           :clearable="true" v-model="searchCondition.objectOrgId"
+                           popperClass="good-selects">
+                  <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in downOrgList">
+                    <div style="overflow: hidden">
+                      <span class="pull-left" style="clear: right">{{org.name}}</span>
+                    </div>
+                    <div style="overflow: hidden">
+                      <span class="select-other-info pull-left">
+                        <span>系统代码:</span>{{org.manufacturerCode}}
+                      </span>
+                    </div>
+                  </el-option>
+                </el-select>
+              </oms-form-row>
+            </el-col>
+            <el-col :span="8">
               <oms-form-row :span="8" label="业务单据号">
                 <oms-input placeholder="请输入业务单据号" type="text" v-model.trim="searchCondition.orderNo"></oms-input>
               </oms-form-row>
             </el-col>
-            <el-col :span="5">
+            <el-col :span="8">
               <oms-form-row :span="8" label="业务类型">
                 <el-select filterable placeholder="请选择业务类型" v-model="searchCondition.bizType">
                   <el-option :key="item.key" :label="item.label" :value="item.value" v-for="item in bizTypes"/>
                 </el-select>
               </oms-form-row>
             </el-col>
-            <el-col :span="5">
-              <oms-form-row :span="6" label="">
+          </el-row>
+          <el-row class="mt-10">
+            <el-col :span="8">
+              <oms-form-row :span="8" label="">
                 <el-button @click="searchInOrder" plain type="primary">查询</el-button>
                 <el-button @click="resetSearchForm" native-type="reset">重置</el-button>
               </oms-form-row>
@@ -81,22 +101,25 @@
   import showForm from './form/show.form.vue';
   import {logisticsSearch} from '@/resources';
   import DataMixin from '@/mixins/dataMixin';
+  import methodsMixin from '@/mixins/methodsMixin';
 
   export default {
     components: {showForm},
-    mixins: [DataMixin],
+    mixins: [DataMixin, methodsMixin],
     data: function () {
       return {
-        loadingData: true,
+        loadingData: false,
         showDetail: false,
         showSearch: true,
         orderList: [],
         filters: {
+          objectOrgId: '',
           orgId: '',
           orderNo: '',
           bizType: ''
         },
         searchCondition: {
+          objectOrgId: '',
           orgId: '',
           orderNo: '',
           bizType: ''
@@ -111,15 +134,8 @@
       };
     },
     mounted() {
-      this.getOrderList(1);
-    },
-    watch: {
-      filters: {
-        handler: function () {
-          // this.getOrderList(1);
-        },
-        deep: true
-      }
+      this.queryPermDownAllFactory('all-logistics-trace-query');
+
     },
     methods: {
       searchInOrder: function () {// 搜索
@@ -127,14 +143,16 @@
         this.getOrderList(1);
       },
       resetSearchForm: function () {// 重置表单
+        this.pager.count = 0;
+        this.orderList = [];
         let temp = {
+          objectOrgId: '',
           orgId: '',
           orderNo: '',
           bizType: ''
         };
         Object.assign(this.searchCondition, temp);
         Object.assign(this.filters, temp);
-        this.getOrderList(1);
       },
       resetRightBox: function () {
         this.currentItem = {};
@@ -149,6 +167,9 @@
         this.getOrderList(val);
       },
       getOrderList: function (pageNo) {
+        if (!this.filters.objectOrgId) {
+          return this.$notify.info('请选择被监管单位');
+        }
         if (pageNo === 1) {
           this.pager.count = 0;
         }
@@ -159,6 +180,8 @@
           pageNo: pageNo,
           pageSize: this.pager.pageSize
         });
+        delete params.objectOrgId;
+        params.objectOrgIdList = [this.filters.objectOrgId];
         logisticsSearch.query(params).then(res => {
           this.orderList = res.data.list;
           this.pager.count = res.data.count;

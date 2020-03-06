@@ -1,7 +1,7 @@
 <template>
   <div class="order-page">
     <div class="container">
-      <search-part @add="add" @batchNumberAdd="batchNumberAdd" @search="searchResult"></search-part>
+      <search-part @add="add" @batchNumberAdd="batchNumberAdd" @search="searchResult" @clear="clearResult"></search-part>
       <div class="order-list">
         <el-row class="order-list-header">
           <el-col :span="4">发生时间</el-col>
@@ -79,7 +79,7 @@
     mixins: [methodsMixin],
     data: function () {
       return {
-        loadingData: true,
+        loadingData: false,
         showItemRight: false,
         showDetail: false,
         orderList: [],
@@ -99,23 +99,22 @@
       };
     },
     mounted() {
-      this.getOrderList(1);
       let id = this.$route.params.id;
       id !== 'id' && this.showItem({id});
-    },
-    watch: {
-      filters: {
-        handler: function () {
-          this.getOrderList(1);
-        },
-        deep: true
-      }
     },
     methods: {
       searchResult: function (search) {
         this.filters = Object.assign({}, this.filters, search, {
           uploadOrg: null
         });
+        this.getOrderList(1);
+      },
+      clearResult() {
+        this.filters = Object.assign({}, this.filters, search, {
+          uploadOrg: null
+        });
+        this.pager.count = 0;
+        this.orderList = [];
       },
       resetRightBox: function () {
         this.showDetail = false;
@@ -140,6 +139,9 @@
         this.getOrderList(1);
       },
       getOrderList: function (pageNo) {
+        if (!this.filters.objectOrgId) {
+          return this.$notify.info('请选择被监管单位');
+        }
         this.pager.currentPage = pageNo;
         let param = {};
         this.loadingData = true;
@@ -147,6 +149,9 @@
           pageNo: pageNo,
           pageSize: this.pager.pageSize
         });
+        delete param.objectOrgId;
+        param.objectOrgIdList = [this.filters.objectOrgId];
+
         http.get('/code-regulatory/code-exception/pager', {params: param}).then(res => {
           this.orderList = res.data.list;
           this.pager.count = res.data.count;

@@ -88,12 +88,21 @@ export default {
         this.allOrgList = res.data.list;
       });
     },
+
     queryDownAllFactory(query) { // 查询DHS下游单位
       let params = {
         keyWord: query
       };
       return DhsBaseInfo.query(params).then(res => {
         this.downOrgList = res.data.list;
+      });
+    },
+    queryPermDownAllFactory(query, perm) { // 查询被监管单位
+      let params = {
+        permission: query
+      };
+      return this.$http.get('/code-white-list/access', {params}).then(res => {
+        this.downOrgList = res.data;
       });
     },
     queryCallAllFactory(query) { // 查询DHS回调单位
@@ -147,7 +156,15 @@ export default {
         this.platformGoods = res.data.list;
       });
     },
-    filterAllPlatFormGoods(query) { // 查询平台货品
+    filterPermPlatFormGoods(query) { // 查询被监管货品
+      let params = Object.assign({}, {
+        permission: query
+      });
+      this.$http.get('code-goods-white-list/access', {params}).then(res => {
+        this.platformGoods = res.data;
+      });
+    },
+    filterAllPlatFormGoods(query) { // 查询所有平台货品
       this.platformGoods = [];
       let params = Object.assign({}, {
         keyWord: query,
