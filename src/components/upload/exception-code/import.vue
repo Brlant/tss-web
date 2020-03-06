@@ -104,15 +104,11 @@
     },
     methods: {
       searchResult: function (search) {
-        this.filters = Object.assign({}, this.filters, search, {
-          uploadOrg: null
-        });
+        this.filters = Object.assign({}, this.filters, search);
         this.getOrderList(1);
       },
       clearResult(search) {
-        this.filters = Object.assign({}, this.filters, search, {
-          uploadOrg: null
-        });
+        this.filters = Object.assign({}, this.filters, search, );
         this.pager.count = 0;
         this.orderList = [];
       },
