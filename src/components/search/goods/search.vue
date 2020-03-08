@@ -16,15 +16,17 @@
         <el-row>
           <el-col :span="8">
             <oms-form-row :span="5" label="货品">
-              <el-select :remote-method="filterPlatFormGoods" @change="goodsChange"
-                         @click.native.once="filterPlatFormGoods('')" clearable filterable
+              <el-select :remote-method="filterPermPlatFormGoods" @change="goodsChange"
+                         @click.native.once="filterPermPlatFormGoods('')" clearable filterable
                          placeholder="请输入名称搜索货品" popperClass="custom-select"
                          remote v-model="searchCondition.goodsId">
                 <el-option :key="item.id" :label="item.name" :value="item.id" v-for="item in platformGoods">
                   <div>
                     <span class="pull-left">{{ item.name }}({{ item.factoryName }})</span>
                     <span class="pull-right select-other-info">
-                      <dict :dict-group="'typeId'" :dict-key="item.typeId"></dict><span v-show="item.typeId === '1' && item.vaccineSign">-<dict :dict-group="'vaccineSign'" :dict-key="item.vaccineSign"></dict></span>
+                      <dict :dict-group="'typeId'" :dict-key="item.typeId"></dict><span
+                      v-show="item.typeId === '1' && item.vaccineSign">-<dict :dict-group="'vaccineSign'"
+                                                                              :dict-key="item.vaccineSign"></dict></span>
                     </span>
                   </div>
                   <div class="clearfix">
@@ -35,15 +37,16 @@
               </el-select>
             </oms-form-row>
           </el-col>
-<!--          <el-col :span="8">-->
-<!--            <oms-form-row :span="5" label="批号">-->
-<!--              <el-select :remoteMethod="queryGoodsNumber('searchCondition.goodsId')" clearable filterable placeholder="请输入批号名称搜索批号"-->
-<!--                         remote v-model="searchCondition.batchNumberId">-->
-<!--                <el-option :key="item.id" :label="item.batchNumber" :value="item.id"-->
-<!--                           v-for="item in goodsBatchNumberList"/>-->
-<!--              </el-select>-->
-<!--            </oms-form-row>-->
-<!--          </el-col>-->
+          <el-col :span="8">
+            <oms-form-row :span="5" label="批号">
+              <el-select :remoteMethod="queryGoodsNumber('searchCondition.goodsId')" clearable filterable
+                         placeholder="请输入批号名称搜索批号"
+                         remote v-model="searchCondition.batchNumberId">
+                <el-option :key="item.id" :label="item.batchNumber" :value="item.id"
+                           v-for="item in goodsBatchNumberList"/>
+              </el-select>
+            </oms-form-row>
+          </el-col>
           <!--<el-col :span="7">-->
           <!--<oms-form-row label="业务时间" :span="6">-->
           <!--<el-date-picker class="el-date-picker&#45;&#45;mini" v-model="times1" type="datetimerange" placeholder="请选择"/>-->
@@ -105,7 +108,9 @@
         this.showSearch = val;
       },
       goodsChange(val) {
+        this.goodsBatchNumberList = [];
         this.searchCondition.batchNumberId = '';
+        if (!val) return;
         this.queryGoodsNumber('searchCondition.goodsId')('');
       },
       addBatchNumber() {

@@ -88,12 +88,30 @@ export default {
         this.allOrgList = res.data.list;
       });
     },
+    queryPermUpAllFactory(query) { // 查询被监管单位
+      let params = {
+        keyWord: query,
+        permission: 'query-all-supervise-unit'
+      };
+      return this.$http.post('/code-white-list/access', {}, {params}).then(res => {
+        this.allOrgList = res.data;
+      });
+    },
     queryDownAllFactory(query) { // 查询DHS下游单位
       let params = {
         keyWord: query
       };
       return DhsBaseInfo.query(params).then(res => {
         this.downOrgList = res.data.list;
+      });
+    },
+    queryPermDownAllFactory(query, perm) { // 查询被监管单位
+      let params = {
+        keyWord: query,
+        permission: 'query-all-supervise-unit'
+      };
+      return this.$http.post('/code-white-list/access', {}, {params}).then(res => {
+        this.downOrgList = res.data;
       });
     },
     queryCallAllFactory(query) { // 查询DHS回调单位
@@ -146,6 +164,27 @@ export default {
       Goods.query(params).then(res => {
         this.platformGoods = res.data.list;
       });
-    }
+    },
+    filterPermPlatFormGoods(query) { // 查询被监管货品
+      let params = Object.assign({}, {
+        keyWord: query,
+        permission: 'query-all-supervise-goods'
+      });
+      this.$http.post('code-goods-white-list/access', {}, {params}).then(res => {
+        this.platformGoods = res.data;
+      });
+    },
+    filterAllPlatFormGoods(query) { // 查询所有平台货品
+      this.platformGoods = [];
+      let params = Object.assign({}, {
+        keyWord: query,
+        deleteFlag: false,
+        auditedStatus: 1,
+        state: 0
+      });
+      this.$http.get('dhs-goods/query', {params}).then(res => {
+        this.platformGoods = res.data;
+      });
+    },
   }
 };

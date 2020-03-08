@@ -35,6 +35,10 @@ const state = {
     {key: '8', label: '进口医疗器械'},
     {key: '9', label: '其他'}
   ],
+  allPermission: {
+    unit: 'query-all-supervise-unit',
+    goods: 'query-all-supervise-goods',
+  }
 };
 
 const mutations = {

@@ -23,7 +23,7 @@ export default [
       },
       {
         id: 'supervise-setting-lessee-whitelist-manager',
-        label: '监管监管租户范围白名单',
+        label: '监管租户范围白名单',
         children: [
           {
             id: 'supervise-setting-lessee-whitelist-query',
@@ -36,6 +36,24 @@ export default [
           {
             id: 'supervise-setting-lessee-whitelist-delete',
             label: '删除监管租户范围白名单',
+          }
+        ]
+      },
+      {
+        id: 'supervise-setting-goods-whitelist-manager',
+        label: '监管货品白名单',
+        children: [
+          {
+            id: 'supervise-setting-goods-whitelist-query',
+            label: '查看监管货品白名单',
+          },
+          {
+            id: 'supervise-setting-goods-whitelist-add',
+            label: '新增监管货品白名单',
+          },
+          {
+            id: 'supervise-setting-goods-whitelist-delete',
+            label: '删除监管货品白名单',
           }
         ]
       }

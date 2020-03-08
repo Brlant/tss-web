@@ -29,7 +29,7 @@ export default {
         pageSize: this.pager.pageSize
       }, this.filters, {status: null});
       this.loadingData = true;
-      beforeRequest && beforeRequest();
+      beforeRequest && beforeRequest(params);
       let nowTime = new Date();
       this.nowTime = nowTime;
       http(params).then(res => {
