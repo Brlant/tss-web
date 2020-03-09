@@ -5,7 +5,7 @@
         <el-form class="advanced-query-form">
           <el-row>
             <el-col :span="8">
-              <oms-form-row label="来源单位" :span="8" isRequire>
+              <oms-form-row label="来源单位" :span="8">
                 <el-select filterable placeholder="请输入名称搜来源单位" remote :remote-method="queryPermUpAllFactory"
                            :clearable="true" v-model="searchCondition.upstreamOrg"
                            popperClass="good-selects">
@@ -23,7 +23,7 @@
               </oms-form-row>
             </el-col>
             <el-col :span="8">
-              <oms-form-row label="去向单位" :span="8" isRequire>
+              <oms-form-row label="去向单位" :span="8">
                 <el-select filterable placeholder="请输入名称搜去向单位" remote :remote-method="queryPermDownAllFactory"
                            :clearable="true" v-model="searchCondition.downstreamOrg"
                            popperClass="good-selects">
