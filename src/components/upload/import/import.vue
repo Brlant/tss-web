@@ -30,12 +30,12 @@
               </oms-form-row>
             </el-col>
             <el-col :span="8">
-              <oms-form-row :span="6" label="货品" isRequire>
-                <el-select  @change="goodsChange" clearable
-                            filterable remote :remoteMethod="filterPermPlatFormGoods"
-                            placeholder="请输入名称搜索货品"
-                            popperClass="custom-select"
-                            v-model="searchCondition.goodsId">
+              <oms-form-row :span="6" label="货品">
+                <el-select @change="goodsChange" clearable
+                           filterable remote :remoteMethod="filterPermPlatFormGoods"
+                           placeholder="请输入名称搜索货品"
+                           popperClass="custom-select"
+                           v-model="searchCondition.goodsId">
                   <el-option :key="item.id" :label="item.name" :value="item.id" v-for="item in platformGoods">
                     <div>
                       <span class="pull-left">{{ item.name }}({{ item.factoryName }})</span>
@@ -332,7 +332,22 @@
         this.showDomain = true;
       },
       goodsChange(val) {
+
         this.searchCondition.batchNumber = '';
+        this.goodsBatchNumberList = [];
+        if (!val) return;
+        this.platformGoods.forEach(i => {
+          if (i.id === val) {
+            this.searchCondition.objectOrgId = i.factoryId;
+            this.downOrgList = [
+              {
+                id: i.factoryId,
+                name: i.factoryName
+              }
+            ];
+            this.queryPermDownAllFactory(i.factoryName);
+          }
+        });
         this.queryGoodsNumber('searchCondition.goodsId')('');
       }
     }
