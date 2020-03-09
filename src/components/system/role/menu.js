@@ -216,24 +216,12 @@ export default [
     ]
   },
   {
-    id: 'all-code-source-upload-log-query',
-    label: '查看所有追溯码源文件上传记录'
+    id: 'query-all-supervise-unit',
+    label: '查看所有单位'
   },
   {
-    id: 'all-exception-codes-file-query',
-    label: '查看所有异常追溯码标记上传记录'
-  },
-  {
-    id: 'all-code-biz-trace',
-    label: '查看所有业务追溯数据记录'
-  },
-  {
-    id: 'all-logistics-trace-query',
-    label: '查看所有物流追溯记录'
-  },
-  {
-    id: 'all-terminal-trace-query',
-    label: '查看所有终端追溯记录'
+    id: 'query-all-supervise-goods',
+    label: '查看所有货品'
   },
   {
     'id': 'system-config',
