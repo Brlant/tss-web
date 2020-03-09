@@ -12,6 +12,7 @@
         left: $leftWidth;
         background: #fff;
       }
+
       padding-top: 30px;
       left: $leftWidth;
     }
@@ -27,8 +28,8 @@
         <el-form ref="goodSForm" :model="form" label-width="120px"
                  @submit.prevent="onSubmit('goodSForm')" onsubmit="return false" style="padding-right: 20px">
           <el-form-item label="监管单位" prop="subjectOrgId" :rules="[
-            {required: true, message: '请选择监管单位', trigger: 'change'}
-          ]">
+                    {required: true, message: '请选择监管单位', trigger: 'change'}
+                  ]">
             <el-select filterable placeholder="请输入名称搜监管单位" remote :remote-method="queryUpAllFactory"
                        :clearable="true" v-model="form.subjectOrgId"
                        popperClass="good-selects">
@@ -37,25 +38,35 @@
                   <span class="pull-left" style="clear: right">{{org.name}}</span>
                 </div>
                 <div style="overflow: hidden">
-                    <span class="select-other-info pull-left">
-                      <span>系统代码:</span>{{org.manufacturerCode}}
-                    </span>
+                  <span class="select-other-info pull-left">
+                    <span>系统代码:</span>{{org.manufacturerCode}}
+                  </span>
                 </div>
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="货品主档" label-width="120px">
-            <el-transfer ref="elTransfer" v-loading="loading"
-                         v-model="form.goodsIdList"
-                         :props="{key: 'id',label: 'name'}"
-                         filter-placeholder="请输入名称搜索货品主档"
-                         :data="platformGoods"
-                         filterable
-                         :filter-method="filterMethod"
-                         :titles="['未选货品', '已选货品']"
-                         class="transfer-list-two"
-                         :render-content="renderFunc">
-            </el-transfer>
+          <el-form-item label="货品主档" label-width="120px" prop="goodsIdList" :rules="[
+                    {required: true, type: 'array', message: '请选择货品主档', trigger: 'change'}
+                  ]">
+            <el-row>
+              <el-col :span="10">
+                <oms-form-row :span="8" label="货品分类">
+                  <el-select :clearable="true" filterable
+                             popperClass="custom-select" remote v-model="filters.typeId">
+                    <el-option :key="item.key" :label="item.label" :value="item.key" v-for="item in goodsTypeList">
+                    </el-option>
+                  </el-select>
+                </oms-form-row>
+              </el-col>
+              <el-col :span="6">
+                <oms-form-row :span="2" label="">
+                  <el-button @click="searchInOrder" native-type="submit" plain type="primary">查询</el-button>
+                  <el-button @click="resetSearchForm">重置</el-button>
+                </oms-form-row>
+              </el-col>
+            </el-row>
+            <table-paging-select ref="pagingSelect" primaryKey="id" :filters="filters" @change="pagingSelectChange"
+                                 :http-request="httpRequest" :column-list="columnList"/>
           </el-form-item>
           <el-form-item label-width="100px" class="text-center">
             <el-button type="primary" @click="onSubmit('goodSForm')" native-type="submit" :disabled="doing">保存
@@ -68,12 +79,16 @@
   </div>
 </template>
 <script type="text/jsx">
-  import {BaseInfo, goodsWhiteList} from '@/resources';
+  import {Goods, goodsWhiteList} from '@/resources';
   import ScrollMixin from '@/mixins/scrollMixin';
   import MethodMixin from '@/mixins/methodsMixin';
+  import tablePagingSelect from '@/components/common/table-paging-select.vue';
+
   export default {
     mixins: [ScrollMixin, MethodMixin],
+    components: {tablePagingSelect},
     data: function () {
+      let goodsTypeList = this.$store.state.goodsTypeList;
       return {
         form: {
           name: '',
@@ -81,45 +96,91 @@
           goodsIdList: []
         },
         doing: false,
+        columnList: [
+          {
+            label: '货品编号',
+            prop: 'code',
+            width: 100
+          },
+          {
+            label: '货品分类',
+            prop: 'typeId',
+            width: 150,
+            format(val) {
+              let item = goodsTypeList.find(f => f.key === val);
+              return item && item.label || val;
+            }
+          },
+          {
+            label: '货品名称',
+            prop: 'name',
+            width: 200
+          },
+          {
+            label: '规格',
+            prop: 'specifications',
+            width: 200
+          },
+          {
+            label: '生产厂商',
+            prop: 'factoryName',
+            width: 200
+          }
+        ],
         customerList: [],
+        filters: {
+          auditedStatus: 1,
+          state: 0,
+          typeId: ''
+        },
         loading: false
       };
     },
     props: ['formItem', 'action', 'actionType', 'title'],
     mounted: function () {
     },
-    computed: {},
+    computed: {
+      goodsTypeList() {
+        return this.$store.state.goodsTypeList;
+      }
+    },
     watch: {
       formItem: function (val) {
-        this.scrollTop();
-        this.$refs.elTransfer.clearQuery('left');
-        this.$refs.elTransfer.clearQuery('right');
+        this.filters.typeId = '';
+        this.$refs.pagingSelect.init();
         this.form = val;
-        this.filterAllPlatFormGoods();
+        this.$nextTick(() => {
+          this.$refs.goodSForm.clearValidate();
+        })
       }
     },
     methods: {
-      filterMethod(query, item) {
-        if (!query) return true;
-        return item.name && item.name.indexOf(query) > -1 ||
-          item.nameAcronymy && item.nameAcronymy.indexOf(query) > -1 ||
-          item.namePhonetic && item.namePhonetic.indexOf(query) > -1 ||
-          item.code && item.code.indexOf(query) > -1;
+      httpRequest: Goods.query,
+      pagingSelectChange(val) {
+        if (val) {
+          this.form.goodsIdList = val.map(m => m.id);
+        } else {
+          this.form.goodsIdList = [];
+        }
+        this.$refs.goodSForm.validateField('goodsIdList');
       },
-      renderFunc(h, option) {
-        return (<span title={option.name}>{option.code}-{option.name}
-          <div class="transfer-list-two-padding-top"> <span>规格：{option.specifications}</span><span> 生产厂商：{option.factoryName}</span></div></span>);
+      searchInOrder() {
+        this.$refs.pagingSelect.queryList(1);
+      },
+      resetSearchForm() {
+        this.filters.typeId = '';
+        this.$refs.pagingSelect.queryList(1);
       },
       onSubmit: function (formName) {
-        if (this.form.goodsIdList.length === 0) {
-          this.$notify.warning({
-            duration: 1500,
-            message: '请选择要添加的货品'
-          });
-          return;
-        }
         this.$refs[formName].validate((valid) => {
           if (!valid || this.doing) return;
+          if (this.form.goodsIdList.length === 0) {
+            this.$notify.warning({
+              duration: 1500,
+              message: '请选择要添加的货品'
+            });
+            return;
+          }
           this.doing = true;
           let data = this.form.goodsIdList.map(m => ({
             goodsId: m,
