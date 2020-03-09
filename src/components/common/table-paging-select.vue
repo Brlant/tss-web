@@ -52,7 +52,7 @@
     <el-col :span="24">
       <div class="select-list">
         <div class="table-header">
-          <span class="table-header-title">已选列表</span>
+          <span class="table-header-title">已选列表<span v-show="selectList.length">（{{selectList.length}}）</span></span>
           <el-button type="primary" size="mini" @click="delAll">全部删除</el-button>
         </div>
         <el-table :data="selectList" max-height="300px" :header-cell-style="{background: '#eee'}">
