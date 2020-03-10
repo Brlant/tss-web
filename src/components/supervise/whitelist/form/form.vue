@@ -91,7 +91,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item prop="orgIdList" label="被监管单位"
+          <el-form-item prop="orgIdList" label="" label-position="top" label-width="0"
                         :rules="[{required: true, type: 'array', message: '请选择被监管单位', trigger: 'change'}]">
             <div v-show="activeIndex === 0">
               <el-row >
@@ -126,7 +126,8 @@
                 </el-col>
               </el-row>
             </div>
-            <table-paging-select maxHeight="" :showNoSelect="activeIndex === 0" :showSelect="activeIndex === 1"
+            <table-paging-select no-select-title="未选被监管单位" select-title="已选被监管单位"
+                                 maxHeight="" :showNoSelect="activeIndex === 0" :showSelect="activeIndex === 1"
                                  ref="pagingSelect" primaryKey="id" :filters="filters" @change="pagingSelectChange"
                                  :http-request="httpRequest" :column-list="columnList"/>
           </el-form-item>

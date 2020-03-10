@@ -25,7 +25,7 @@
     <el-col :span="24" v-show="showNoSelect">
       <div class="no-select-list">
         <div class="table-header">
-          <span class="table-header-title">未选列表</span>
+          <span class="table-header-title">{{noSelectTitle}}</span>
           <el-button type="primary" size="mini" @click="addAll">全部添加</el-button>
         </div>
         <el-table :data="currentData" :maxHeight="maxHeight" :header-cell-style="{background: '#eee'}">
@@ -53,7 +53,7 @@
     <el-col :span="24" v-show="showSelect">
       <div class="select-list">
         <div class="table-header">
-          <span class="table-header-title">已选列表<span v-show="selectList.length">（{{selectList.length}}）</span></span>
+          <span class="table-header-title">{{selectTitle}}<span v-show="selectList.length">（{{selectList.length}}）</span></span>
           <el-button type="primary" size="mini" @click="delAll">全部删除</el-button>
         </div>
         <el-table :data="selectList" :maxHeight="maxHeight" :header-cell-style="{background: '#eee'}">
@@ -100,6 +100,14 @@
       maxHeight: {
         type: String,
         default: '300px'
+      },
+      noSelectTitle: {
+        type: String,
+        default: '未选列表'
+      },
+      selectTitle: {
+        type: String,
+        default: '已选列表'
       }
     },
     data() {
