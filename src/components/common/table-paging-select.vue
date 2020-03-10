@@ -28,7 +28,7 @@
           <span class="table-header-title">未选列表</span>
           <el-button type="primary" size="mini" @click="addAll">全部添加</el-button>
         </div>
-        <el-table :data="currentData" maxHeight="300px" :header-cell-style="{background: '#eee'}">
+        <el-table :data="currentData" :maxHeight="maxHeight" :header-cell-style="{background: '#eee'}">
           <el-table-column v-for="item in columnList" :key="item.prop" :prop="item.prop"
                            :label="item.label" :min-width="item.width || 150">
             <template slot-scope="{row}">
@@ -56,7 +56,7 @@
           <span class="table-header-title">已选列表<span v-show="selectList.length">（{{selectList.length}}）</span></span>
           <el-button type="primary" size="mini" @click="delAll">全部删除</el-button>
         </div>
-        <el-table :data="selectList" max-height="300px" :header-cell-style="{background: '#eee'}">
+        <el-table :data="selectList" :maxHeight="maxHeight" :header-cell-style="{background: '#eee'}">
           <el-table-column v-for="item in columnList" :key="item.prop" :prop="item.prop"
                            :label="item.label" :min-width="item.width || 150">
             <template slot-scope="{row}">
@@ -96,6 +96,10 @@
       showSelect: {
         type: Boolean,
         default: true
+      },
+      maxHeight: {
+        type: String,
+        default: '300px'
       }
     },
     data() {

@@ -126,7 +126,7 @@
                 </el-col>
               </el-row>
             </div>
-            <table-paging-select :showNoSelect="activeIndex === 0" :showSelect="activeIndex === 1"
+            <table-paging-select maxHeight="" :showNoSelect="activeIndex === 0" :showSelect="activeIndex === 1"
                                  ref="pagingSelect" primaryKey="id" :filters="filters" @change="pagingSelectChange"
                                  :http-request="httpRequest" :column-list="columnList"/>
           </el-form-item>
