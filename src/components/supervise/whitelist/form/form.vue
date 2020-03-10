@@ -81,20 +81,39 @@
 
           <el-form-item prop="orgIdList" label="被监管单位"
                         :rules="[{required: true, type: 'array', message: '请选择被监管单位', trigger: 'change'}]">
-            <el-select filterable placeholder="请输入名称搜索被监管单位" multiple reserve-keyword remote :remote-method="queryDownAllFactory"
-                       v-model="form.orgIdList"
-                       popperClass="good-selects">
-              <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in downOrgList">
-                <div style="overflow: hidden">
-                  <span class="pull-left" style="clear: right">{{org.name}}</span>
-                </div>
-                <div style="overflow: hidden">
-                    <span class="select-other-info pull-left">
-                      <span>系统代码:</span>{{org.manufacturerCode}}
-                    </span>
-                </div>
-              </el-option>
-            </el-select>
+            <el-row>
+              <el-col :span="12">
+                <oms-form-row :span="8" label="单位分类">
+                  <el-select :clearable="true" filterable multiple
+                             popperClass="custom-select" remote v-model="filters.orgRelationType">
+                    <el-option :key="item.key" :label="item.label" :value="item.key" v-for="item in orgRelationType">
+                    </el-option>
+                  </el-select>
+                </oms-form-row>
+              </el-col>
+              <el-col :span="12">
+                <oms-form-row :span="8" label="所在地区">
+                  <el-cascader :options="options" clearable v-model="filters.selectOptions"
+                               placeholder="请选择省市区" @change="filterObjectOrgList"
+                               :change-on-select="true" style="display: block"></el-cascader>
+                </oms-form-row>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <oms-form-row :span="8" label="单位名称">
+                  <el-input v-model="filters.keyWord" placeholder="请输入单位名称"></el-input>
+                </oms-form-row>
+              </el-col>
+              <el-col :span="8">
+                <oms-form-row :span="2" label="">
+                  <el-button @click="searchInOrder" native-type="submit" plain type="primary">查询</el-button>
+                  <el-button @click="resetSearchForm">重置</el-button>
+                </oms-form-row>
+              </el-col>
+            </el-row>
+            <table-paging-select ref="pagingSelect" primaryKey="id" :filters="filters" @change="pagingSelectChange"
+                                 :http-request="httpRequest" :column-list="columnList"/>
           </el-form-item>
           <div style="margin-left: 100px">
             <el-button type="primary" @click="onSubmit('form')" native-type="submit" :disabled="doing">保存</el-button>
@@ -107,20 +126,57 @@
 </template>
 
 <script type="text/jsx">
-  import {whiteList} from '@/resources';
+  import {DhsBaseInfo, whiteList} from '@/resources';
   import MethodMixin from '@/mixins/methodsMixin';
+  import tablePagingSelect from '@/components/common/table-paging-select.vue';
+  import utils from '@/tools/utils';
 
   export default {
     name: 'editForm',
     mixins: [MethodMixin],
+    components: {tablePagingSelect},
     props: {
       showRight: Boolean
     },
     data: function () {
+      let orgRelationType = this.$store.state.orgRelationType;
       return {
         form: {
           orgId: '',
-          orgIdList: []
+          orgIdList: [],
+        },
+        options: utils.address,
+        columnList: [
+          {
+            label: '单位名称',
+            prop: 'name',
+            width: 240
+          },
+          {
+            label: '单位分类',
+            prop: 'orgRelationTypeList',
+            width: 150,
+            format(val) {
+              if (!val) return '';
+              return val.map(m => {
+                let item = orgRelationType.find(f => f.key === m);
+                return item && item.label || m;
+              }).join(',');
+            }
+          },
+          {
+            label: '系统代码',
+            prop: 'manufacturerCode',
+            width: 200
+          }
+        ],
+        filters: {
+          orgRelationType: [],
+          selectOptions: [],
+          keyWord: '',
+          province: '',
+          city: '',
+          region: ''
         },
         doing: false,
         loading: false
@@ -129,26 +185,60 @@
     computed: {
       user() {
         return this.$store.state.user;
+      },
+      orgRelationType() {
+        return this.$store.state.orgRelationType;
       }
     },
     watch: {
       showRight: function () {
+        this.resetForm();
+        this.$refs.pagingSelect.init();
         this.queryUpAllFactory();
-        this.queryDownAllFactory().then(res => {
-          this.loading = false;
-        });
-
         this.form = {
           orgId: '',
           orgIdList: []
         };
-        this.loading = true;
         this.$nextTick(() => {
           this.$refs['form'] && this.$refs['form'].clearValidate();
         });
       }
     },
     methods: {
+      httpRequest: DhsBaseInfo.queryPager,
+      pagingSelectChange(val) {
+        if (val) {
+          this.form.orgIdList = val.map(m => m.id);
+        } else {
+          this.form.orgIdList = [];
+        }
+        this.$refs.form.validateField('orgIdList');
+      },
+      filterObjectOrgList(val) {
+        let ary = utils.formatAddressByType(val[0], val[1], val[2], 'label');
+        this.filters.province = ary[0];
+        this.filters.city = ary[1];
+        this.filters.region = ary[2];
+      },
+      searchInOrder() {
+        this.$refs.pagingSelect.queryList(1);
+      },
+      resetForm() {
+        this.filters = {
+          orgRelationType: [],
+          selectOptions: [],
+          keyWord: '',
+          province: '',
+          city: '',
+          region: ''
+        };
+      },
+      resetSearchForm() {
+        this.resetForm();
+        this.$nextTick(() => {
+          this.$refs.pagingSelect.queryList(1);
+        })
+      },
       onSubmit: function (formName) {
         this.$refs[formName].validate((valid) => {
           if (!valid || this.doing) {
@@ -158,7 +248,7 @@
             return {
               objectOrgId: m,
               subjectOrgId: this.form.orgId
-            }
+            };
           });
           this.doing = true;
           whiteList.save(list).then(() => {

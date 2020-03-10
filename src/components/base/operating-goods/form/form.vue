@@ -158,7 +158,7 @@
         this.form = val;
         this.$nextTick(() => {
           this.$refs.goodSForm.clearValidate();
-        })
+        });
       }
     },
     methods: {
@@ -177,7 +177,9 @@
       resetSearchForm() {
         this.filters.typeId = '';
         this.filters.keyWord = '';
-        this.$refs.pagingSelect.queryList(1);
+        this.$nextTick(() => {
+          this.$refs.pagingSelect.queryList(1);
+        });
       },
       onSubmit: function (formName) {
         this.$refs[formName].validate((valid) => {
