@@ -468,7 +468,7 @@ table th[class*="col-"] {
 }
 
 [class^='el-icon-t-'], [class*='el-icon-t-'] {
-  font-family: "oms-font" !important;
+  font-family: "wmsfont" !important;
   font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;

@@ -5,6 +5,7 @@ export default {
       {label: '销售退货', key: '1', value: '1-1', type: '0', icon: 'sale-return'},
       {label: '盘盈入库', key: '2', value: '1-2', type: '0', icon: 'full-in'},
       {label: '调拨入库', key: '3', value: '1-3', type: '0', icon: 'allot-in'},
+      {label: '成品入库', key: '11', value: '1-4', type: '0', icon: 'product-in'},
       {label: '销售出库', key: '4', value: '2-0', type: '1', icon: 'sale-out'},
       {label: '采购退货', key: '5', value: '2-1', type: '1', icon: 'purchase-out'},
       {label: '盘亏出库', key: '6', value: '2-2', type: '1', icon: 'loss-out'},
