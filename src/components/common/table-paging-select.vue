@@ -13,6 +13,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
     .table-header-title {
       font-weight: bold;
       font-size: 16px;
@@ -21,7 +22,7 @@
 </style>
 <template>
   <el-row>
-    <el-col :span="24">
+    <el-col :span="24" v-show="showNoSelect">
       <div class="no-select-list">
         <div class="table-header">
           <span class="table-header-title">未选列表</span>
@@ -49,7 +50,7 @@
         </div>
       </div>
     </el-col>
-    <el-col :span="24">
+    <el-col :span="24" v-show="showSelect">
       <div class="select-list">
         <div class="table-header">
           <span class="table-header-title">已选列表<span v-show="selectList.length">（{{selectList.length}}）</span></span>
@@ -87,6 +88,14 @@
       },
       filters: {
         type: Object
+      },
+      showNoSelect: {
+        type: Boolean,
+        default: true
+      },
+      showSelect: {
+        type: Boolean,
+        default: true
       }
     },
     data() {

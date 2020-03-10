@@ -1,7 +1,7 @@
 <style lang="scss" scoped="">
   @import "../../../../assets/scss/mixins";
 
-  $leftWidth: 0;
+  $leftWidth: 180px;
   .min-gutter {
     .el-form-item {
       margin-bottom: 20px;
@@ -56,13 +56,25 @@
 <template>
   <div>
     <div class="content-part">
+      <div class="content-left">
+        <h2 class="clearfix">添加</h2>
+        <ul>
+          <li class="list-style" v-for="item in productListSet" @click="activeIndex = item.key"
+              :class="{ 'active' : activeIndex===item.key}">
+            <span>{{ item.name }}            <span v-show="form.orgIdList.length && item.key === 1">({{form.orgIdList.length}})</span></span>
+          </li>
+          <li class="text-center" style="margin-top:30px;position:absolute;bottom:50px;left:0;right:0;">
+              <el-button type="primary" @click="onSubmit('form')" native-type="submit" :disabled="doing">保存</el-button>
+          </li>
+        </ul>
+      </div>
       <div class="content-right min-gutter">
         <h3 class="clearfix">添加被监管单位</h3>
         <el-form ref="form" :model="form" label-width="100px"
                  @submit.prevent="onSubmit()" onsubmit="return false" v-loading="loading">
           <el-form-item label="监管单位" prop="orgId" :rules="[
             {required: true, message: '请选择监管单位', trigger: 'change'}
-          ]">
+          ]" v-show="activeIndex === 0">
             <el-select filterable placeholder="请输入名称搜监管单位" remote :remote-method="queryUpAllFactory"
                        :clearable="true" v-model="form.orgId"
                        popperClass="good-selects">
@@ -81,44 +93,43 @@
 
           <el-form-item prop="orgIdList" label="被监管单位"
                         :rules="[{required: true, type: 'array', message: '请选择被监管单位', trigger: 'change'}]">
-            <el-row>
-              <el-col :span="12">
-                <oms-form-row :span="8" label="单位分类">
-                  <el-select :clearable="true" filterable multiple
-                             popperClass="custom-select" remote v-model="filters.orgRelationType">
-                    <el-option :key="item.key" :label="item.label" :value="item.key" v-for="item in orgRelationType">
-                    </el-option>
-                  </el-select>
-                </oms-form-row>
-              </el-col>
-              <el-col :span="12">
-                <oms-form-row :span="8" label="所在地区">
-                  <el-cascader :options="options" clearable v-model="filters.selectOptions"
-                               placeholder="请选择省市区" @change="filterObjectOrgList"
-                               :change-on-select="true" style="display: block"></el-cascader>
-                </oms-form-row>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="12">
-                <oms-form-row :span="8" label="单位名称">
-                  <el-input v-model="filters.keyWord" placeholder="请输入单位名称"></el-input>
-                </oms-form-row>
-              </el-col>
-              <el-col :span="8">
-                <oms-form-row :span="2" label="">
-                  <el-button @click="searchInOrder" native-type="submit" plain type="primary">查询</el-button>
-                  <el-button @click="resetSearchForm">重置</el-button>
-                </oms-form-row>
-              </el-col>
-            </el-row>
-            <table-paging-select ref="pagingSelect" primaryKey="id" :filters="filters" @change="pagingSelectChange"
+            <div v-show="activeIndex === 0">
+              <el-row >
+                <el-col :span="12">
+                  <oms-form-row :span="8" label="单位分类">
+                    <el-select :clearable="true" filterable multiple
+                               popperClass="custom-select" remote v-model="filters.orgRelationType">
+                      <el-option :key="item.key" :label="item.label" :value="item.key" v-for="item in orgRelationType">
+                      </el-option>
+                    </el-select>
+                  </oms-form-row>
+                </el-col>
+                <el-col :span="12">
+                  <oms-form-row :span="8" label="所在地区">
+                    <el-cascader :options="options" clearable v-model="filters.selectOptions"
+                                 placeholder="请选择省市区" @change="filterObjectOrgList"
+                                 :change-on-select="true" style="display: block"></el-cascader>
+                  </oms-form-row>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12">
+                  <oms-form-row :span="8" label="单位名称">
+                    <el-input v-model="filters.keyWord" placeholder="请输入单位名称"></el-input>
+                  </oms-form-row>
+                </el-col>
+                <el-col :span="8">
+                  <oms-form-row :span="2" label="">
+                    <el-button @click="searchInOrder" native-type="submit" plain type="primary">查询</el-button>
+                    <el-button @click="resetSearchForm">重置</el-button>
+                  </oms-form-row>
+                </el-col>
+              </el-row>
+            </div>
+            <table-paging-select :showNoSelect="activeIndex === 0" :showSelect="activeIndex === 1"
+                                 ref="pagingSelect" primaryKey="id" :filters="filters" @change="pagingSelectChange"
                                  :http-request="httpRequest" :column-list="columnList"/>
           </el-form-item>
-          <div style="margin-left: 100px">
-            <el-button type="primary" @click="onSubmit('form')" native-type="submit" :disabled="doing">保存</el-button>
-            <el-button @click="doClose">取消</el-button>
-          </div>
         </el-form>
       </div>
     </div>
@@ -178,6 +189,11 @@
           city: '',
           region: ''
         },
+        productListSet: [
+          {key: 0, name: '未选单位'},
+          {key: 1, name: '已选单位'}
+        ],
+        activeIndex: 0,
         doing: false,
         loading: false
       };
