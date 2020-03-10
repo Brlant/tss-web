@@ -58,7 +58,12 @@
                   </el-select>
                 </oms-form-row>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="10">
+                <oms-form-row :span="6" label="货品名称">
+                  <el-input v-model="filters.keyWord"></el-input>
+                </oms-form-row>
+              </el-col>
+              <el-col :span="4">
                 <oms-form-row :span="2" label="">
                   <el-button @click="searchInOrder" native-type="submit" plain type="primary">查询</el-button>
                   <el-button @click="resetSearchForm">重置</el-button>
@@ -131,7 +136,8 @@
         filters: {
           auditedStatus: 1,
           state: 0,
-          typeId: ''
+          typeId: '',
+          keyWord: ''
         },
         loading: false
       };
@@ -147,6 +153,7 @@
     watch: {
       formItem: function (val) {
         this.filters.typeId = '';
+        this.filters.keyWord = '';
         this.$refs.pagingSelect.init();
         this.form = val;
         this.$nextTick(() => {
@@ -169,6 +176,7 @@
       },
       resetSearchForm() {
         this.filters.typeId = '';
+        this.filters.keyWord = '';
         this.$refs.pagingSelect.queryList(1);
       },
       onSubmit: function (formName) {
