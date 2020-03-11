@@ -286,10 +286,10 @@
       <div class="order-list" style="margin-top: 20px">
         <el-row class="order-list-header">
           <el-col :span="5">监管单位</el-col>
-          <el-col :span="6">货品编号/名称</el-col>
+          <el-col :span="7">货品编号/名称</el-col>
           <el-col :span="4">货品规格</el-col>
           <el-col :span="5">生产厂商</el-col>
-          <el-col :span="3">操作</el-col>
+          <el-col :span="2">操作</el-col>
         </el-row>
         <el-row v-if="loadingData">
           <el-col :span="24">
@@ -312,7 +312,7 @@
                   {{ item.subjectOrgName }}
                 </div>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="7">
                 <div class="f-grey">
                   {{item.code}}
                 </div>
@@ -326,7 +326,7 @@
               <el-col :span="5">
                 {{item.factoryName}}
               </el-col>
-              <el-col :span="3" class="opera-btn">
+              <el-col :span="2" class="opera-btn">
                   <des-btn perm="supervise-setting-goods-whitelist-add" icon="delete" @click="remove(item)">删除</des-btn>
               </el-col>
             </el-row>

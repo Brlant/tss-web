@@ -208,7 +208,7 @@
         :current-page="pager.currentPage">
       </el-pagination>
     </div>
-    <page-right :show="showRight" @right-close="resetRightBox" :css="{'width':'800px','padding':'30px'}">
+    <page-right :show="showRight" @right-close="resetRightBox" :css="{'width':'1000px','padding':'30px'}">
       <edit-form :showRight="showRight" @close="showRight=false" @change="itemChange"></edit-form>
     </page-right>
   </div>

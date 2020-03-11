@@ -35,6 +35,20 @@ const state = {
     {key: '8', label: '进口医疗器械'},
     {key: '9', label: '其他'}
   ],
+  orgRelationType: [
+    {key: '1', label: '境内药品生产企业'},
+    {key: '2', label: '境外药品生产企业'},
+    {key: '3', label: '境内医疗器械生产企业'},
+    {key: '4', label: '境外医疗器械生产企业'},
+    {key: '5', label: '药品经营企业'},
+    {key: '6', label: '医疗器械经营企业'},
+    {key: '7', label: '进口代理企业'},
+    {key: '8', label: '疾病预防控制机构'},
+    {key: '9', label: '配送单位'},
+    {key: '10', label: '疫苗接种单位'},
+    {key: '11', label: '医疗机构'},
+    {key: '12', label: '其他'}
+  ],
   allPermission: {
     unit: 'query-all-supervise-unit',
     goods: 'query-all-supervise-goods',
