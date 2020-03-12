@@ -931,3 +931,9 @@
     line-height: 1.8;
   }
 }
+
+.no-error-input {
+  .el-input__inner {
+    border-color: #DCDFE6 !important;
+  }
+}

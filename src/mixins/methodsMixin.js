@@ -53,14 +53,14 @@ export default {
         this.manageGoods = res.data.list;
       });
     },
-    queryGoodsNumber(props) {
+    queryGoodsNumber(props, isNeed = true) {
       return query => {
         this.goodsBatchNumberList = [];
         let goodsId = getProps(this, props);
         let params = {
           keyWord: query,
         };
-        if (!goodsId) {
+        if (!goodsId && isNeed) {
           this.goodsBatchNumberList = [];
           this.$notify.info({message: '请选择货品'});
           return;
@@ -170,7 +170,7 @@ export default {
         keyWord: query,
         permission: 'query-all-supervise-goods'
       });
-      this.$http.post('code-goods-white-list/access', {}, {params}).then(res => {
+      return this.$http.post('code-goods-white-list/access', {}, {params}).then(res => {
         this.platformGoods = res.data;
       });
     },

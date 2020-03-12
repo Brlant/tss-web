@@ -77,7 +77,7 @@
           ]" v-show="activeIndex === 0">
             <el-select filterable placeholder="请输入名称搜监管单位" remote :remote-method="queryUpAllFactory"
                        :clearable="true" v-model="form.orgId"
-                       popperClass="good-selects">
+                       popperClass="good-selects"  class="no-error-input">
               <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in allOrgList">
                 <div style="overflow: hidden">
                   <span class="pull-left" style="clear: right">{{org.name}}</span>
@@ -97,7 +97,7 @@
               <el-row >
                 <el-col :span="12">
                   <oms-form-row :span="8" label="单位分类">
-                    <el-select :clearable="true" filterable multiple
+                    <el-select :clearable="true" filterable multiple  class="no-error-input"
                                popperClass="custom-select" remote v-model="filters.orgRelationType">
                       <el-option :key="item.key" :label="item.label" :value="item.key" v-for="item in orgRelationType">
                       </el-option>
@@ -107,7 +107,7 @@
                 <el-col :span="12">
                   <oms-form-row :span="8" label="所在地区">
                     <el-cascader :options="options" clearable v-model="filters.selectOptions"
-                                 placeholder="请选择省市区" @change="filterObjectOrgList"
+                                 placeholder="请选择省市区" @change="filterObjectOrgList"  class="no-error-input"
                                  :change-on-select="true" style="display: block"></el-cascader>
                   </oms-form-row>
                 </el-col>
@@ -115,7 +115,7 @@
               <el-row>
                 <el-col :span="12">
                   <oms-form-row :span="8" label="单位名称">
-                    <el-input v-model="filters.keyWord" placeholder="请输入单位名称"></el-input>
+                    <el-input v-model="filters.keyWord"  class="no-error-input" placeholder="请输入单位名称"></el-input>
                   </oms-form-row>
                 </el-col>
                 <el-col :span="8">
@@ -127,7 +127,7 @@
               </el-row>
             </div>
             <table-paging-select no-select-title="未选被监管单位" select-title="已选被监管单位"
-                                 maxHeight="" :showNoSelect="activeIndex === 0" :showSelect="activeIndex === 1"
+                                 maxHeight="100000" :showNoSelect="activeIndex === 0" :showSelect="activeIndex === 1"
                                  ref="pagingSelect" primaryKey="id" :filters="filters" @change="pagingSelectChange"
                                  :http-request="httpRequest" :column-list="columnList"/>
           </el-form-item>

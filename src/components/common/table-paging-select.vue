@@ -41,6 +41,7 @@
         </el-table>
         <div class="text-center mt-10">
           <el-pagination
+            class="no-error-input"
             layout="sizes, prev, pager, next"
             :total="pager.count" :pageSize="pager.pageSize"
             :page-sizes="[10,20,50,100]"

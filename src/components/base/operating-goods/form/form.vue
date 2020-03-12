@@ -1,8 +1,14 @@
 <style lang="scss" scoped>
   @import "../../../../assets/scss/mixins";
 
-  $leftWidth: 0;
+  $leftWidth: 180px;
   .content-part {
+    position: absolute;
+    top: 0 !important;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: auto;
     .content-left {
       width: $leftWidth;
     }
@@ -13,15 +19,26 @@
         background: #fff;
       }
 
-      padding-top: 30px;
+      padding-top: 65px;
       left: $leftWidth;
     }
   }
-
-
 </style>
 <template>
   <div class="content-part">
+    <div class="content-left">
+      <h2 class="clearfix">添加</h2>
+      <ul>
+        <li class="list-style" v-for="item in productListSet" @click="activeIndex = item.key"
+            :class="{ 'active' : activeIndex===item.key}">
+          <span>{{ item.name }}<span v-show="form.goodsIdList.length && item.key === 1">({{form.goodsIdList.length}})</span></span>
+        </li>
+        <li class="text-center" style="margin-top:30px;position:absolute;bottom:50px;left:0;right:0;">
+          <el-button type="primary" @click="onSubmit('goodSForm')" native-type="submit" :disabled="doing">保存
+          </el-button>
+        </li>
+      </ul>
+    </div>
     <div class="content-right min-gutter operating-goods">
       <h3>{{action === 'add' ? '添加' : '编辑'}}监管货品白名单</h3>
       <div>
@@ -29,7 +46,7 @@
                  @submit.prevent="onSubmit('goodSForm')" onsubmit="return false" style="padding-right: 20px">
           <el-form-item label="监管单位" prop="subjectOrgId" :rules="[
                     {required: true, message: '请选择监管单位', trigger: 'change'}
-                  ]">
+                  ]" v-show="activeIndex === 0">
             <el-select filterable placeholder="请输入名称搜监管单位" remote :remote-method="queryUpAllFactory"
                        :clearable="true" v-model="form.subjectOrgId"
                        popperClass="good-selects">
@@ -45,38 +62,35 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="货品主档" label-width="120px" prop="goodsIdList" :rules="[
-                    {required: true, type: 'array', message: '请选择货品主档', trigger: 'change'}
-                  ]">
-            <el-row>
-              <el-col :span="10">
+          <el-form-item label="" label-width="0" prop="goodsIdList" :rules="[
+          {required: true, type: 'array', message: '请选择货品主档', trigger: 'change'}]">
+            <el-row v-show="activeIndex === 0">
+              <el-col :span="9">
                 <oms-form-row :span="8" label="货品分类">
-                  <el-select :clearable="true" filterable
+                  <el-select :clearable="true" filterable class="no-error-input"
                              popperClass="custom-select" remote v-model="filters.typeId">
                     <el-option :key="item.key" :label="item.label" :value="item.key" v-for="item in goodsTypeList">
                     </el-option>
                   </el-select>
                 </oms-form-row>
               </el-col>
-              <el-col :span="10">
+              <el-col :span="9">
                 <oms-form-row :span="6" label="货品名称">
-                  <el-input v-model="filters.keyWord"></el-input>
+                  <el-input v-model="filters.keyWord" class="no-error-input"></el-input>
                 </oms-form-row>
               </el-col>
-              <el-col :span="4">
+              <el-col :span="6">
                 <oms-form-row :span="2" label="">
                   <el-button @click="searchInOrder" native-type="submit" plain type="primary">查询</el-button>
                   <el-button @click="resetSearchForm">重置</el-button>
                 </oms-form-row>
               </el-col>
             </el-row>
-            <table-paging-select ref="pagingSelect" primaryKey="id" :filters="filters" @change="pagingSelectChange"
+            <table-paging-select ref="pagingSelect" primaryKey="id"
+                                 no-select-title="未选货品" select-title="已选货品"
+                                 maxHeight="100000" :showNoSelect="activeIndex === 0" :showSelect="activeIndex === 1"
+                                 :filters="filters" @change="pagingSelectChange"
                                  :http-request="httpRequest" :column-list="columnList"/>
-          </el-form-item>
-          <el-form-item label-width="100px" class="text-center">
-            <el-button type="primary" @click="onSubmit('goodSForm')" native-type="submit" :disabled="doing">保存
-            </el-button>
-            <el-button @click="doClose">取消</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -132,6 +146,10 @@
             width: 200
           }
         ],
+        productListSet: [
+          {key: 0, name: '未选货品'},
+          {key: 1, name: '已选货品'}
+        ],
         customerList: [],
         filters: {
           auditedStatus: 1,
@@ -139,6 +157,7 @@
           typeId: '',
           keyWord: ''
         },
+        activeIndex: 0,
         loading: false
       };
     },
