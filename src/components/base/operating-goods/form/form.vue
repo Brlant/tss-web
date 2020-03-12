@@ -67,7 +67,7 @@
             <el-row v-show="activeIndex === 0">
               <el-col :span="9">
                 <oms-form-row :span="8" label="货品分类">
-                  <el-select :clearable="true" filterable
+                  <el-select :clearable="true" filterable class="no-error-input"
                              popperClass="custom-select" remote v-model="filters.typeId">
                     <el-option :key="item.key" :label="item.label" :value="item.key" v-for="item in goodsTypeList">
                     </el-option>
@@ -76,7 +76,7 @@
               </el-col>
               <el-col :span="9">
                 <oms-form-row :span="6" label="货品名称">
-                  <el-input v-model="filters.keyWord"></el-input>
+                  <el-input v-model="filters.keyWord" class="no-error-input"></el-input>
                 </oms-form-row>
               </el-col>
               <el-col :span="6">
