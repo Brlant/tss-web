@@ -127,7 +127,7 @@
               </el-row>
             </div>
             <table-paging-select no-select-title="未选被监管单位" select-title="已选被监管单位"
-                                 :maxHeight="100000" :showNoSelect="activeIndex === 0" :showSelect="activeIndex === 1"
+                                 maxHeight="100000" :showNoSelect="activeIndex === 0" :showSelect="activeIndex === 1"
                                  ref="pagingSelect" primaryKey="id" :filters="filters" @change="pagingSelectChange"
                                  :http-request="httpRequest" :column-list="columnList"/>
           </el-form-item>
