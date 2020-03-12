@@ -154,8 +154,10 @@
     <div v-else>
       <div class="bg-white">
         <h2><span>基础信息</span></h2>
-        <el-row>
+        <el-row class="flex-row">
           <oms-col :is-show="true" label="货品" :value="basicInfoAndBizType.goodsName" :rowSpan="5"/>
+          <oms-col :is-show="true" label="规格" :value="basicInfoAndBizType.specification" :rowSpan="5"/>
+          <oms-col :is-show="true" label="货品编号" :value="basicInfoAndBizType.goodsCode" :rowSpan="5"/>
           <oms-col class="R" label="批号" :value="basicInfoAndBizType.batchNumber" :rowSpan="5"/>
           <oms-col label="生产日期" :value="basicInfoAndBizType.productionDate | date" :rowSpan="5"/>
           <oms-col label="有效期" :value="basicInfoAndBizType.expiryDate | date" :rowSpan="5"/>

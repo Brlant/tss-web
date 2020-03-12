@@ -27,7 +27,19 @@
              class="order-list-item order-list-item-bg"
              v-for="item in dataList">
           <el-row>
-            <el-col :span="7">{{item.goodsName}}</el-col>
+            <el-col :span="7">
+              {{item.goodsName}}
+              <div class="f-grey">
+                <el-tooltip content="货品编码" placement="right">
+                  <span> {{item.goodCode}}</span>
+                </el-tooltip>
+              </div>
+              <div class="f-grey">
+                <el-tooltip content="生产厂商" placement="right">
+                  <span> {{item.factoryName}}</span>
+                </el-tooltip>
+              </div>
+            </el-col>
             <el-col :span="4" class="R">{{item.batchNumber}}</el-col>
             <el-col :span="4">{{item.createTime | time}}</el-col>
             <el-col :span="3">{{item.creatorName}}</el-col>
