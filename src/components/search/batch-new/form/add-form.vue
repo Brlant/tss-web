@@ -67,8 +67,8 @@
               <oms-col label="追溯码商品编号" :value="currentGoods.goodsTrackNo" :is-show="true"/>
             </el-form-item>
             <el-form-item label="批号" prop="batchNumberId">
-              <el-select v-model="form.batchNumberId" filterable clearable remote
-                         :remoteMethod="queryGoodsNumber('form.goodsId')" placeholder="请输入批号名称搜索批号">
+              <el-select v-model="form.batchNumberId" filterable clearable remote  @change="batchNumberChange"
+                         :remoteMethod="queryGoodsNumber('form.goodsId', false)" placeholder="请输入批号名称搜索批号">
                 <el-option v-for="item in goodsBatchNumberList" :value="item.id" :key="item.id"
                            :label="item.batchNumber"/>
               </el-select>
@@ -125,7 +125,18 @@
     methods: {
       goodsChange(val) {
         this.form.batchNumberId = '';
+        this.goodsBatchNumberList = [];
+        if (!val) return;
         this.queryGoodsNumber('form.goodsId')('');
+      },
+      batchNumberChange(val) {
+        if (!val || this.form.goodsId) return;
+        let item = this.goodsBatchNumberList.find(f => f.id === val);
+        if (!item) return;
+        this.filterPermPlatFormGoods(item.goodsName).then(res => {
+          this.form.goodsId = item.goodsId;
+          this.queryGoodsNumber('form.goodsId')('');
+        });
       },
       resetForm() {
         this.form = {

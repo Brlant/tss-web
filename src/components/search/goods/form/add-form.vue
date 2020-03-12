@@ -46,7 +46,8 @@
                     <span class="pull-left">{{ item.name }}({{ item.factoryName }})</span>
                     <span class="pull-right select-other-info">
                       <dict :dict-group="'typeId'" :dict-key="item.typeId">
-                      </dict><span v-show="item.typeId === '1' && item.vaccineSign">-<dict :dict-group="'vaccineSign'" :dict-key="item.vaccineSign"></dict></span>
+                      </dict><span v-show="item.typeId === '1' && item.vaccineSign">-<dict :dict-group="'vaccineSign'"
+                                                                                           :dict-key="item.vaccineSign"></dict></span>
                     </span>
                   </div>
                   <div class="clearfix">
@@ -62,7 +63,8 @@
             </el-form-item>
             <el-form-item label="批号">
               <el-select v-model="form.batchNumberIdList" multiple filterable clearable remote
-                         :remoteMethod="queryGoodsNumber('form.goodsId')" placeholder="请输入批号名称搜索批号">
+                         @change="batchNumberChange"
+                         :remoteMethod="queryGoodsNumber('form.goodsId', false)" placeholder="请输入批号名称搜索批号">
                 <el-option v-for="item in goodsBatchNumberList" :value="item.id" :key="item.id"
                            :label="item.batchNumber"/>
               </el-select>
@@ -77,7 +79,7 @@
   </div>
 </template>
 <script>
-  import {http, physicalGoodsSearch} from '@/resources';
+  import {physicalGoodsSearch} from '@/resources';
   import methodsMixin from '@/mixins/methodsMixin';
 
   export default {
@@ -110,7 +112,19 @@
     methods: {
       goodsChange(val) {
         this.form.batchNumberIdList = [];
+        this.goodsBatchNumberList = [];
+        if (!val) return;
         this.queryGoodsNumber('form.goodsId')('');
+      },
+      batchNumberChange(val) {
+        if (!val.length || this.form.goodsId) return;
+        let id = val[0];
+        let item = this.goodsBatchNumberList.find(f => f.id === id);
+        if (!item) return;
+        this.filterPermPlatFormGoods(item.goodsName).then(res => {
+          this.form.goodsId = item.goodsId;
+          this.queryGoodsNumber('form.goodsId')('');
+        });
       },
       resetForm() {
         this.form = {
@@ -126,7 +140,7 @@
           let form = {
             goodsId: this.form.goodsId
           };
-          if(this.form.batchNumberIdList.length) {
+          if (this.form.batchNumberIdList.length) {
             form.batchNumberId = this.form.batchNumberIdList.join(',');
           }
           this.doing = true;
