@@ -118,6 +118,9 @@
         let item = this.goodsBatchNumberList.find(f => f.id === val);
         if (!item) return;
         this.filterPermPlatFormGoods(item.goodsName).then(res => {
+          if (!this.platformGoods.length) {
+            return this.$notify.info('根据此批号查不到对应的货品');
+          }
           this.searchCondition.goodsId = item.goodsId;
           this.queryGoodsNumber('searchCondition.goodsId')('');
         });

@@ -117,11 +117,14 @@
         this.queryGoodsNumber('form.goodsId')('');
       },
       batchNumberChange(val) {
-        if (!val.length || this.form.goodsId) return;
+        if (!val.length || val.length > 1 || this.form.goodsId) return;
         let id = val[0];
         let item = this.goodsBatchNumberList.find(f => f.id === id);
         if (!item) return;
         this.filterPermPlatFormGoods(item.goodsName).then(res => {
+          if (!this.platformGoods.length) {
+            return this.$notify.info('根据此批号查不到对应的货品');
+          }
           this.form.goodsId = item.goodsId;
           this.queryGoodsNumber('form.goodsId')('');
         });

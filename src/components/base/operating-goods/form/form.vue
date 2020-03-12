@@ -4,7 +4,7 @@
   $leftWidth: 180px;
   .content-part {
     position: absolute;
-    top: 0;
+    top: 0 !important;
     bottom: 0;
     left: 0;
     right: 0;
