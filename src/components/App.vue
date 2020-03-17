@@ -124,18 +124,18 @@
           this.queryPermissions(this.$route);
           let data = window.localStorage.getItem('user');
           if (!data) {
-            Auth.logout().then(() => {
-              this.$router.addRoutes(ErrorPage);
-              this.$router.replace('/login');
-            });
+            // Auth.logout().then(() => {
+            //   this.$router.addRoutes(ErrorPage);
+            //   this.$router.replace('/login');
+            // });
           }
           data = JSON.parse(data);
           this.$store.commit('initUser', data);
         }).catch(() => {
-          Auth.logout().then(() => {
-            this.$router.addRoutes(ErrorPage);
-            this.$router.replace('/login');
-          });
+          // Auth.logout().then(() => {
+          //   this.$router.addRoutes(ErrorPage);
+          //   this.$router.replace('/login');
+          // });
         });
       }
     }
