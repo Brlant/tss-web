@@ -120,22 +120,21 @@
       this.routesCopy = deepCopy(route);
       window.localStorage.removeItem('noticeError');
       if (!this.$store.state.user || !this.$store.state.user.userId) {
-        Auth.checkLogin().then(() => {
+        Auth.checkLogin().then((res) => {
           this.queryPermissions(this.$route);
-          let data = window.localStorage.getItem('user');
-          // if (!data) {
-          //   Auth.logout().then(() => {
-          //     this.$router.addRoutes(ErrorPage);
-          //     this.$router.replace('/login');
-          //   });
-          // }
-          data = JSON.parse(data);
+          let data = res.data;
+          if (!data) {
+            Auth.logout().then(() => {
+              this.$router.addRoutes(ErrorPage);
+              this.$router.replace('/login');
+            });
+          }
           this.$store.commit('initUser', data);
         }).catch(() => {
-          // Auth.logout().then(() => {
-          //   this.$router.addRoutes(ErrorPage);
-          //   this.$router.replace('/login');
-          // });
+          Auth.logout().then(() => {
+            this.$router.addRoutes(ErrorPage);
+            this.$router.replace('/login');
+          });
         });
       }
     }
