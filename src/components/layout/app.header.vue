@@ -310,12 +310,12 @@
       },
       logout: function () {
         window.localStorage.setItem('lastUrl', '');
-        // Auth.logout().then(() => {
-        //   location.reload();
-        //   // window.localStorage.setItem('userId', this.$store.state.user.userId);
-        //   //          window.localStorage.removeItem('user');
-        //   // return this.$router.replace('/login');
-        // });
+        Auth.logout().then(() => {
+          location.reload();
+          // window.localStorage.setItem('userId', this.$store.state.user.userId);
+          //          window.localStorage.removeItem('user');
+          // return this.$router.replace('/login');
+        });
       }
     },
     mounted: function () {
