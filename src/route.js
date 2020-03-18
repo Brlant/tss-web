@@ -52,7 +52,7 @@ export const route = [
           },
           {
             path: '/supervise/setting/whitelist/goods',
-            component: () => import('./components/base/operating-goods/goods.vue'),
+            component: () => import('./components/base/white-goods/goods.vue'),
             meta: {moduleId: 'supervise', title: '监管货品白名单', perm: 'supervise-setting-goods-whitelist-query'}
           }
         ]
