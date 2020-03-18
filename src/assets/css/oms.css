@@ -5,6 +5,7 @@ html, body {
   height: 100%;
   font-size: 14px;
   background: #f9f9f9;
+  overflow: hidden;
 }
 
 a {
