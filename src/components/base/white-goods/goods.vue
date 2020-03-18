@@ -234,7 +234,7 @@
       <div class="opera-btn-group" :class="{up:!showSearch}">
         <div class="opera-icon">
           <span class="pull-right opera-btn" style="margin-left: 10px">
-            <perm label="mdm-operating-goods-add">
+            <perm label="supervise-setting-goods-whitelist-add">
               <span @click.stop="addType">
                    <a href="#" class="btn-circle" @click.prevent="" style="margin-right: 5px"><i
                      class="el-icon-t-plus"></i> </a>添加
@@ -250,9 +250,9 @@
         <el-form v-show="showSearch" class="advanced-query-form" onsubmit="return false">
           <el-row>
             <el-col :span="8">
-              <oms-form-row :span="5" label="经营单位">
+              <oms-form-row :span="5" label="监管单位">
                 <org-select :list="allOrgList" :remoteMethod="queryUpAllFactory" @change="orgChange"
-                            placeholder="请输入名称搜索经营单位" v-model="searchCondition.orgId"></org-select>
+                            placeholder="请输入名称搜索监管单位" v-model="searchCondition.subjectOrgId"></org-select>
               </oms-form-row>
             </el-col>
             <el-col :span="8">
@@ -275,15 +275,6 @@
               </oms-form-row>
             </el-col>
             <el-col :span="8">
-              <oms-form-row label="状态" :span="6">
-                <el-radio-group v-model="searchCondition.auditStatus" size="small">
-                  <el-radio-button :key="item.auditStatus" :label="item.auditStatus" v-for="item in orgType">{{item.title}}</el-radio-button>
-                </el-radio-group>
-              </oms-form-row>
-            </el-col>
-          </el-row>
-          <el-row class="mt-10">
-            <el-col :span="8">
               <oms-form-row label="" :span="3">
                 <el-button type="primary" native-type="submit" @click="searchInOrder">查询</el-button>
                 <el-button type="reset" @click="resetSearchForm">重置</el-button>
@@ -294,12 +285,11 @@
       </div>
       <div class="order-list" style="margin-top: 20px">
         <el-row class="order-list-header">
-          <el-col :span="5">货品分类</el-col>
-          <el-col :span="5">货品编号/名称</el-col>
-          <el-col :span="5">经营单位</el-col>
+          <el-col :span="5">监管单位</el-col>
+          <el-col :span="7">货品编号/名称</el-col>
           <el-col :span="4">货品规格</el-col>
-          <el-col :span="2">状态</el-col>
-          <el-col :span="3">操作</el-col>
+          <el-col :span="5">生产厂商</el-col>
+          <el-col :span="2">操作</el-col>
         </el-row>
         <el-row v-if="loadingData">
           <el-col :span="24">
@@ -318,36 +308,26 @@
                :class="['status-no',{'active':activeId===item.id}]">
             <el-row>
               <el-col :span="5">
-                {{formatGoodsTypeList(item.typeId)}}
+                <div class="vertical-center">
+                  {{ item.subjectOrgName }}
+                </div>
               </el-col>
-              <el-col :span="5">
+              <el-col :span="7">
                 <div class="f-grey">
                   {{item.code}}
                 </div>
                 <div>
-                  {{item.name}}
-                </div>
-              </el-col>
-              <el-col :span="5">
-                <div class="vertical-center">
-                  {{ item.orgName }}
+                  {{item.goodsName}}
                 </div>
               </el-col>
               <el-col :span="4">
-                <div>
                   {{item.specifications}}
-                </div>
               </el-col>
-              <el-col :span="2">
-                {{orgType[item.auditStatus] && orgType[item.auditStatus].title}}
+              <el-col :span="5">
+                {{item.factoryName}}
               </el-col>
-              <el-col :span="3" class="opera-btn">
-                <div v-show="item.auditStatus === '0'">
-                  <des-btn class="is-mini" perm="mdm-operating-goods-audit" icon="t-verifyPass"
-                           @click="auditPass(item)">审核通过</des-btn>
-                  <des-btn class="is-mini" perm="mdm-operating-goods-audit"
-                           icon="t-verifyNotPass" @click="auditNoPass(item)">审核不通过</des-btn>
-                </div>
+              <el-col :span="2" class="opera-btn">
+                  <des-btn perm="supervise-setting-goods-whitelist-add" icon="delete" @click="remove(item)">删除</des-btn>
               </el-col>
             </el-row>
           </div>
@@ -368,7 +348,7 @@
   </div>
 </template>
 <script>
-  import {BaseInfo, OperatingGoods} from '@/resources';
+  import {BaseInfo, goodsWhiteList} from '@/resources';
   import editForm from './form/form.vue';
   import methodsMixin from '@/mixins/methodsMixin';
 
@@ -394,7 +374,7 @@
           2: {'title': '审核不通过', 'num': 0, 'auditStatus': '2'}
         },
         filters: {
-          orgId: '',
+          subjectOrgId: '',
           goodsId: '',
           auditStatus: ''
         },
@@ -405,7 +385,7 @@
           totalPage: 1
         },
         searchCondition: {
-          orgId: '',
+          subjectOrgId: '',
           goodsId: '',
           auditStatus: ''
         },
@@ -424,96 +404,36 @@
       }
     },
     mounted() {
-      this.getGoodsList();
+      this.getGoodsList(1);
     },
     watch: {
       filters: {
         handler() {
-          this.getGoodsList();
+          this.getGoodsList(1);
         },
         deep: true
       }
     },
     methods: {
-      formatGoodsTypeList(val) {
-        let goodsTypeList = this.$store.state.goodsTypeList;
-        return goodsTypeList[val - 1] && goodsTypeList[val - 1].label || val;
-      },
-      auditPass(item) {
-        this.$confirm('确认通过经营货品"' + item.name + '"的审核?', '', {
-          confirmButtonText: '确认',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          let data = {
-            id: item.id,
-            status: '1'
-          };
-          OperatingGoods.auditGoods(data).then(() => {
-            this.$notify.success({
-              duration: 2000,
-              title: '成功',
-              message: '完成审核'
-            });
-            this.getGoodsList(this.pager.currentPage);
-          }).catch(() => {
-            this.$notify.error({
-              duration: 2000,
-              message: '审核失败'
-            });
-          });
-        }).catch(() => {
-        });
-      },
-      auditNoPass(item) {
-        this.$confirm('确认不通过经营货品"' + item.name + '的审核"?', '', {
-          confirmButtonText: '确认',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          let data = {
-            id: item.id,
-            status: '2'
-          };
-          OperatingGoods.auditGoods(data).then(() => {
-            this.$notify.success({
-              duration: 2000,
-              title: '成功',
-              message: '完成审核'
-            });
-            this.getGoodsList(this.pager.currentPage);
-          }).catch(() => {
-            this.$notify.error({
-              duration: 2000,
-              message: '审核失败'
-            });
-          });
-        }).catch(() => {
-        });
-      },
       showInfo: function (item) {
         this.activeId = item.id;
       },
-      deleteOperatingGoods: function (item) {
-        this.$confirm('确认刪除单位"' + item.orgName + '"的经营货品"' + item.name + '"?', '', {
-          confirmButtonText: '确认',
+      remove: function (item) {
+        this.$confirm('是否删除货品 "' + item.goodsName + '"?', '', {
+          confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          OperatingGoods.delete(item.id).then(() => {
+          goodsWhiteList.delete(item.id).then(() => {
             this.$notify.success({
-              duration: 2000,
-              title: '成功',
-              message: '刪除经营货品"' + item.name + '"成功'
+              message: '删除成功'
             });
-            this.getGoodsList(this.pager.currentPage);
-          }).catch(() => {
+            this.getGoodsList(1);
+          }).catch(error => {
             this.$notify.error({
-              duration: 2000,
-              message: '刪除经营货品"' + item.name + '"失败'
+              message: error.response && error.response.data && error.response.data.msg || '删除失败'
             });
           });
-        }).catch(() => {
         });
       },
       handleSizeChange(val) {
@@ -537,7 +457,7 @@
       },
       resetSearchForm: function () {// 重置表单
         let temp = {
-          orgId: '',
+          subjectOrgId: '',
           goodsId: '',
           auditStatus: ''
         };
@@ -553,7 +473,7 @@
         this.action = 'add';
         this.form = {
           name: '',
-          orgId: '',
+          subjectOrgId: '',
           goodsIdList: []
         };
         this.showRight = true;
@@ -569,7 +489,7 @@
           deleteFlag: false
         }, this.filters);
         this.loadingData = true;
-        OperatingGoods.query(params).then(res => {
+        goodsWhiteList.query(params).then(res => {
           this.showTypeList = res.data.list;
           if (res.data.list.length > 0) {
             this.currentItem = Object.assign({orgGoodsDto: {}, list: []}, this.showTypeList[0]);
