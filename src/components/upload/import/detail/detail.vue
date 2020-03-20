@@ -48,12 +48,12 @@
             <div slot="content" v-if="currentItem.id">
               <oms-col :is-show="true" label="货品" :rowSpan="6" :value="currentItem.goodsName"/>
               <oms-col :is-show="true" label="规格" :rowSpan="6" :value="currentItem.specification"/>
-              <oms-col :is-show="true" label="生产厂商" :rowSpan="6" :value="currentItem.factoryName"/>
+              <oms-col :is-show="true" label="生产厂商" :rowSpan="6" :value="currentItem.goodsFactoryName"/>
               <oms-col :is-show="true" label="商品编号" :rowSpan="6" :value="currentItem.goodsTrackNo"/>
               <oms-col :is-show="true" label="批号" :rowSpan="6" class="R"
                        :value="currentItem.batchNumberList && currentItem.batchNumberList.join(',')"/>
               <oms-col :is-show="true" label="操作人" :rowSpan="6" :value="currentItem.createdName" v-if="!isLog"/>
-              <!--<oms-col :is-show="true" label="上传时间" :rowSpan="6" :value="currentItem.createTime | time"/>-->
+              <oms-col :is-show="true" label="操作单位" :rowSpan="6" :value="currentItem.factoryName"/>
               <oms-col :is-show="true" label="上传单位" :rowSpan="6" :value="currentItem.orgName" v-if="isLog"/>
               <oms-col :is-show="true" label="操作人" :rowSpan="6" :value="currentItem.creatorName" v-if="isLog"/>
               <oms-col :is-show="true" :label="isLog ? '上传时间' : '操作时间'" :rowSpan="6"
