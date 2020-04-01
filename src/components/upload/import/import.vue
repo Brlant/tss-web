@@ -12,8 +12,8 @@
         <el-form class="advanced-query-form">
           <el-row>
             <el-col :span="8">
-              <oms-form-row label="生产厂商" :span="8" isRequire>
-                <el-select filterable placeholder="请输入名称搜生产厂商" remote :remote-method="queryPermDownAllFactory"
+              <oms-form-row label="操作单位" :span="8" isRequire>
+                <el-select filterable placeholder="请输入名称搜操作单位" remote :remote-method="queryPermDownAllFactory"
                            :clearable="true" v-model="searchCondition.objectOrgId"
                            popperClass="good-selects">
                   <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in downOrgList">
@@ -77,9 +77,10 @@
 
       <div class="order-list">
         <el-row class="order-list-header">
-          <el-col :span="6">货品</el-col>
-          <el-col :span="6">生产厂商</el-col>
-          <el-col :span="4">商品编号/货品编号</el-col>
+          <el-col :span="5">货品</el-col>
+          <el-col :span="4">生产厂商</el-col>
+          <el-col :span="4">操作单位</el-col>
+          <el-col :span="3">商品编号/货品编号</el-col>
           <el-col :span="3">批号</el-col>
           <el-col :span="3">操作时间</el-col>
           <el-col :span="2">解析结果</el-col>
@@ -102,7 +103,7 @@
                class="order-list-item order-list-item-bg"
                v-for="item in orderList">
             <el-row>
-              <el-col :span="6">
+              <el-col :span="5">
                 <div>
                   {{item.goodsName }}
                 </div>
@@ -110,10 +111,13 @@
                   {{item.specification }}
                 </div>
               </el-col>
-              <el-col :span="6">
-                {{item.factoryName }}
+              <el-col :span="4">
+                {{item.goodsFactoryName }}
               </el-col>
               <el-col :span="4">
+                {{item.factoryName }}
+              </el-col>
+              <el-col :span="3">
                 {{item.goodsTrackNo }}
                 <div class="f-grey">
                   <el-tooltip content="货品编号" placement="right">

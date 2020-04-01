@@ -94,6 +94,7 @@
         this.$http({
           url: attachment.storagePath,
           timeout: 1000000,
+          responseType: 'blob',
           withCredentials: false
         }).then(res => {
           this.$store.commit('initPrint', {isPrinting: false});

@@ -220,14 +220,14 @@
             this.$notify.success({
               duration: 2000,
               name: '成功',
-              message: '新增经营货品成功'
+              message: '新增货品成功'
             });
             this.$emit('change', this.form);
             this.$emit('right-close', this.form);
           }).catch(error => {
             this.$notify.error({
               duration: 2000,
-              message: error.response.data && error.response.data.msg || '新增经营货品失败'
+              message: error.response.data && error.response.data.msg || '新增货品失败'
             });
             this.doing = false;
           });

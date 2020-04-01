@@ -191,7 +191,12 @@ export const route = [
             path: '/system/log',
             component: () => import('./components/system/log/index.vue'),
             meta: {moduleId: 'system', title: '系统日志', perm: 'code-system-log-query'}
-          }
+          },
+          {
+            path: '/system/search/log',
+            component: () => import('./components/system/search/index.vue'),
+            meta: {moduleId: 'system', title: '单支追溯查询日志', perm: 'code-access-log-watch'}
+          },
         ]
       }
     ]
