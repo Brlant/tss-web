@@ -507,7 +507,7 @@ export const Access = resource('/oms/access', http, {
     return http.get('/oms/access/org/' + orgId + '/role', {params});
   },
   getOrgRole: (orgId, params) => {
-    return http.get('/oms/access/orgs/' + orgId, {params});
+    return http.get('/dhs-account/access/orgs/' + orgId, {params});
   },
   getRoleDetail: (roleId) => {
     return http.get('/oms/access/' + roleId);
@@ -516,7 +516,7 @@ export const Access = resource('/oms/access', http, {
     return http.post('/oms/access/bind/role', obj);
   },
   queryStateNum: (params) => {
-    return http.get('/oms/access/platform/count', {params});
+    return http.get('/dhs-account/access/platform/count', {params});
   },
   deleteBandingRole: (id) => {
     return http.delete('/oms/access/unbind/role/' + id, {});

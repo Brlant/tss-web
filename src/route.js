@@ -147,11 +147,11 @@ export const route = [
         component: () => import('./components/common/parent-route.vue'),
         meta: {moduleId: 'system', title: '系统管理', icon: 'sys-setting', perm: 'system-config'},
         children: [
-          {
-            path: '/system/permission',
-            component: () => import('./components/system/permission/index.vue'),
-            meta: {moduleId: 'system', title: 'TSS单位账户管理', perm: 'code-org-role-watch'}
-          },
+          // {
+          //   path: '/system/permission',
+          //   component: () => import('./components/system/permission/index.vue'),
+          //   meta: {moduleId: 'system', title: 'TSS单位账户管理', perm: 'code-org-role-watch'}
+          // },
           {
             path: '/system/push/url',
             component: () => import('./components/system/url/index.vue'),
@@ -167,26 +167,26 @@ export const route = [
             component: () => import('./components/base/operating-goods/goods.vue'),
             meta: {moduleId: 'system', title: '经营货品管理', perm: 'mdm-operating-goods-watch'}
           },
-          {
-            path: '/system/role',
-            component: () => import('./components/system/role/index.vue'),
-            meta: {moduleId: 'system', title: 'TSS角色管理', perm: 'access-role-watch'}
-          },
-          {
-            path: '/system/user',
-            component: () => import('./components/system/user/index.vue'),
-            meta: {moduleId: 'system', title: 'TSS账户管理', perm: 'code-account-query'}
-          },
-          {
-            path: '/system/role/tbs',
-            component: () => import('./components/system/tbs-role/index.vue'),
-            meta: {moduleId: 'system', title: 'TBS角色管理', perm: 'tbs-access-role-manager'}
-          },
-          {
-            path: '/system/permission/tbs',
-            component: () => import('./components/system/tbs-permission/index.vue'),
-            meta: {moduleId: 'system', title: 'TBS单位账户管理', perm: 'tbs-code-permission-manager'}
-          },
+          // {
+          //   path: '/system/role',
+          //   component: () => import('./components/system/role/index.vue'),
+          //   meta: {moduleId: 'system', title: 'TSS角色管理', perm: 'access-role-watch'}
+          // },
+          // {
+          //   path: '/system/user',
+          //   component: () => import('./components/system/user/index.vue'),
+          //   meta: {moduleId: 'system', title: 'TSS账户管理', perm: 'code-account-query'}
+          // },
+          // {
+          //   path: '/system/role/tbs',
+          //   component: () => import('./components/system/tbs-role/index.vue'),
+          //   meta: {moduleId: 'system', title: 'TBS角色管理', perm: 'tbs-access-role-manager'}
+          // },
+          // {
+          //   path: '/system/permission/tbs',
+          //   component: () => import('./components/system/tbs-permission/index.vue'),
+          //   meta: {moduleId: 'system', title: 'TBS单位账户管理', perm: 'tbs-code-permission-manager'}
+          // },
           {
             path: '/system/log',
             component: () => import('./components/system/log/index.vue'),
