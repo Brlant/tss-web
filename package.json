@@ -1,5 +1,5 @@
 {
-  "name": "codes-admin",
+  "name": "tss-web",
   "description": "codes",
   "version": "1.0.0",
   "author": "Hulk <jayzch@qq.com>",
@@ -18,7 +18,8 @@
     "element-ui": "2.10.1",
     "moment": "^2.24.0",
     "qs": "^6.6.0",
-    "raven-js": "^3.27.2",
+    "@sentry/browser": "^5.15.4",
+    "@sentry/integrations": "^5.15.4",
     "vue": "^2.6.8",
     "vue-moment": "^2.2.0",
     "vue-router": "^2.8.1",
