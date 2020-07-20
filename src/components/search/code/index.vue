@@ -481,7 +481,7 @@
                     <oms-row label='撤销操作单位' :span="5" v-show="info.deleteFlag!==null&&info.deleteFlag">
                       {{info.deleteOrg}}
                     </oms-row>
-                    <oms-row label='撤销信息相关附件' :span="5" v-show="info.deleteFlag!==null&&info.deleteFlag">
+                    <oms-row label='附件' :span="5" v-show="info.deleteFlag!==null&&info.deleteFlag">
                       <attachment-lists :attachmentIdList="info.deleteFileList"
                                         :objectId="info.id"
                                         :objectType="'codeDeleteLog'"></attachment-lists>
@@ -646,7 +646,7 @@
                       <oms-row label='撤销操作单位' :span="5" v-show="info.deleteFlag!==null&&info.deleteFlag">
                         {{info.deleteOrg}}
                       </oms-row>
-                      <oms-row label='撤销信息相关附件' :span="5" v-show="info.deleteFlag!==null&&info.deleteFlag">
+                      <oms-row label='附件' :span="5" v-show="info.deleteFlag!==null&&info.deleteFlag">
                         <attachment-lists :attachmentIdList="info.deleteFileList"
                                           :objectId="info.id"
                                           :objectType="'codeDeleteLog'"></attachment-lists>
