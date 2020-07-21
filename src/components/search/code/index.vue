@@ -299,7 +299,6 @@
       text-align: left;
       left: 170px;
       top: -8px;
-      width: 120px;
       cursor: pointer;
 
       .title {
@@ -405,9 +404,12 @@
                 </div>
                 <div class="tiny-timeline-item-content" @click.stop="changeOpen(detail, index)">
                 <span class="title" :class="{active: index === detail.activeId}">
-                    <span v-if="info.bizType !== '4-0'">{{filterCodesBizType(info.bizType)}}</span>
+                    <span v-if="info.bizType !== '4-0'">{{filterCodesBizType(info.bizType)}}
+                    </span>
                    <dict v-else dict-group="codeExceptionType" :dict-key="info.exceptionType"></dict>
-                   <perm label="code-trace-log-delete" class="ml-15" v-show="index === detail.activeId">
+                   <el-tag type="primary" v-show="info.deleteFlag!==null&&info.deleteFlag">已撤销</el-tag>
+                   <perm label="code-trace-log-delete" class="ml-15"
+                         v-show="index === detail.activeId&&(info.deleteFlag===null||info.deleteFlag!==null&&!info.deleteFlag)">
                     <i class="el-icon-delete" style="color: red;cursor: pointer" @click.stop="deleteItem(info)"></i>
                   </perm>
                 </span>
@@ -419,7 +421,8 @@
             <h2>
               <span>{{filterCodesBizType(info.bizType)}}</span>
             </h2>
-            <el-tabs v-model="showType" size="mini" type="card" v-show="info.logisticsDetailDtos && info.logisticsDetailDtos.length">
+            <el-tabs v-model="showType" size="mini" type="card"
+                     v-show="info.logisticsDetailDtos && info.logisticsDetailDtos.length">
               <el-tab-pane label="业务信息" name="1"></el-tab-pane>
               <el-tab-pane label="物流信息" name="2"></el-tab-pane>
             </el-tabs>
@@ -464,6 +467,25 @@
                     <oms-row label='签收人' :span="4" v-show="info.handoverPerson">{{info.handoverPerson}}</oms-row>
                     <oms-row label='签收单位' :span="4" v-show="info.handoverOrg">{{info.handoverOrg}}</oms-row>
                     <oms-row label='操作层级' :span="4">{{info.operateScheme}}级包装</oms-row>
+                  </div>
+                  <div v-show="info.deleteFlag!==null&&info.deleteFlag">
+                    <oms-row label='撤销时间' :span="5" v-show="info.deleteFlag!==null&&info.deleteFlag">{{info.deleteTime |
+                      time}}
+                    </oms-row>
+                    <oms-row label='撤销备注' :span="5" v-show="info.deleteFlag!==null&&info.deleteFlag">
+                      {{info.deleteRemark}}
+                    </oms-row>
+                    <oms-row label='撤销操作人' :span="5" v-show="info.deleteFlag!==null&&info.deleteFlag">
+                      {{info.deletedBy}}
+                    </oms-row>
+                    <oms-row label='撤销操作单位' :span="5" v-show="info.deleteFlag!==null&&info.deleteFlag">
+                      {{info.deleteOrg}}
+                    </oms-row>
+                    <oms-row label='附件' :span="5" v-show="info.deleteFlag!==null&&info.deleteFlag">
+                      <attachment-lists :attachmentIdList="info.deleteFileList"
+                                        :objectId="info.id"
+                                        :objectType="'codeDeleteLog'"></attachment-lists>
+                    </oms-row>
                   </div>
                 </div>
                 <div v-if="showType === '2'">
@@ -547,7 +569,9 @@
                     <span class="title" :class="{active: index === detail.activeId}">
                       <span v-if="info.bizType !== '4-0'">{{filterCodesBizType(info.bizType)}}</span>
                       <dict v-else dict-group="codeExceptionType" :dict-key="info.exceptionType"></dict>
-                       <perm label="code-trace-log-delete" class="ml-15" v-show="index === detail.activeId">
+                      <el-tag type="primary" v-show="info.deleteFlag!==null&&info.deleteFlag">已撤销</el-tag>
+                       <perm label="code-trace-log-delete" class="ml-15"
+                             v-show="index === detail.activeId&&(info.deleteFlag===null||info.deleteFlag!==null&&!info.deleteFlag)">
                         <i class="el-icon-delete" style="color: red;cursor: pointer" @click.stop="deleteItem(info)"></i>
                        </perm>
                     </span>
@@ -560,7 +584,8 @@
               <h2>
                 <span>{{filterCodesBizType(info.bizType)}}</span>
               </h2>
-              <el-tabs v-model="showType" size="mini" type="card" v-show="info.logisticsDetailDtos && info.logisticsDetailDtos.length">
+              <el-tabs v-model="showType" size="mini" type="card"
+                       v-show="info.logisticsDetailDtos && info.logisticsDetailDtos.length">
                 <el-tab-pane label="业务信息" name="1"></el-tab-pane>
                 <el-tab-pane label="物流信息" name="2"></el-tab-pane>
               </el-tabs>
@@ -576,7 +601,8 @@
                       <oms-row label='上报时间' :span="4" v-show="info.handoverTime">{{info.handoverTime | time}}</oms-row>
                     </div>
                     <div v-else-if="info.bizType === '3-0'">
-                      <oms-row label='零售/使用单位' :span="5" v-show="info.orgName">{{info.orgName}}</oms-row>
+                      <oms-row label='零售/使用单位' :span="5" v-show="info.orgName">{{info.orgName}} {{info.deleteRemark}}
+                      </oms-row>
                       <oms-row label='零售/使用时间' :span="5" v-show="info.time">{{info.time | time}}</oms-row>
                     </div>
                     <div v-else>
@@ -606,6 +632,26 @@
                       <oms-row label='签收单位' :span="4" v-show="info.handoverOrg">{{info.handoverOrg}}</oms-row>
                       <oms-row label='操作层级' :span="4">{{info.operateScheme}}级包装</oms-row>
                     </div>
+                    <div v-show="info.deleteFlag!==null&&info.deleteFlag">
+                      <oms-row label='撤销时间' :span="5" v-show="info.deleteFlag!==null&&info.deleteFlag">{{info.deleteTime
+                        |
+                        time}}
+                      </oms-row>
+                      <oms-row label='撤销备注' :span="5" v-show="info.deleteFlag!==null&&info.deleteFlag">
+                        {{info.deleteRemark}}
+                      </oms-row>
+                      <oms-row label='撤销操作人' :span="5" v-show="info.deleteFlag!==null&&info.deleteFlag">
+                        {{info.deletedBy}}
+                      </oms-row>
+                      <oms-row label='撤销操作单位' :span="5" v-show="info.deleteFlag!==null&&info.deleteFlag">
+                        {{info.deleteOrg}}
+                      </oms-row>
+                      <oms-row label='附件' :span="5" v-show="info.deleteFlag!==null&&info.deleteFlag">
+                        <attachment-lists :attachmentIdList="info.deleteFileList"
+                                          :objectId="info.id"
+                                          :objectType="'codeDeleteLog'"></attachment-lists>
+                      </oms-row>
+                    </div>
                   </div>
                   <div v-if="showType === '2'">
                     <el-table :data="info.logisticsDetailDtos" style="width: 100%" class="mt-10 header-list">
@@ -633,9 +679,11 @@
   import utils from '@/tools/utils';
   import DataMixin from '@/mixins/dataMixin';
   import waybillInfo from '@/components/common/order/waybillInfo';
+  import attachmentLists from '@/components/common/attachmentList.vue';
+
   export default {
     mixins: [DataMixin],
-    components: {waybillInfo},
+    components: {waybillInfo, attachmentLists},
     data: function () {
       return {
         labelSpan: 5,
@@ -664,17 +712,17 @@
     },
     methods: {
       deleteItem(item) {
-        this.$confirm(`是否删除此业务记录`, '', {
+        this.$confirm(`是否撤销此业务记录`, '', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           this.$http.delete(`/code-log/${item.id}`).then(res => {
-            this.$notify.success({message: '删除成功'});
+            this.$notify.success({message: '撤销成功'});
             this.getCodeInfo();
           }).catch(e => {
             this.$notify.error({
-              title: '删除失败',
+              title: '撤销失败',
               message: e.response && e.response.data && e.response.data.msg
             });
           });
@@ -689,7 +737,7 @@
         }
         this.loading = true;
         this.$router.push(`/search/code/${this.currentCodeId}`);
-        http.get(`/code/${this.currentCodeId}/detail`).then(res => {
+        http.get(`/code/${this.currentCodeId}/detail/delete-log`).then(res => {
           res.data.forEach(i => {
             i.activeId = 0;
             i.dtoList.forEach(i => {
