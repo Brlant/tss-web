@@ -299,6 +299,7 @@
       text-align: left;
       left: 170px;
       top: -8px;
+      width: 150px;
       cursor: pointer;
 
       .title {
