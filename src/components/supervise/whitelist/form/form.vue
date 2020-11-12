@@ -188,7 +188,10 @@
           keyWord: '',
           province: '',
           city: '',
-          region: ''
+          region: '',
+          provinceCode: '',
+          cityCode: '',
+          regionCode: ''
         },
         productListSet: [
           {key: 0, name: '未选单位'},
@@ -232,6 +235,9 @@
         this.$refs.form.validateField('orgIdList');
       },
       filterObjectOrgList(val) {
+        this.filters.provinceCode = val[0]?val[0]:'';
+        this.filters.cityCode = val[1]?val[1]:'';
+        this.filters.regionCode =val[2]?val[2]:'';
         let ary = utils.formatAddressByType(val[0], val[1], val[2], 'label');
         this.filters.province = ary[0];
         this.filters.city = ary[1];
@@ -247,7 +253,10 @@
           keyWord: '',
           province: '',
           city: '',
-          region: ''
+          region: '',
+          provinceCode: '',
+          cityCode: '',
+          regionCode: ''
         };
       },
       resetSearchForm() {
