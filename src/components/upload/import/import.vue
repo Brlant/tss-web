@@ -12,7 +12,7 @@
         <el-form class="advanced-query-form">
           <el-row>
             <el-col :span="8">
-              <oms-form-row label="操作单位" :span="8" isRequire>
+              <oms-form-row label="操作单位" :span="8">
                 <el-select filterable placeholder="请输入名称搜操作单位" remote :remote-method="queryPermDownAllFactory"
                            :clearable="true" v-model="searchCondition.objectOrgId"
                            popperClass="good-selects">
@@ -291,9 +291,9 @@
         this.currentItem = order;
       },
       getOrderList: function (pageNo) {
-        if (!this.searchCondition.objectOrgId) {
+        /*if (!this.searchCondition.objectOrgId) {
           return this.$notify.info('请选择生产厂商');
-        }
+        }*/
         this.pager.currentPage = pageNo;
         let param = {};
         this.loadingData = true;
