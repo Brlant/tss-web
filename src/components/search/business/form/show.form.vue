@@ -95,6 +95,7 @@
             </el-row>
             <el-table :data="currentOrder.detailList" style="width: 100%" class="mt-10 header-list">
               <el-table-column prop="goodsName" label="货品名称" min-width="200"/>
+              <el-table-column prop="specification" label="规格"/>
               <el-table-column prop="batchNumber" label="批号"/>
               <el-table-column prop="count" label="数量" min-width="80"/>
             </el-table>
