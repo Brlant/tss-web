@@ -147,10 +147,10 @@
       </div>
     </div>
     <div class="text-center" v-show="pager.count>pager.pageSize && !loadingData">
-      <el-pagination
-        :current-page="pager.currentPage"
-        :pageSize="pager.pageSize" :total="pager.count" @current-change="getOrderList"
-        layout="prev, pager, next">
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                     :current-page="pager.currentPage"
+                     :page-sizes="[20,50,100]" :page-size="20" layout="total, sizes, prev, pager, next, jumper"
+                     :total="pager.count">
       </el-pagination>
     </div>
     <page-right :css="{'width':'800px','padding':0}" :show="showItemRight" @right-close="resetRightBox">
@@ -246,6 +246,13 @@
       }
     },
     methods: {
+      handleSizeChange(val) {
+        this.pager.pageSize = val;
+        this.getOrderList(1);
+      },
+      handleCurrentChange(val) {
+        this.getOrderList(val);
+      },
       searchInOrder: function () {// 搜索
         Object.assign(this.filters, this.searchCondition);
         this.getOrderList(1);
