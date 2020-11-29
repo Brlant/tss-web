@@ -441,6 +441,7 @@
                   <div v-else-if="info.bizType === '3-0'">
                     <oms-row label='零售/使用单位' :span="5" v-show="info.orgName">{{info.orgName}}</oms-row>
                     <oms-row label='零售/使用时间' :span="5" v-show="info.time">{{info.time | time}}</oms-row>
+                    <oms-row label='零售/使用操作人' :span="5" v-show="info.uploadMan">{{info.uploadMan}}</oms-row>
                   </div>
                   <div v-else>
                     <oms-row label='订单号' :span="4" v-show="info.orderNo">{{info.orderNo}}</oms-row>
@@ -605,6 +606,7 @@
                       <oms-row label='零售/使用单位' :span="5" v-show="info.orgName">{{info.orgName}} {{info.deleteRemark}}
                       </oms-row>
                       <oms-row label='零售/使用时间' :span="5" v-show="info.time">{{info.time | time}}</oms-row>
+                      <oms-row label='零售/使用操作人' :span="5" v-show="info.uploadMan">{{info.uploadMan}}</oms-row>
                     </div>
                     <div v-else>
                       <oms-row label='订单号' :span="4" v-show="info.orderNo">{{info.orderNo}}</oms-row>
