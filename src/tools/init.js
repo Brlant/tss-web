@@ -1,6 +1,8 @@
-import moment from 'moment';
+import moment from 'dayjs';
 
 export function init(Vue) {
+  moment.locale('zh-cn');
+  Vue.prototype.$moment = moment;
 
   Vue.filter('date', function (dateTime) {
     if (!dateTime) return '';

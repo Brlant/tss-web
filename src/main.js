@@ -1,8 +1,7 @@
 import Vue from 'vue';
 import router from './routers';
 import tinyVue from './lib/tinyVue';
-import moment from 'moment';
-import 'moment/locale/zh-cn';
+import 'dayjs/locale/zh-cn';
 import './assets/scss/element-variables.scss';
 import './assets/css/oms.css';
 import './assets/fonts/iconfont.css';
@@ -15,7 +14,6 @@ import * as Integrations from '@sentry/integrations';
 import VueAMap from 'vue-amap';
 init(Vue);
 
-Vue.use(require('vue-moment'), {moment});
 Vue.use(tinyVue);
 Vue.use(Vuex);
 Vue.use(VueAMap);
