@@ -107,7 +107,7 @@
         </div>
       </div>
     </div>
-    <div class="text-center" v-show="pager.count>pager.pageSize && !loadingData">
+    <div class="text-center" v-show="!loadingData">
       <el-pagination
         :current-page="pager.currentPage" :pageSize="pager.pageSize" :total="pager.count"
         @current-change="handleCurrentChange" @size-change="handleSizeChange"
