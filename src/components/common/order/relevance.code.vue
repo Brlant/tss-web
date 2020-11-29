@@ -75,9 +75,10 @@
       <div class="order-list clearfix" v-loading="loadingData">
         <el-row class="order-list-header t-head" style="margin:0">
           <el-col :span="6">追溯码</el-col>
-          <el-col :span="10">货品名称</el-col>
-          <el-col :span="5">批号</el-col>
-          <el-col :span="3">包装类型</el-col>
+          <el-col :span="7">货品名称</el-col>
+          <el-col :span="5">规格</el-col>
+          <el-col :span="4">批号</el-col>
+          <el-col :span="2">包装层级</el-col>
         </el-row>
         <el-row v-if="!traceCodes.length">
           <el-col :span="24">
@@ -98,14 +99,17 @@
 <!--                  </perm>-->
                 </span>
               </el-col>
-              <el-col :span="10" class="pt">
+              <el-col :span="7" class="pt">
                 <span>{{ item.goodsName }}</span>
               </el-col>
               <el-col :span="5" class="pt">
+                <span>{{ item.specification }}</span>
+              </el-col>
+              <el-col :span="4" class="pt">
                 <span>{{ item.batchNumber }}</span>
               </el-col>
-              <el-col :span="3" class="pt">
-                <span>{{ packageType[item.packageScheme-1] }}</span>
+              <el-col :span="2" class="pt">
+                <span>第 {{ item.packageScheme }} 级</span>
               </el-col>
             </el-row>
           </div>

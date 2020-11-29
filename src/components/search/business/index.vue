@@ -107,12 +107,12 @@
         </div>
       </div>
     </div>
-    <div class="text-center" v-show="!loadingData">
-      <el-pagination
-        :current-page="pager.currentPage" :pageSize="pager.pageSize" :total="pager.count"
-        @current-change="handleCurrentChange" @size-change="handleSizeChange"
-        layout="total, sizes, prev, pager, next">
-      </el-pagination>
+    <div class="text-center" v-show="(orderList.length || pager.currentPage !== 1) && !loadingData">
+      <el-cu-pagination :current-page="pager.currentPage" :page-size="20"
+                        :page-sizes="[20,50,100]"
+                        :total="pager.count" @current-change="handleCurrentChange" @size-change="handleSizeChange"
+                        layout="sizes, prev, pager, next, jumper">
+      </el-cu-pagination>
     </div>
     <page-right :css="{'width':'1000px','padding':0}" :show="showDetail" @right-close="resetRightBox"
                 class="order-detail-info" partClass="pr-no-animation">
@@ -196,6 +196,7 @@ export default {
       // this.$router.push('/search/business');
     },
     handleSizeChange(val) {
+      console.log(2222)
       this.pager.pageSize = val;
       this.getOrderList(1);
     },
@@ -205,9 +206,6 @@ export default {
     getOrderList: function (pageNo) {
       if (this.$store.state.permissions.indexOf('query-all-supervise-unit') === -1 && !this.filters.sourceOrgId && !this.filters.directionOrgId) {
         return this.$notify.info('请选择来源单位或者去向单位');
-      }
-      if (pageNo === 1) {
-        this.pager.count = 0;
       }
       this.pager.currentPage = pageNo;
       let params = {};
@@ -229,7 +227,7 @@ export default {
 
       this.$http.get('/code-regulatory/code-biz/pager', {params}).then(res => {
         this.orderList = res.data.list;
-        this.pager.count = res.data.count;
+        this.pager.count = this.pager.currentPage * this.pager.pageSize + (this.orderList.length === this.pager.pageSize ? 1 : 0);
         this.loadingData = false;
       });
     },
