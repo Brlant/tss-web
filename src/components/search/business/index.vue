@@ -11,11 +11,11 @@
                            popperClass="good-selects">
                   <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in allOrgList">
                     <div style="overflow: hidden">
-                      <span class="pull-left" style="clear: right">{{org.name}}</span>
+                      <span class="pull-left" style="clear: right">{{ org.name }}</span>
                     </div>
                     <div style="overflow: hidden">
                       <span class="select-other-info pull-left">
-                        <span>系统代码:</span>{{org.manufacturerCode}}
+                        <span>系统代码:</span>{{ org.manufacturerCode }}
                       </span>
                     </div>
                   </el-option>
@@ -29,11 +29,11 @@
                            popperClass="good-selects">
                   <el-option :value="org.id" :key="org.id" :label="org.name" v-for="org in downOrgList">
                     <div style="overflow: hidden">
-                      <span class="pull-left" style="clear: right">{{org.name}}</span>
+                      <span class="pull-left" style="clear: right">{{ org.name }}</span>
                     </div>
                     <div style="overflow: hidden">
                       <span class="select-other-info pull-left">
-                        <span>系统代码:</span>{{org.manufacturerCode}}
+                        <span>系统代码:</span>{{ org.manufacturerCode }}
                       </span>
                     </div>
                   </el-option>
@@ -96,12 +96,12 @@
                class="order-list-item order-list-item-bg"
                v-for="item in orderList">
             <el-row type="flex">
-              <el-col :span="2">{{filterBizType(item.bizType)}}</el-col>
-              <el-col :span="4" class="R">{{item.objectNo}}</el-col>
-              <el-col :span="6">{{item.sourceOrgName }}</el-col>
-              <el-col :span="6">{{item.directionOrgName }}</el-col>
-              <el-col :span="3">{{item.operateTime | minute }}</el-col>
-              <el-col :span="3">{{item.createTime | minute }}</el-col>
+              <el-col :span="2">{{ filterBizType(item.bizType) }}</el-col>
+              <el-col :span="4" class="R">{{ item.objectNo }}</el-col>
+              <el-col :span="6">{{ item.sourceOrgName }}</el-col>
+              <el-col :span="6">{{ item.directionOrgName }}</el-col>
+              <el-col :span="3">{{ item.operateTime | minute }}</el-col>
+              <el-col :span="3">{{ item.createTime | minute }}</el-col>
             </el-row>
           </div>
         </div>
@@ -121,130 +121,130 @@
   </div>
 </template>
 <script>
-  import showForm from './form/show.form.vue';
-  import DataMixin from '@/mixins/dataMixin';
-  import methodsMixin from '@/mixins/methodsMixin';
+import showForm from './form/show.form.vue';
+import DataMixin from '@/mixins/dataMixin';
+import methodsMixin from '@/mixins/methodsMixin';
 
-  export default {
-    components: {showForm},
-    mixins: [DataMixin, methodsMixin],
-    data: function () {
-      return {
-        loadingData: false,
-        showDetail: false,
-        showSearch: true,
-        orderList: [],
-        filters: {
-          objectOrgId: '',
-          orgId: '',
-          objectNo: '',
-          bizType: '',
-          sourceOrgId: '',
-          directionOrgId: '',
-          operateStartTime: '',
-          operateEndTime: ''
-        },
-        searchCondition: {
-          objectOrgId: '',
-          orgId: '',
-          objectNo: '',
-          bizType: '',
-          sourceOrgId: '',
-          directionOrgId: '',
-          operateStartTime: '',
-          operateEndTime: ''
-        },
-        times1: '',
-        activeStatus: 0,
-        currentOrderId: '',
-        pager: {
-          currentPage: 1,
-          count: 0,
-          pageSize: 20
-        }
-      };
-    },
-    mounted() {
-      this.queryPermDownAllFactory('all-code-biz-trace');
-    },
-    methods: {
-      searchInOrder: function () {// 搜索
-        this.searchCondition.operateStartTime = this.formatTimeAry(this.times1, 0);
-        this.searchCondition.operateEndTime = this.formatTimeAry(this.times1, 1);
-        Object.assign(this.filters, this.searchCondition);
-        this.getOrderList(1);
+export default {
+  components: {showForm},
+  mixins: [DataMixin, methodsMixin],
+  data: function () {
+    return {
+      loadingData: false,
+      showDetail: false,
+      showSearch: true,
+      orderList: [],
+      filters: {
+        objectOrgId: '',
+        orgId: '',
+        objectNo: '',
+        bizType: '',
+        sourceOrgId: '',
+        directionOrgId: '',
+        operateStartTime: '',
+        operateEndTime: ''
       },
-      resetSearchForm: function () {// 重置表单
-        this.pager.count = 0;
-        this.orderList = [];
-        let temp = {
-          objectOrgId: '',
-          orgId: '',
-          objectNo: '',
-          bizType: '',
-          sourceOrgId: '',
-          directionOrgId: '',
-          operateStartTime: '',
-          operateEndTime: ''
-        };
-        this.times1 = '';
-        Object.assign(this.searchCondition, temp);
-        Object.assign(this.filters, temp);
+      searchCondition: {
+        objectOrgId: '',
+        orgId: '',
+        objectNo: '',
+        bizType: '',
+        sourceOrgId: '',
+        directionOrgId: '',
+        operateStartTime: '',
+        operateEndTime: ''
       },
-      resetRightBox: function () {
-        this.showDetail = false;
-        // this.$router.push('/search/business');
-      },
-      handleSizeChange(val) {
-        this.pager.pageSize = val;
-        this.getOrderList(1);
-      },
-      handleCurrentChange(val) {
-        this.getOrderList(val);
-      },
-      getOrderList: function (pageNo) {
-        if (!this.filters.sourceOrgId && !this.filters.directionOrgId) {
-          return this.$notify.info('请选择来源单位或者去向单位');
-        }
-        if (pageNo === 1) {
-          this.pager.count = 0;
-        }
-        this.pager.currentPage = pageNo;
-        let params = {};
-        this.loadingData = true;
-        params = Object.assign({}, this.filters, {
-          pageNo: pageNo,
-          pageSize: this.pager.pageSize
-        });
-        delete params.sourceOrgId;
-        delete params.directionOrgId;
-
-        if (this.filters.sourceOrgId) {
-          params.objectOrgIdList = [this.filters.sourceOrgId];
-        }
-
-        if (this.filters.directionOrgId) {
-          params.directionOrgIdList = [this.filters.directionOrgId];
-        }
-
-        this.$http.get('/code-regulatory/code-biz/pager', {params}).then(res => {
-          this.orderList = res.data.list;
-          this.pager.count = res.data.count;
-          this.loadingData = false;
-        });
-      },
-      showItem: function (order) {
-        this.currentOrderId = order.id;
-        this.showDetail = true;
-        // this.$router.push(`/search/business/${order.id}`);
-      },
-      formatTimeAry(times, index, str) {
-        if (!times) return;
-        return this.formatTime(times[index], str);
-      },
-      formatTime(time, str = 'YYYY-MM-DD HH:mm:ss') {
-        return time ? this.$moment(time).format(str) : '';
+      times1: '',
+      activeStatus: 0,
+      currentOrderId: '',
+      pager: {
+        currentPage: 1,
+        count: 0,
+        pageSize: 20
       }
+    };
+  },
+  mounted() {
+    this.queryPermDownAllFactory('all-code-biz-trace');
+  },
+  methods: {
+    searchInOrder: function () {// 搜索
+      this.searchCondition.operateStartTime = this.formatTimeAry(this.times1, 0);
+      this.searchCondition.operateEndTime = this.formatTimeAry(this.times1, 1);
+      Object.assign(this.filters, this.searchCondition);
+      this.getOrderList(1);
+    },
+    resetSearchForm: function () {// 重置表单
+      this.pager.count = 0;
+      this.orderList = [];
+      let temp = {
+        objectOrgId: '',
+        orgId: '',
+        objectNo: '',
+        bizType: '',
+        sourceOrgId: '',
+        directionOrgId: '',
+        operateStartTime: '',
+        operateEndTime: ''
+      };
+      this.times1 = '';
+      Object.assign(this.searchCondition, temp);
+      Object.assign(this.filters, temp);
+    },
+    resetRightBox: function () {
+      this.showDetail = false;
+      // this.$router.push('/search/business');
+    },
+    handleSizeChange(val) {
+      this.pager.pageSize = val;
+      this.getOrderList(1);
+    },
+    handleCurrentChange(val) {
+      this.getOrderList(val);
+    },
+    getOrderList: function (pageNo) {
+      if (this.$store.state.permissions.indexOf('query-all-supervise-unit') === -1 && !this.filters.sourceOrgId && !this.filters.directionOrgId) {
+        return this.$notify.info('请选择来源单位或者去向单位');
+      }
+      if (pageNo === 1) {
+        this.pager.count = 0;
+      }
+      this.pager.currentPage = pageNo;
+      let params = {};
+      this.loadingData = true;
+      params = Object.assign({}, this.filters, {
+        pageNo: pageNo,
+        pageSize: this.pager.pageSize
+      });
+      delete params.sourceOrgId;
+      delete params.directionOrgId;
+
+      if (this.filters.sourceOrgId) {
+        params.objectOrgIdList = [this.filters.sourceOrgId];
+      }
+
+      if (this.filters.directionOrgId) {
+        params.directionOrgIdList = [this.filters.directionOrgId];
+      }
+
+      this.$http.get('/code-regulatory/code-biz/pager', {params}).then(res => {
+        this.orderList = res.data.list;
+        this.pager.count = res.data.count;
+        this.loadingData = false;
+      });
+    },
+    showItem: function (order) {
+      this.currentOrderId = order.id;
+      this.showDetail = true;
+      // this.$router.push(`/search/business/${order.id}`);
+    },
+    formatTimeAry(times, index, str) {
+      if (!times) return;
+      return this.formatTime(times[index], str);
+    },
+    formatTime(time, str = 'YYYY-MM-DD HH:mm:ss') {
+      return time ? this.$moment(time).format(str) : '';
     }
-  };
+  }
+};
 </script>
