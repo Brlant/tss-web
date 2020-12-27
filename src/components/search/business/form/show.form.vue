@@ -59,8 +59,8 @@
                 <oms-row label="业务单据号" :span="6">{{ currentOrder.objectNo }}</oms-row>
                 <oms-row label="业务类型" :span="6"> {{filterBizType(currentOrder.bizType)}}</oms-row>
                 <oms-row label="来源单位" :span="6">{{currentOrder.sourceOrgName}}</oms-row>
-                <oms-row label='物流方式' :span="6">{{currentOrder.transportationMeans}}</oms-row>
-                <oms-row label='运输条件' :span="6">{{currentOrder.logisticsMode}}</oms-row>
+                <oms-row label='物流方式' :span="6" v-show="currentOrder.transportationMeans">{{currentOrder.transportationMeans}}</oms-row>
+                <oms-row label='运输条件' :span="6" v-show="currentOrder.logisticsMode">{{currentOrder.logisticsMode}}</oms-row>
                 <oms-row label='签收时间' :span="6" v-show="currentOrder.handoverTime">{{currentOrder.handoverTime | time}}
                 </oms-row>
                 <oms-row label='签收人' :span="6" v-show="currentOrder.handoverPerson">{{currentOrder.handoverPerson}}
@@ -73,7 +73,7 @@
                 </oms-row>
               </el-col>
               <el-col :span="12">
-                <oms-row label="作业号" :span="7"> {{currentOrder.taskId}}</oms-row>
+                <oms-row label="作业号" :span="7" v-show="currentOrder.taskId"> {{currentOrder.taskId}}</oms-row>
                 <oms-row label="去向单位" :span="7">
                   {{currentOrder.directionOrgName }}
                 </oms-row>
@@ -94,10 +94,11 @@
               </el-col>
             </el-row>
             <el-table :data="currentOrder.detailList" style="width: 100%" class="mt-10 header-list">
-              <el-table-column prop="goodsName" label="货品名称" min-width="200"/>
+              <el-table-column prop="goodsName" label="货品名称" min-width="150"/>
               <el-table-column prop="specification" label="规格" min-width="120"/>
               <el-table-column prop="batchNumber" label="批号"/>
-              <el-table-column prop="count" label="数量" min-width="80"/>
+              <el-table-column prop="reviewCodeCount" label="件数" min-width="50"/>
+              <el-table-column prop="count" label="数量" min-width="50"/>
             </el-table>
           </div>
         </form-show-part>
