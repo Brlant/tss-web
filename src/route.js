@@ -128,7 +128,7 @@ export const route = [
           {
             path: '/search/business',
             component: () => import('./components/search/business/index.vue'),
-            meta: {moduleId: 'line', title: '业务追溯数据监管', perm: 'code-biz-trace'}
+            meta: {moduleId: 'line', title: '业务追溯数据监管', perm: 'code-biz-trace-watch'}
           },
           {
             path: '/line/monitoring/logistics',
