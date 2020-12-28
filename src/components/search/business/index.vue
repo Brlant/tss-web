@@ -196,7 +196,6 @@ export default {
       // this.$router.push('/search/business');
     },
     handleSizeChange(val) {
-      console.log(2222)
       this.pager.pageSize = val;
       this.getOrderList(1);
     },
