@@ -192,7 +192,7 @@
         },
         doing: false,
         pushing: false,
-        xmlLoading:false
+        xmlLoading: false
       };
     },
     computed: {
@@ -250,6 +250,44 @@
             message: error.response && error.response.data && error.response.data.msg || '网络异常',
             type: 'error'
           });
+        });
+      },
+      funDownload: function (blob, filename) {
+        if (window.navigator.msSaveOrOpenBlob) {
+          navigator.msSaveBlob(blob, filename);
+        } else {
+          const link = document.createElement('a');
+          const body = document.querySelector('body');
+
+          link.href = window.URL.createObjectURL(blob);
+          link.download = filename;
+
+          // fix Firefox
+          link.style.display = 'none';
+          body.appendChild(link);
+
+          link.click();
+          body.removeChild(link);
+
+          window.URL.revokeObjectURL(link.href);
+        }
+      },
+      downloadFile(url) {
+        this.$http({
+          url: url,
+          timeout: 1000000,
+          responseType: 'blob',
+          withCredentials: false
+        }).then(res => {
+          this.xmlLoading = false;
+          let reg = /name=(.+?).xml/.exec(url);
+          if (reg && reg[1]) {
+            this.funDownload(res.data, reg[1]);
+          } else {
+            this.funDownload(res.data, '追溯码文件');
+          }
+        }).catch(() => {
+          this.xmlLoading = false;
         });
       },
       downloadUnknowCode(){
