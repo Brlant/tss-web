@@ -233,6 +233,33 @@
       }
     },
     methods: {
+      downloadCode(url){
+        if (!this.currentOrder.id)return ;
+        this.xmlLoading = true;
+        let params = {
+          bizLogId: this.currentOrder.id,
+        };
+        this.$http.get(url, {params}).then(res => {
+          this.downloadFile(res.data.path);
+        }).catch(error => {
+          this.xmlLoading = false;
+          this.$notify({
+            duration: 2000,
+            title: '无法下载',
+            message: error.response && error.response.data && error.response.data.msg || '网络异常',
+            type: 'error'
+          });
+        });
+      },
+      downloadUnknowCode(){
+        this.downloadCode(`code-biz/biz-log/export/ali-unknown`);
+      },
+      downloadKnownCode(){
+        this.downloadCode(`code-biz/biz-log/export/ali-known`);
+      },
+      downloadExcel(){
+        this.downloadCode(`code-biz/biz-log/export/excel`);
+      },
       pushData() {
         if (this.pushing) return;
         this.pushing = true;
