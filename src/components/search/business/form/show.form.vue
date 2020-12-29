@@ -191,7 +191,8 @@
           code: ''
         },
         doing: false,
-        pushing: false
+        pushing: false,
+        xmlLoading:false
       };
     },
     computed: {
