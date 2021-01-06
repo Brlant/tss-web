@@ -12,11 +12,18 @@ import App from './components/App.vue';
 import * as Sentry from '@sentry/browser';
 import * as Integrations from '@sentry/integrations';
 import VueAMap from 'vue-amap';
+import utils from "./tools/utils";
 init(Vue);
 
 Vue.use(tinyVue);
 Vue.use(Vuex);
 Vue.use(VueAMap);
+
+Vue.filter('formatGoodsTypeList', val=> {
+  if (!val) return '';
+  let goodsTypeList = utils.goodsTypeList;
+  return goodsTypeList[val - 1] && goodsTypeList[val - 1].label || val;
+});
 
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({

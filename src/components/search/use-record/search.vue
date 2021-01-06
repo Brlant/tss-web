@@ -36,7 +36,7 @@
                   <div>
                     <span class="pull-left">{{ item.name }}({{ item.factoryName }})</span>
                     <span class="pull-right select-other-info">
-                      <dict :dict-group="'typeId'" :dict-key="item.typeId"></dict><span
+                      {{item.typeId|formatGoodsTypeList}}<span
                       v-show="item.typeId === '1' && item.vaccineSign">-<dict :dict-group="'vaccineSign'"
                                                                               :dict-key="item.vaccineSign"></dict></span>
                     </span>
