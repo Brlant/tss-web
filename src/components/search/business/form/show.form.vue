@@ -39,6 +39,13 @@
   <dialog-template :pageSets="pageSets" @selectTab="selectTab">
     <template slot="title">业务信息</template>
     <template slot="btn">
+      <perm label="code-biz-trace-order-delete">
+        <div class="mb-15">
+          <el-button type="primary" @click="deleteItem(currentOrder)">
+            删除单据
+          </el-button>
+        </div>
+      </perm>
       <perm label="code-biz-trace-unknow-code-download">
         <div class="mb-15">
           <el-button type="primary" @click="downloadUnknowCode" :loading="xmlLoading">
@@ -160,7 +167,7 @@
 </template>
 
 <script>
-  import {bizTraces} from '@/resources';
+import {bizTraces, http} from '@/resources';
   import relevanceCode from '@/components/common/order/relevance.code';
   import RetrospectError from '@/components/upload/exception-code/retrospect/retrospect-error-info.vue';
   import RetrospectFile from '@/components/upload/exception-code/retrospect/retrospect-file.vue'; //
@@ -234,6 +241,22 @@
       }
     },
     methods: {
+      deleteItem: function (order) {
+        this.$confirm('确认删除业务单据号【' + order.objectNo + '】的单据信息吗?', '', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          http.get(`code-biz/${order.id}/detail`).then(res => {
+            this.$notify.success("删除业务单据【" + order.objectNo + "】成功");
+            this.$emit('deleteItem', order);
+          }).catch(error => {
+            this.$notify.error({
+              message: error.response.data && error.response.data.msg || "删除业务单据【" + order.objectNo + "】失败"
+            });
+          });
+        }).catch(error => {});
+      },
       downloadCode(url){
         if (!this.currentOrder.id)return ;
         this.xmlLoading = true;
