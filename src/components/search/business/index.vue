@@ -116,7 +116,7 @@
     </div>
     <page-right :css="{'width':'1000px','padding':0}" :show="showDetail" @right-close="resetRightBox"
                 class="order-detail-info" partClass="pr-no-animation">
-      <show-form :filterBizType="filterBizType" :orderId="currentOrderId" @close="resetRightBox"></show-form>
+      <show-form :filterBizType="filterBizType" :orderId="currentOrderId" @close="resetRightBox" @deleteItem="deleteItem()"></show-form>
     </page-right>
   </div>
 </template>
@@ -124,6 +124,8 @@
 import showForm from './form/show.form.vue';
 import DataMixin from '@/mixins/dataMixin';
 import methodsMixin from '@/mixins/methodsMixin';
+import {http} from '@/resources';
+
 
 export default {
   components: {showForm},
@@ -168,6 +170,10 @@ export default {
     this.queryPermDownAllFactory('all-code-biz-trace');
   },
   methods: {
+    deleteItem(){
+      this.resetRightBox();
+      this.getOrderList(this.pager.currentPage);
+    },
     searchInOrder: function () {// 搜索
       this.searchCondition.operateStartTime = this.formatTimeAry(this.times1, 0);
       this.searchCondition.operateEndTime = this.formatTimeAry(this.times1, 1);
