@@ -263,7 +263,7 @@
                     <div>
                       <span class="pull-left">{{ item.name }}({{ item.factoryName }})</span>
                       <span class="pull-right select-other-info" v-show="item.typeId">
-                      <dict :dict-group="'typeId'" :dict-key="item.typeId"></dict>
+                      {{item.typeId|formatGoodsTypeList}}
                     </span>
                     </div>
                     <div class="clearfix">
@@ -318,7 +318,7 @@
                :class="['status-no',{'active':activeId===item.id}]">
             <el-row>
               <el-col :span="5">
-                {{formatGoodsTypeList(item.typeId)}}
+                {{item.typeId|formatGoodsTypeList}}
               </el-col>
               <el-col :span="5">
                 <div class="f-grey">
@@ -435,10 +435,6 @@
       }
     },
     methods: {
-      formatGoodsTypeList(val) {
-        let goodsTypeList = this.$store.state.goodsTypeList;
-        return goodsTypeList[val - 1] && goodsTypeList[val - 1].label || val;
-      },
       auditPass(item) {
         this.$confirm('确认通过经营货品"' + item.name + '"的审核?', '', {
           confirmButtonText: '确认',

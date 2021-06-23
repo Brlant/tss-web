@@ -2,6 +2,17 @@ import {Address, formatAddress, formatAddressByType} from '@dtop/dtop-web-common
 
 export default {
   address: Address.value,
+  goodsTypeList: [
+    {key: '1', label: '疫苗（国产）'},
+    {key: '2', label: '疫苗（进口）'},
+    {key: '3', label: '一般药品（国产）'},
+    {key: '4', label: '一般药品（进口）'},
+    {key: '5', label: '特殊药品（国产）'},
+    {key: '6', label: '特殊药品（进口）'},
+    {key: '7', label: '国产医疗器械'},
+    {key: '8', label: '进口医疗器械'},
+    {key: '9', label: '其他'}
+  ],
   inOrderType: {
     0: {'title': '所有', state: null, num: 0},
     1: {'title': '待确认', state: '0', num: 0},
