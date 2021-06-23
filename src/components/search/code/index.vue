@@ -360,25 +360,35 @@
           <el-row :gutter="12" class="main-info-dom">
             <el-col :span="12">
               <oms-row label="追溯码" :span="labelSpan" class="R">{{ detail.code }}</oms-row>
-              <oms-row label="品名" :span="labelSpan" v-show="detail.goodsName">{{ detail.goodsName }}</oms-row>
-              <oms-row label="规格" :span="labelSpan" v-show="detail.specification">{{ detail.specification }}</oms-row>
+              <oms-row label="品名" :span="labelSpan" v-show="detail.goodsName">
+                <el-tooltip :content="'DHS-ID: '+detail.goodsId" placement="right">
+                  <span> {{detail.goodsName}}</span>
+                </el-tooltip>
+              </oms-row>
+              <oms-row label="制剂规格" :span="labelSpan" v-show="detail.specification">{{ detail.specification }}</oms-row>
               <oms-row label="厂商" :span="labelSpan" v-show="detail.factoryName ">{{ detail.factoryName }}</oms-row>
-              <oms-row label="质量状态" :span="labelSpan">
+              <oms-row label="质量状态" :span="labelSpan" v-show="!detail.qualityFlag">
                 <el-tag type="success" v-if="detail.qualityFlag">合格</el-tag>
                 <el-tag type="primary" v-if="!detail.qualityFlag">不合格</el-tag>
               </oms-row>
-              <oms-row label="父级包装码" :span="labelSpan" v-show="detail.parentCode">{{detail.parentCode}}</oms-row>
+              <oms-row label="上市许可持有人" :span="labelSpan" v-show="detail.expirationDate">{{ detail.vaccineMarketingApprovalPossessorName}}
+              </oms-row>
+              <oms-row label="包装层级" :span="labelSpan" v-show="detail.packageScheme">{{ packageType[detail.packageScheme
+              - 1] }}
+              </oms-row>
             </el-col>
             <el-col :span="12">
-              <oms-row label="包装层级" :span="labelSpan" v-show="detail.packageScheme">{{ packageType[detail.packageScheme
-                - 1] }}
-              </oms-row>
               <oms-row class="R" label="批号" :span="labelSpan" v-show="detail.batchNumber">{{ detail.batchNumber }}
+              </oms-row>
+              <oms-row class="R" label="包装规格" :span="labelSpan" v-show="detail.packingSpecification">{{ detail.packingSpecification }}
+              </oms-row>
+              <oms-row class="R" label="剂型" :span="labelSpan" v-show="detail.dosageForm"><dict :dict-group="'dosageForm'" :dict-key="detail.dosageForm"></dict>
               </oms-row>
               <oms-row label="生产日期" :span="labelSpan" v-show="detail.productionDate">{{ detail.productionDate | date}}
               </oms-row>
-              <oms-row label="有效期" :span="labelSpan" v-show="detail.expirationDate">{{ detail.expirationDate | date }}
+              <oms-row label="有效期至" :span="labelSpan" v-show="detail.expirationDate">{{ detail.expirationDate | date }}
               </oms-row>
+              <oms-row label="父级包装码" :span="labelSpan" v-show="detail.parentCode">{{detail.parentCode}}</oms-row>
               <oms-row label="通关单号" :span="labelSpan" v-show="detail.customsFormNumber">
                 {{detail.customsFormNumber}}
                 <el-tag type="success" v-if="detail.qualityFlag">已通关</el-tag>
@@ -522,27 +532,37 @@
             <el-row :gutter="12" class="main-info-dom">
               <el-col :span="12">
                 <oms-row label="追溯码" :span="labelSpan" class="R">{{ detail.code }}</oms-row>
-                <oms-row label="品名" :span="labelSpan" v-show="detail.goodsName">{{ detail.goodsName }}</oms-row>
-                <oms-row label="规格" :span="labelSpan" v-show="detail.specification">{{ detail.specification }}</oms-row>
+                <oms-row label="品名" :span="labelSpan" v-show="detail.goodsName">
+                  <el-tooltip :content="'DHS-ID: '+detail.goodsId" placement="right">
+                    <span> {{detail.goodsName}}</span>
+                  </el-tooltip>
+                </oms-row>
+                <oms-row label="制剂规格" :span="labelSpan" v-show="detail.specification">{{ detail.specification }}</oms-row>
                 <oms-row label="厂商" :span="labelSpan" v-show="detail.factoryName ">{{ detail.factoryName }}</oms-row>
-                <oms-row label="质量状态" :span="labelSpan">
+                <oms-row label="质量状态" :span="labelSpan" v-show="!detail.qualityFlag">
                   <el-tag type="success" v-if="detail.qualityFlag">合格</el-tag>
                   <el-tag type="primary" v-if="!detail.qualityFlag">不合格</el-tag>
                 </oms-row>
-                <oms-row label="父级包装码" :span="labelSpan" v-show="detail.parentCode">{{detail.parentCode}}</oms-row>
+                <oms-row label="上市许可持有人" :span="labelSpan" v-show="detail.expirationDate">{{ detail.vaccineMarketingApprovalPossessorName}}
+                </oms-row>
+                <oms-row label="包装层级" :span="labelSpan" v-show="detail.packageScheme">{{
+                    packageType[detail.packageScheme - 1] }}
+                </oms-row>
               </el-col>
               <el-col :span="12">
-                <oms-row label="包装层级" :span="labelSpan" v-show="detail.packageScheme">{{
-                  packageType[detail.packageScheme - 1] }}
-                </oms-row>
                 <oms-row class="R" label="批号" :span="labelSpan" v-show="detail.batchNumber">{{ detail.batchNumber }}
+                </oms-row>
+                <oms-row class="R" label="包装规格" :span="labelSpan" v-show="detail.packingSpecification">{{ detail.packingSpecification }}
+                </oms-row>
+                <oms-row class="R" label="剂型" :span="labelSpan" v-show="detail.dosageForm"><dict :dict-group="'dosageForm'" :dict-key="detail.dosageForm"></dict>
                 </oms-row>
                 <oms-row label="生产日期" :span="labelSpan" v-show="detail.productionDate">{{ detail.productionDate |
                   date}}
                 </oms-row>
-                <oms-row label="有效期" :span="labelSpan" v-show="detail.expirationDate">{{ detail.expirationDate | date
+                <oms-row label="有效期至" :span="labelSpan" v-show="detail.expirationDate">{{ detail.expirationDate | date
                   }}
                 </oms-row>
+                <oms-row label="父级包装码" :span="labelSpan" v-show="detail.parentCode">{{detail.parentCode}}</oms-row>
                 <oms-row label="通关单号" :span="labelSpan" v-show="detail.customsFormNumber">
                   {{detail.customsFormNumber}}
                   <el-tag type="success" v-if="detail.qualityFlag">已通关</el-tag>
