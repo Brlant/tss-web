@@ -94,9 +94,9 @@
               <el-col :span="6" class="R pt10">
                 <span>
                   {{ item.code }}
-<!--                  <perm label="code-biz-trace-delete-code">-->
-<!--                       <i class="el-icon-delete" style="color: red;cursor: pointer" @click="deleteItem(item)"></i>-->
-<!--                  </perm>-->
+                  <perm label="code-biz-trace-delete-code">
+                       <i class="el-icon-delete" style="color: red;cursor: pointer" @click="deleteItem(item)"></i>
+                  </perm>
                 </span>
               </el-col>
               <el-col :span="7" class="pt">

@@ -81,6 +81,11 @@
       <div v-else-if="!currentOrder.id" class="empty-info">暂无数据</div>
       <div v-else>
         <form-show-part :pageSetsItem="getPageSizeItem(0)" :currentTab="currentTab">
+          <perm label="show" slot="title-right">
+            <span class="add-btn" @click="refreshOrder">
+              <i class="el-icon-t-reset"></i>
+            </span>
+          </perm>
           <div slot="content">
             <el-row style="margin-bottom:0">
               <el-col :span="12">
@@ -140,23 +145,23 @@
           </form-show-part>
         </div>
         <form-show-part :pageSetsItem="getPageSizeItem(2)" :currentTab="currentTab">
-<!--          <perm label="code-biz-trace-insert-code" slot="title-right">-->
-<!--            <span class="add-btn" @click="showAddCodeForm = true">-->
-<!--              <i class="el-icon-circle-plus-outline">添加追溯码信息</i>-->
-<!--            </span>-->
-<!--          </perm>-->
+          <perm label="code-biz-trace-insert-code" slot="title-right">
+            <span class="add-btn" @click="showAddCodeForm = true">
+              <i class="el-icon-circle-plus-outline">添加追溯码信息</i>
+            </span>
+          </perm>
           <div slot="content">
-<!--            <form v-show="showAddCodeForm">-->
-<!--              <el-form :model="form" ref="numberValidateForm" label-width="100px" inline>-->
-<!--                <el-form-item label="追溯码" prop="code" :rules="[{ required: true, message: '追溯码不能为空'}]">-->
-<!--                  <el-input v-model.trim="form.code" autocomplete="off" style="width: 300px"></el-input>-->
-<!--                </el-form-item>-->
-<!--                <el-form-item>-->
-<!--                  <el-button type="primary" :disabled="doing" @click="submitForm('numberValidateForm')">保存</el-button>-->
-<!--                  <el-button @click="showAddCodeForm = false">取消</el-button>-->
-<!--                </el-form-item>-->
-<!--              </el-form>-->
-<!--            </form>-->
+            <form v-show="showAddCodeForm">
+              <el-form :model="form" ref="numberValidateForm" label-width="100px" inline>
+                <el-form-item label="追溯码" prop="code" :rules="[{ required: true, message: '追溯码不能为空'}]">
+                  <el-input v-model.trim="form.code" autocomplete="off" style="width: 300px"></el-input>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary" :disabled="doing" @click="submitForm('numberValidateForm')">保存</el-button>
+                  <el-button @click="showAddCodeForm = false">取消</el-button>
+                </el-form-item>
+              </el-form>
+            </form>
             <relevance-code :currentOrder="currentOrder" :index="index" ref="relevanceCodePart" showFormSearch
                             :httpRequest="bizTraces.queryTraceCodes" operate></relevance-code>
           </div>
@@ -241,6 +246,12 @@ import {bizTraces, http} from '@/resources';
       }
     },
     methods: {
+      refreshOrder: function () {
+        if (!this.orderId) return;
+        http.get(`/code-biz/detail/refresh?bizLogId=${this.orderId}`).then(res=> {
+          this.$notify.success({message: '系统正在重新计算，请稍后刷新查看结果'});
+        });
+      },
       deleteItem: function (order) {
         this.$confirm('确认删除业务单据号【' + order.objectNo + '】的单据信息吗?', '', {
           confirmButtonText: '确定',
