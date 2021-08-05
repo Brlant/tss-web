@@ -167,7 +167,6 @@ export default {
     };
   },
   mounted() {
-    this.queryPermDownAllFactory('all-code-biz-trace');
   },
   methods: {
     deleteItem(){
