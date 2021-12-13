@@ -39,7 +39,35 @@
   <dialog-template :pageSets="pageSets" @selectTab="selectTab">
     <template slot="title">业务信息</template>
     <template slot="btn">
-<!--      <perm label="code-biz-log-push">-->
+<!--      <perm label="code-biz-trace-order-delete">
+        <div class="mb-15">
+          <el-button type="primary" @click="deleteItem(currentOrder)">
+            删除单据
+          </el-button>
+        </div>
+      </perm>-->
+<!--      <perm label="code-biz-trace-unknow-code-download">
+        <div class="mb-15">
+          <el-button type="primary" @click="downloadUnknowCode" :loading="xmlLoading">
+            {{xmlLoading ? '正在下载' : '下载未知追溯码'}}
+          </el-button>
+        </div>
+      </perm>
+      <perm label="code-biz-trace-unknow-code-download">
+        <div class="mb-15">
+          <el-button type="primary" @click="downloadKnownCode" :loading="xmlLoading">
+            {{xmlLoading ? '正在下载' : '下载已知追溯码'}}
+          </el-button>
+        </div>
+      </perm>
+      <perm label="code-biz-trace-unknow-code-download">
+        <div class="mb-15">
+          <el-button type="primary" @click="downloadExcel" :loading="xmlLoading">
+            {{xmlLoading ? '正在下载' : '导出追溯码Excel'}}
+          </el-button>
+        </div>
+      </perm>-->
+      <!--      <perm label="code-biz-log-push">-->
 <!--        <div class="mb-15">-->
 <!--          <el-button type="primary" @click="pushData" :loading="pushing">推送数据</el-button>-->
 <!--        </div>-->
@@ -127,8 +155,8 @@
 <!--                </el-form-item>-->
 <!--              </el-form>-->
 <!--            </form>-->
-            <relevance-code :currentOrder="currentOrder" :index="index" ref="relevanceCodePart" showFormSearch
-                            :httpRequest="bizTraces.queryTraceCodes" operate></relevance-code>
+            <relevance-code-outsite :currentOrder="currentOrder" :index="index" ref="relevanceCodePart" showFormSearch
+                            :httpRequest="bizTraces.queryTraceCodes" operate></relevance-code-outsite>
           </div>
         </form-show-part>
       </div>
@@ -138,12 +166,12 @@
 
 <script>
   import {bizTraces} from '@/resources';
-  import relevanceCode from '@/components/common/order/relevance.code';
+  import relevanceCodeOutsite from '@/components/common/order/relevance.code.outsite';
   import RetrospectError from '@/components/upload/exception-code/retrospect/retrospect-error-info.vue';
   import RetrospectFile from '@/components/upload/exception-code/retrospect/retrospect-file.vue'; //
 
   export default {
-    components: {relevanceCode, RetrospectFile, RetrospectError},
+    components: {relevanceCodeOutsite, RetrospectFile, RetrospectError},
     name: 'showOrder',
     props: {
       orderId: {

@@ -136,6 +136,7 @@
   }
 </style>
 <style lang="scss">
+@import "~@/assets/scss/outCommon";
   .code-info {
     .el-loading-parent--relative {
       z-index: 30;
@@ -262,7 +263,7 @@
         </div>
       </div>
     </div>
-    <page-right :css="{'width':'1000px','padding':0}" :show="showDetail" @right-close="resetRightBox"
+    <page-right :css="{'width':'1000px','padding':0,top: 0}" :show="showDetail" @right-close="resetRightBox"
                 class="order-detail-info" partClass="pr-no-animation">
       <show-form :filterBizType="filterBizType" :orderId="currentOrderId" @close="resetRightBox"></show-form>
     </page-right>
@@ -274,7 +275,7 @@
   import DataMixin from '@/mixins/dataMixin';
   import ClassTree from '@/components/common/classTree.vue';
   import utils from '@/tools/utils';
-  import showForm from '@/components/search/business/form/show.form.vue';
+  import showForm from '@/components/outsite/search/business/form/show.form.vue';
 
   export default {
     components: {

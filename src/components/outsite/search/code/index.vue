@@ -207,12 +207,7 @@
 </style>
 <style lang="scss">
   @import "~@/assets/scss/mixins";
-/*  .app-header{
-    display: none;
-  }
-  .app-body {
-    padding-top: 0;
-  }*/
+  @import "~@/assets/scss/outCommon";
   .timeLine__code {
     margin-left: 80px;
     margin-top: 20px;
@@ -343,9 +338,9 @@
           <el-col>
             <el-button type="primary" @click="getCodeInfo" plain>查询</el-button>
             <el-button type="default" nativeType="reset" @click="resetCode">重置</el-button>
-            <perm label="code-trace-json-download" class="ml-10">
+<!--            <perm label="code-trace-json-download" class="ml-10">
               <el-button type="success" plain @click="downloadJson" v-show="details.length">下载json数据</el-button>
-            </perm>
+            </perm>-->
           </el-col>
         </el-row>
       </el-form>
@@ -738,11 +733,11 @@
         this.currentCodeId = this.currentCodeId.trim();
         this.details = [];
         if (!this.currentCodeId) {
-          this.$router.push('/search/code/id');
+          this.$router.push('/outSearch/code/id');
           return;
         }
         this.loading = true;
-        this.$router.push(`/search/code/${this.currentCodeId}`);
+        this.$router.push(`/outSearch/code/${this.currentCodeId}`);
         http.get(`/code/${this.currentCodeId}/detail/delete-log`).then(res => {
           res.data.forEach(i => {
             i.activeId = 0;
@@ -758,7 +753,7 @@
       },
       resetCode() {
         this.currentCodeId = '';
-        this.$router.push('/search/code/id');
+        this.$router.push('/outSearch/code/id');
         this.details = [];
       },
       changeOpen(item, index) {

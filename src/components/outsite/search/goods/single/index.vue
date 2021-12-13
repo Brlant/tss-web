@@ -135,6 +135,8 @@
   }
 </style>
 <style lang="scss">
+  @import "~@/assets/scss/mixins";
+  @import "~@/assets/scss/outCommon";
   .code-info {
     .el-loading-parent--relative {
       z-index: 30;
