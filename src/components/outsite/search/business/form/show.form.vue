@@ -39,34 +39,6 @@
   <dialog-template :pageSets="pageSets" @selectTab="selectTab">
     <template slot="title">业务信息</template>
     <template slot="btn">
-<!--      <perm label="code-biz-trace-order-delete">
-        <div class="mb-15">
-          <el-button type="primary" @click="deleteItem(currentOrder)">
-            删除单据
-          </el-button>
-        </div>
-      </perm>-->
-<!--      <perm label="code-biz-trace-unknow-code-download">
-        <div class="mb-15">
-          <el-button type="primary" @click="downloadUnknowCode" :loading="xmlLoading">
-            {{xmlLoading ? '正在下载' : '下载未知追溯码'}}
-          </el-button>
-        </div>
-      </perm>
-      <perm label="code-biz-trace-unknow-code-download">
-        <div class="mb-15">
-          <el-button type="primary" @click="downloadKnownCode" :loading="xmlLoading">
-            {{xmlLoading ? '正在下载' : '下载已知追溯码'}}
-          </el-button>
-        </div>
-      </perm>
-      <perm label="code-biz-trace-unknow-code-download">
-        <div class="mb-15">
-          <el-button type="primary" @click="downloadExcel" :loading="xmlLoading">
-            {{xmlLoading ? '正在下载' : '导出追溯码Excel'}}
-          </el-button>
-        </div>
-      </perm>-->
       <!--      <perm label="code-biz-log-push">-->
 <!--        <div class="mb-15">-->
 <!--          <el-button type="primary" @click="pushData" :loading="pushing">推送数据</el-button>-->
