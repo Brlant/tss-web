@@ -409,10 +409,10 @@
                     </span>
                    <dict v-else dict-group="codeExceptionType" :dict-key="info.exceptionType"></dict>
                    <el-tag type="primary" v-show="info.deleteFlag!==null&&info.deleteFlag">已撤销</el-tag>
-                   <perm label="code-trace-log-delete" class="ml-15"
+<!--                   <perm label="code-trace-log-delete" class="ml-15"
                          v-show="index === detail.activeId&&(info.deleteFlag===null||info.deleteFlag!==null&&!info.deleteFlag)">
                     <i class="el-icon-delete" style="color: red;cursor: pointer" @click.stop="deleteItem(info)"></i>
-                  </perm>
+                  </perm>-->
                 </span>
                 </div>
               </li>
@@ -571,10 +571,10 @@
                       <span v-if="info.bizType !== '4-0'">{{filterCodesBizType(info.bizType)}}</span>
                       <dict v-else dict-group="codeExceptionType" :dict-key="info.exceptionType"></dict>
                       <el-tag type="primary" v-show="info.deleteFlag!==null&&info.deleteFlag">已撤销</el-tag>
-                       <perm label="code-trace-log-delete" class="ml-15"
+<!--                       <perm label="code-trace-log-delete" class="ml-15"
                              v-show="index === detail.activeId&&(info.deleteFlag===null||info.deleteFlag!==null&&!info.deleteFlag)">
                         <i class="el-icon-delete" style="color: red;cursor: pointer" @click.stop="deleteItem(info)"></i>
-                       </perm>
+                       </perm>-->
                     </span>
                   </div>
                 </li>
