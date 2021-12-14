@@ -252,3 +252,6 @@
     }
   };
 </script>
+<style lang="scss">
+@import "~@/assets/scss/outCommon";
+</style>
