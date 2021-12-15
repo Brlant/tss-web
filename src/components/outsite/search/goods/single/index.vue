@@ -253,13 +253,13 @@
   import ClassTree from '@/components/common/classTree.vue';
   import utils from '@/tools/utils';
   import {physicalGoodsSearch} from '@/resources';
-
+  import updateMixin from "../../mixins/updateMixin";
   export default {
     components: {
       ClassTree,
       SearchPart
     },
-    mixins: [CommonMixin, DataMixin],
+    mixins: [CommonMixin, DataMixin, updateMixin],
     data() {
       return {
         activeNames: '',

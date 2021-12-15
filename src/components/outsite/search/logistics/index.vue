@@ -126,10 +126,11 @@
   import {logisticsSearch} from '@/resources';
   import DataMixin from '@/mixins/dataMixin';
   import methodsMixin from '@/mixins/methodsMixin';
+  import updateMixin from "../mixins/updateMixin";
 
   export default {
     components: {showForm},
-    mixins: [DataMixin, methodsMixin],
+    mixins: [DataMixin, methodsMixin, updateMixin],
     data: function () {
       return {
         loadingData: false,

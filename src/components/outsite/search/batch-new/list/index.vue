@@ -64,12 +64,12 @@
   import DataMixin from '@/mixins/dataMixin';
   import {bizTraces} from '@/resources';
   import AddForm from '../form/add-form';
-
+  import updateMixin from "../../mixins/updateMixin";
   export default {
     components: {
       SearchPart, AddForm
     },
-    mixins: [CommonMixin, DataMixin],
+    mixins: [CommonMixin, DataMixin, updateMixin],
     data() {
       return {};
     },

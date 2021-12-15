@@ -681,11 +681,11 @@
   import DataMixin from '@/mixins/dataMixin';
   import waybillInfo from '@/components/common/order/waybillInfo';
   import attachmentLists from '@/components/common/attachmentList.vue';
-
+  import updateMixin from "../mixins/updateMixin";
   export default {
-    mixins: [DataMixin],
+    mixins: [DataMixin,updateMixin],
     components: {waybillInfo, attachmentLists},
-    data: function () {
+    data () {
       return {
         labelSpan: 5,
         boxLabelSpan: 6,

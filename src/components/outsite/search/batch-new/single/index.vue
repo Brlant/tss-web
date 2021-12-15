@@ -276,14 +276,14 @@
   import ClassTree from '@/components/common/classTree.vue';
   import utils from '@/tools/utils';
   import showForm from '@/components/outsite/search/business/form/show.form.vue';
-
+  import updateMixin from "../../mixins/updateMixin";
   export default {
     components: {
       ClassTree,
       SearchPart,
       showForm
     },
-    mixins: [CommonMixin, DataMixin],
+    mixins: [CommonMixin, DataMixin, updateMixin],
     data() {
       return {
         activeNames: '',

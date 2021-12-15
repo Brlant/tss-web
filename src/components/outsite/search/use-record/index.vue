@@ -76,12 +76,13 @@
   import SearchPart from './search';
   import CommonMixin from '@/mixins/commonMixin';
   import {DhsBaseInfo} from '@/resources';
+  import updateMixin from "../mixins/updateMixin";
 
   export default {
     components: {
       SearchPart
     },
-    mixins: [CommonMixin],
+    mixins: [CommonMixin, updateMixin],
     data() {
       return {
         filters: {},
