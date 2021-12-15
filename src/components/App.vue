@@ -89,6 +89,7 @@
           // 设置全局鉴权方法
           this.menuData = this.getCurrentMenu(perms);
           this.routesCopy[0].children = this.menuData;
+
           // 动态添加路由
           this.$router.addRoutes(this.routesCopy);
           this.$router.addRoutes(ErrorPage);
