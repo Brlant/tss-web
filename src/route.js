@@ -254,7 +254,7 @@ export const route = [
           {
             path: '/outline/monitoring/business',
             component: () => import('./components/outsite/search/business/index.vue'),
-            meta: {moduleId: 'outline', title: '业务追溯数据监管', perm: 'code-biz-trace-watch'}
+            meta: {moduleId: 'outline', title: '业务追溯数据监管--外', perm: 'code-biz-trace-watch'}
           },
           {
             path: '/outline/monitoring/logistics',
