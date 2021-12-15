@@ -1,13 +1,13 @@
 import {http} from '@/resources';
 export default {
-  create() {
+  created() {
     this.updateApi();
   },
   methods: {
     updateApi() {
       setInterval(()=>{
         http.get('/codes/refresh').then(res=>{})
-      },1000)
+      },60000)
     }
   }
 }
