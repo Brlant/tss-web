@@ -252,7 +252,7 @@ export const route = [
         meta: {moduleId: false, title: '追溯链数--外', icon: 'codes', perm: 'data-line-monitoring-manager'},
         children: [
           {
-            path: '/outSearch/business',
+            path: '/outline/monitoring/business',
             component: () => import('./components/outsite/search/business/index.vue'),
             meta: {moduleId: 'outline', title: '业务追溯数据监管', perm: 'code-biz-trace-watch'}
           },
