@@ -390,7 +390,7 @@
           <div class="bg-white">
             <h2 class="text-left"><span>业务追溯</span></h2>
             <ul class="timeLine__code tiny-timeline">
-              <li class="tiny-timeline-item tiny-timeline-item-end" v-for="(info,index) in detail.dtoList">
+              <li v-if="info.bizType!='3-0'" class="tiny-timeline-item tiny-timeline-item-end" v-for="(info,index) in detail.dtoList">
                 <div class="tiny-timeline-item-left">
                   <span>{{info.time | minute}}</span>
                 </div>
@@ -553,7 +553,7 @@
             <div class="bg-white">
               <h2 class="text-left"><span>业务追溯</span></h2>
               <ul class="timeLine__code tiny-timeline">
-                <li class="tiny-timeline-item tiny-timeline-item-end" v-for="(info,index) in detail.dtoList">
+                <li v-if="info.bizType!='3-0'" class="tiny-timeline-item tiny-timeline-item-end" v-for="(info,index) in detail.dtoList">
                   <div class="tiny-timeline-item-left">
                     <span>{{info.time | minute}}</span>
                   </div>
