@@ -6,7 +6,7 @@ export default {
   methods: {
     updateApi() {
       setInterval(()=>{
-        http.get('/codes/refresh').then(res=>{})
+        http.get('/codes/yaojian/refresh').then(res=>{})
       },60000)
     }
   }
