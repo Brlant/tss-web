@@ -2,7 +2,6 @@ import {http} from '@/resources';
 export default {
   created() {
     this.updateApi();
-
   },
   methods: {
     updateApi() {
