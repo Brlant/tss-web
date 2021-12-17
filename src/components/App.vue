@@ -132,6 +132,7 @@
           }
           this.$store.commit('initUser', data);
         }).catch(() => {
+
           Auth.logout().then(() => {
             this.$router.addRoutes(ErrorPage);
             this.$router.replace('/login');
