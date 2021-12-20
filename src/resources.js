@@ -816,7 +816,7 @@ export const Dict = resource('dict', http, {
 
 export const Auth = {
   checkLogin: () => {
-    return http.get('/dhs/userinfo');
+    return http.get('/codes/userinfo');
   },
   login: (data) => {
     return http.post('/codes/login', data);
