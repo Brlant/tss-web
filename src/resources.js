@@ -24,8 +24,8 @@ http.interceptors.request.use(function (config) {
       return qs.stringify(params, {indices: false});
     };
   }
-  // console.log(routers,'路由====')
-  if(vm.$route.access_token) {
+  console.log(vm.$route,'路由====')
+  if(vm.$route.query.access_token) {
     config.headers.access_token = vm.$route.query.access_token;
   }
   return config;
