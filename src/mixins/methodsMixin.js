@@ -84,7 +84,7 @@ export default {
           this.$notify.info({message: '请选择货品'});
           return;
         }
-        this.$http.post('/codes/yaojian/batch', {goodsId}, {
+        this.$http.post('/codes/yaojian/batchNumber', {goodsId}, {
           params
         }).then(res => {
           this.goodsBatchNumberList = res.data.list;
