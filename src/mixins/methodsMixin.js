@@ -72,6 +72,25 @@ export default {
         });
       };
     },
+    queryGoodsNumberOut(props, isNeed = true) {
+      return query => {
+        this.goodsBatchNumberList = [];
+        let goodsId = getProps(this, props);
+        let params = {
+          keyWord: query,
+        };
+        if (!goodsId && isNeed) {
+          this.goodsBatchNumberList = [];
+          this.$notify.info({message: '请选择货品'});
+          return;
+        }
+        this.$http.post('/codes/yaojian/batch', {goodsId}, {
+          params
+        }).then(res => {
+          this.goodsBatchNumberList = res.data.list;
+        });
+      };
+    },
     queryAllFactory(query) { // 查询所有单位
       let params = {
         keyWord: query

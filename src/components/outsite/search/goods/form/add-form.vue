@@ -114,7 +114,7 @@
         this.form.batchNumberIdList = [];
         this.goodsBatchNumberList = [];
         if (!val) return;
-        this.queryGoodsNumber('form.goodsId')('');
+        this.queryGoodsNumberOut('form.goodsId')('');
       },
       batchNumberChange(val) {
         if (!val.length || val.length > 1 || this.form.goodsId) return;
@@ -126,7 +126,7 @@
             return this.$notify.info('根据此批号查不到对应的货品');
           }
           this.form.goodsId = item.goodsId;
-          this.queryGoodsNumber('form.goodsId')('');
+          this.queryGoodsNumberOut('form.goodsId')('');
         });
       },
       resetForm() {

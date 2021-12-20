@@ -92,6 +92,7 @@
       }
     },
     mounted() {
+      this.defaultPageRight = {...this.defaultPageRight,top:0}
       this.init();
       this.queryList(1);
     },
