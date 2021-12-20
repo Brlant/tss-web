@@ -28,7 +28,10 @@ http.interceptors.request.use(function (config) {
   if(vm.$route.query.access_token) {
     sessionStorage.access_token = vm.$route.query.access_token
   }
-  config.headers.access_token = sessionStorage.access_token;
+   if(sessionStorage.access_token) {
+     config.headers.access_token = sessionStorage.access_token;
+   }
+
   return config;
 });
 
