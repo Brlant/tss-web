@@ -26,8 +26,9 @@ http.interceptors.request.use(function (config) {
   }
   console.log(vm.$route,'路由====')
   if(vm.$route.query.access_token) {
-    config.headers.access_token = vm.$route.query.access_token;
+    localStorage.access_token = vm.$route.query.access_token
   }
+  config.headers.access_token = localStorage.access_token;
   return config;
 });
 
