@@ -2,6 +2,7 @@ import Notification from 'element-ui/lib/notification';
 import axios from 'axios';
 import Vue from 'vue';
 import qs from 'qs';
+import routers from "./routers";
 
 export const http = axios.create({
   baseURL: process.env.VUE_APP_API,
@@ -17,12 +18,16 @@ function isNewReturnType(data) {
 
 // 添加请求拦截器
 http.interceptors.request.use(function (config) {
+  let vm =  routers.app;
   if (config.method === 'get') {
     config.paramsSerializer = params => {
       return qs.stringify(params, {indices: false});
     };
   }
-  config.headers.access_token = '466eeebf-dd45-43ef-986b-3bc15b975217';
+  // console.log(routers,'路由====')
+  if(vm.$route.access_token) {
+    config.headers.access_token = vm.$route.query.access_token;
+  }
   return config;
 });
 
