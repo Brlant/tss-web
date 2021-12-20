@@ -22,6 +22,7 @@ http.interceptors.request.use(function (config) {
       return qs.stringify(params, {indices: false});
     };
   }
+  config.headers.access_token = '466eeebf-dd45-43ef-986b-3bc15b975217';
   return config;
 });
 
