@@ -114,7 +114,7 @@
       },
       goodsChange(val) {
         this.form.batchNumberIdList = [];
-        this.queryGoodsNumber('form.goodsId')('');
+        this.queryGoodsNumberOut('form.goodsId')('');
       },
       resetForm() {
         this.form = {

@@ -68,7 +68,7 @@
             </el-form-item>
             <el-form-item label="批号" prop="batchNumberId">
               <el-select v-model="form.batchNumberId" filterable clearable remote
-                         :remoteMethod="queryGoodsNumber('form.goodsId')" placeholder="请输入批号名称搜索批号">
+                         :remoteMethod="queryGoodsNumberOut('form.goodsId')" placeholder="请输入批号名称搜索批号">
                 <el-option v-for="item in goodsBatchNumberList" :value="item.id" :key="item.id"
                            :label="item.batchNumber"/>
               </el-select>
@@ -125,7 +125,7 @@
     methods: {
       goodsChange(val) {
         this.form.batchNumberId = '';
-        this.queryGoodsNumber('form.goodsId')('');
+        this.queryGoodsNumberOut('form.goodsId')('');
       },
       resetForm() {
         this.form = {

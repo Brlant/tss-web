@@ -36,7 +36,7 @@
           </el-col>
           <el-col :span="8">
             <oms-form-row :span="5" label="批号">
-              <el-select :remoteMethod="queryGoodsNumber('searchCondition.goodsId', false)"
+              <el-select :remoteMethod="queryGoodsNumberOut('searchCondition.goodsId', false)"
                          clearable filterable placeholder="请输入批号名称搜索批号"
                          @change="batchNumberChange"
                          remote v-model="searchCondition.batchNumberId">
@@ -108,7 +108,7 @@
       goodsChange(val) {
         this.searchCondition.batchNumberId = '';
         if (!val) return;
-        this.queryGoodsNumber('searchCondition.goodsId')('');
+        this.queryGoodsNumberOut('searchCondition.goodsId')('');
       },
       batchNumberChange(val) {
         if (!val || this.searchCondition.goodsId) return;
@@ -119,7 +119,7 @@
             return this.$notify.info('根据此批号查不到对应的货品');
           }
           this.searchCondition.goodsId = item.goodsId;
-          this.queryGoodsNumber('searchCondition.goodsId')('');
+          this.queryGoodsNumberOut('searchCondition.goodsId')('');
         });
       },
       addBatchNumber() {

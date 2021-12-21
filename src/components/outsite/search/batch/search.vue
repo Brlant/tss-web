@@ -35,7 +35,7 @@
           </el-col>
           <el-col :span="6">
             <oms-form-row :isRequire="true" :span="6" label="批号">
-              <el-select :remoteMethod="queryGoodsNumber('searchCondition.goodsId')" clearable filterable placeholder="请输入批号名称搜索批号"
+              <el-select :remoteMethod="queryGoodsNumberOut('searchCondition.goodsId')" clearable filterable placeholder="请输入批号名称搜索批号"
                          remote v-model="searchCondition.batchNumber">
                 <el-option :key="item.id" :label="item.batchNumber" :value="item.batchNumber"
                            v-for="item in goodsBatchNumberList"/>
@@ -100,7 +100,7 @@
       },
       goodsChange(val) {
         this.searchCondition.batchNumber = '';
-        this.queryGoodsNumber('searchCondition.goodsId')('');
+        this.queryGoodsNumberOut('searchCondition.goodsId')('');
       }
     }
   };
