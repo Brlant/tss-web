@@ -115,7 +115,7 @@
         layout="total, sizes, prev, pager, next">
       </el-pagination>
     </div>
-    <page-right :css="{'width':'1000px','padding':0}" :show="showDetail" @right-close="resetRightBox"
+    <page-right :css="{'width':'1000px','padding':0,top:0}" :show="showDetail" @right-close="resetRightBox"
                 class="order-detail-info" partClass="pr-no-animation">
       <show-form :filterBizType="filterBizType" :currentItem="currentItem" @close="resetRightBox"></show-form>
     </page-right>

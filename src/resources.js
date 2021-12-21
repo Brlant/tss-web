@@ -590,6 +590,27 @@ export const DhsBaseInfo = resource('/dhs-orgs', http, {
   }
 });
 
+// 货主-基本信息-外链接
+export const DhsBaseInfoOut = resource('/codes/yaojian/dhs-orgs', http, {
+  // 根据单位机构关系类型列表分页查询单位信息
+  queryByOrgRelationTypeList: (params) => {
+    return http({
+      url: '/codes/yaojian/dhs-orgs/relationType',
+      params,
+      paramsSerializer(params) {
+        return qs.stringify(params, {indices: false});
+      }
+    });
+  },
+  // 货主基本信息
+  queryBaseInfo: (orgid) => {
+    return http.get('/codes/yaojian/dhs-orgs/' + orgid);
+  },
+  queryPager(params) {
+    return http.get('/codes/yaojian/dhs-orgs/pager', {params});
+  }
+});
+
 // 疾控中心-基本信息
 export const BaseInfo = resource('/orgs', http, {
   // 根据单位机构关系类型列表分页查询单位信息

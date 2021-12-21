@@ -75,7 +75,7 @@
 <script>
   import SearchPart from './search';
   import CommonMixin from '@/mixins/commonMixin';
-  import {DhsBaseInfo} from '@/resources';
+  import {DhsBaseInfoOut} from '@/resources';
   import updateMixin from "../mixins/updateMixin";
 
   export default {
@@ -93,7 +93,7 @@
     methods: {
       queryInfo(item) {
         this.loading = true;
-        DhsBaseInfo.queryBaseInfo(item.orgId).then(res => {
+        DhsBaseInfoOut.queryBaseInfo(item.orgId).then(res => {
           this.loading = false;
           this.orgName = res.data.orgDto.name;
         }).catch(() => {
