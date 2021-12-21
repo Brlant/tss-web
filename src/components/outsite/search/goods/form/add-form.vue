@@ -64,7 +64,7 @@
             <el-form-item label="批号">
               <el-select v-model="form.batchNumberIdList" multiple filterable clearable remote
                          @change="batchNumberChange"
-                         :remoteMethod="queryGoodsNumber('form.goodsId', false)" placeholder="请输入批号名称搜索批号">
+                         :remoteMethod="queryGoodsNumberOut('form.goodsId', false)" placeholder="请输入批号名称搜索批号">
                 <el-option v-for="item in goodsBatchNumberList" :value="item.id" :key="item.id"
                            :label="item.batchNumber"/>
               </el-select>
