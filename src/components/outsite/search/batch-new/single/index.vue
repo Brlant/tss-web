@@ -151,6 +151,7 @@
 </style>
 <template>
   <div class="container code-info">
+    <BackIcon />
     <oms-loading v-if="loading1" :loading="loading1"></oms-loading>
     <div v-else-if="!basicInfoAndBizType.id" class="empty-info">暂无信息</div>
     <div v-else>
@@ -277,11 +278,13 @@
   import utils from '@/tools/utils';
   import showForm from '@/components/outsite/search/business/form/show.form.vue';
   import updateMixin from "../../mixins/updateMixin";
+  import BackIcon from "../../components/BackIcon";
   export default {
     components: {
       ClassTree,
       SearchPart,
-      showForm
+      showForm,
+      BackIcon
     },
     mixins: [CommonMixin, DataMixin, updateMixin],
     data() {

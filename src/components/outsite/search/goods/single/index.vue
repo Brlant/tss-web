@@ -151,6 +151,7 @@
 </style>
 <template>
   <div class="container code-info">
+    <BackIcon />
     <oms-loading v-if="loading1" :loading="loading1"></oms-loading>
     <div v-else-if="!basicInfoAndBizType.id" class="empty-info">暂无信息</div>
     <div v-else>
@@ -244,6 +245,7 @@
         </div>
       </div>
     </div>
+
   </div>
 </template>
 <script>
@@ -254,10 +256,12 @@
   import utils from '@/tools/utils';
   import {physicalGoodsSearch} from '@/resources';
   import updateMixin from "../../mixins/updateMixin";
+  import BackIcon from "../../components/BackIcon";
   export default {
     components: {
       ClassTree,
-      SearchPart
+      SearchPart,
+      BackIcon
     },
     mixins: [CommonMixin, DataMixin, updateMixin],
     data() {

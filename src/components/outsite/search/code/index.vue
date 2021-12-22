@@ -330,7 +330,7 @@
 <template>
   <div class="container">
     <div class="bg-white">
-      <el-form @submit.native.prevent>
+<!--      <el-form @submit.native.prevent>
         <el-row type="flex" :gutter="20" class="search-row">
           <el-col :span="16">
             <el-input v-model="currentCodeId" @keyup.native.enter="getCodeInfo" placeholder="请输入追溯码"></el-input>
@@ -338,12 +338,12 @@
           <el-col>
             <el-button type="primary" @click="getCodeInfo" plain>查询</el-button>
             <el-button type="default" nativeType="reset" @click="resetCode">重置</el-button>
-<!--            <perm label="code-trace-json-download" class="ml-10">
+&lt;!&ndash;            <perm label="code-trace-json-download" class="ml-10">
               <el-button type="success" plain @click="downloadJson" v-show="details.length">下载json数据</el-button>
-            </perm>-->
+            </perm>&ndash;&gt;
           </el-col>
         </el-row>
-      </el-form>
+      </el-form>-->
     </div>
     <div v-if="!details.length" class="empty-info empty-info--loading" v-loading="loading">
       无追溯码信息
