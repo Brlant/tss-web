@@ -31,11 +31,6 @@ export const route = [
     component: () => import('./components/index.vue'),
     children: [
       {
-        path: '/resetpsw', component: () => import('./components/login/resetpsw.vue'),
-        meta: {perm: 'show'},
-        children: []
-      },
-      {
         path: '/supervise/setting',
         component: () => import('./components/common/parent-route.vue'),
         meta: {moduleId: 'supervise', title: '监管配置', icon: 'codes', perm: 'supervise-setting-manager'},
@@ -278,6 +273,10 @@ export const basicRoutes = [
   {path: '/500', component: () => import('./components/error/error_500.vue')},
   {path: '/login', component: () => import('./components/login/login.vue')},
   {path: '/forget', component: () => import('./components/login/forget.vue')},
+  {
+    path: '/resetpsw', component: () => import('./components/login/resetpsw.vue'),
+    meta: {perm: 'show'}
+  },
   {path: '/code/:id', component: () => import('./components/login/resetpwd.vue')}
 ];
 
