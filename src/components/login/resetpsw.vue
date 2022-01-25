@@ -99,7 +99,7 @@
             }).catch(e => {
               let error = e.response;
               if (error.status === 400) {
-                this.$notify.info({
+                this.$notify.error({
                   message: error.data.msg
                 });
               }
