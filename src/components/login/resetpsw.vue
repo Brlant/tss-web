@@ -95,7 +95,7 @@
               this.$notify.info({
                 message: '修改成功'
               });
-              this.$router.go(-1);
+              this.$router.push('/login');
             }).catch(e => {
               let error = e.response;
               if (error.status === 400) {
