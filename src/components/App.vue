@@ -121,16 +121,17 @@
       this.routesCopy = deepCopy(route);
       window.localStorage.removeItem('noticeError');
       if (!this.$store.state.user || !this.$store.state.user.userId) {
-        Auth.checkLogin().then((res) => {
+        Auth.checkLogin().then(() => {
           this.queryPermissions(this.$route);
-          let data = res.data;
+          let data = window.localStorage.getItem('user');
           if (!data) {
             Auth.logout().then(() => {
               this.$router.addRoutes(ErrorPage);
               this.$router.replace('/login');
             });
           }
-          this.$store.commit('initUser', data);
+
+          this.$store.commit('initUser', JSON.parse(data));
         }).catch(() => {
 
           Auth.logout().then(() => {
