@@ -2,6 +2,7 @@ import Notification from 'element-ui/lib/notification';
 import axios from 'axios';
 import Vue from 'vue';
 import qs from 'qs';
+import routers from "./routers";
 
 export const http = axios.create({
   baseURL: process.env.VUE_APP_API,
@@ -17,11 +18,20 @@ function isNewReturnType(data) {
 
 // 添加请求拦截器
 http.interceptors.request.use(function (config) {
+  let vm =  routers.app;
   if (config.method === 'get') {
     config.paramsSerializer = params => {
       return qs.stringify(params, {indices: false});
     };
   }
+  // console.log(vm.$route,'路由====')
+  if(vm.$route.query.access_token) {
+    sessionStorage.access_token = vm.$route.query.access_token
+  }
+   if(sessionStorage.access_token) {
+     config.headers.access_token = sessionStorage.access_token;
+   }
+
   return config;
 });
 
@@ -580,6 +590,27 @@ export const DhsBaseInfo = resource('/dhs-orgs', http, {
   }
 });
 
+// 货主-基本信息-外链接
+export const DhsBaseInfoOut = resource('/codes/yaojian/dhs-orgs', http, {
+  // 根据单位机构关系类型列表分页查询单位信息
+  queryByOrgRelationTypeList: (params) => {
+    return http({
+      url: '/codes/yaojian/dhs-orgs/relationType',
+      params,
+      paramsSerializer(params) {
+        return qs.stringify(params, {indices: false});
+      }
+    });
+  },
+  // 货主基本信息
+  queryBaseInfo: (orgid) => {
+    return http.get('/codes/yaojian/dhs-orgs/' + orgid);
+  },
+  queryPager(params) {
+    return http.get('/codes/yaojian/dhs-orgs/pager', {params});
+  }
+});
+
 // 疾控中心-基本信息
 export const BaseInfo = resource('/orgs', http, {
   // 根据单位机构关系类型列表分页查询单位信息
@@ -815,7 +846,7 @@ export const Dict = resource('dict', http, {
 
 export const Auth = {
   checkLogin: () => {
-    return http.get('/dhs/userinfo');
+    return http.get('/codes/userinfo');
   },
   login: (data) => {
     return http.post('/codes/login', data);

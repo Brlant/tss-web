@@ -198,7 +198,77 @@ export const route = [
             meta: {moduleId: 'system', title: '单支追溯查询日志', perm: 'code-access-log-watch'}
           },
         ]
-      }
+      },
+      // 以下是对外站点
+      {
+        path: '/outSearch',
+        component:  () => import('./components/common/parent-route.vue'),
+        meta: {moduleId: false, title: '追溯查询-外部', icon: 'search', perm: 'code-trace-manager'},
+        children: [
+          {
+            path: '/outSearch/code/:id',
+            component: () => import('./components/outsite/search/code/index.vue'),
+            meta: {moduleId: 'outsearch', title: '最小销售单位追溯码查询', perm: 'single-code-trace-query', subMenuId: 'code'}
+          },
+          {
+            path: '/outSearch/goods',
+            component: () => import('./components/outsite/search/goods/index.vue'),
+            meta: {moduleId: 'outsearch', title: '实物追溯查询', perm: 'physical-goods-trace-query', subMenuId: 'goods'},
+            children: [
+              {
+                path: '',
+                component: () => import('./components/outsite/search/goods/list/index.vue'),
+                meta: {moduleId: 'outsearch'}
+              },
+              {
+                path: '/outSearch/goods/:id',
+                component: () => import('./components/outsite/search/goods/single/index.vue'),
+                meta: {moduleId: 'outsearch'}
+              }
+            ]
+          },
+          {
+            path: '/outSearch/batch',
+            component: () => import('./components/outsite/search/batch-new/index.vue'),
+            meta: {moduleId: 'outsearch', title: '流转分布追溯查询', perm: 'batch-number-trace-query', subMenuId: 'batch'},
+            children: [
+              {
+                path: '',
+                component: () => import('./components/outsite/search/batch-new/list/index.vue'),
+                meta: {moduleId: 'outsearch'}
+              },
+              {
+                path: '/outSearch/batch/:id',
+                component: () => import('./components/outsite/search/batch-new/single/index.vue'),
+                meta: {moduleId: 'outsearch'}
+              }
+            ]
+          }
+        ]
+      },
+      {
+        path: '/outline/monitoring',
+        component: () => import('./components/common/parent-route.vue'),
+        meta: {moduleId: false, title: '追溯链数--外-', icon: 'codes', perm: 'data-line-monitoring-manager'},
+        children: [
+          {
+            path: '/outSearch/business',
+            component: () => import('./components/outsite/search/business/index.vue'),
+            meta: {moduleId: 'outline', title: '业务追溯数据监管', perm: 'code-biz-trace'}
+          },
+          {
+            path: '/outline/monitoring/logistics',
+            component: () => import('./components/outsite/search/logistics/index.vue'),
+            meta: {moduleId: 'outline', title: '物流追溯数据监管', perm: 'logistics-trace-query'}
+          },
+          {
+            path: '/outline/monitoring/terminal',
+            component: () => import('./components/outsite/search/use-record/index.vue'),
+            meta: {moduleId: 'outline', title: '终端追溯监管', perm: 'terminal-trace-query'}
+          },
+        ]
+      },
+
     ]
   }
 ];
